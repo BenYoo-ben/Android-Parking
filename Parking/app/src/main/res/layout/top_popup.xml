@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageButton
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:src="@mipmap/parkinglot"
+        android:scaleType="centerInside"
+        android:background="?android:attr/selectableItemBackground"
+     android:tint ="#ffffff"
+        android:onClick="intentA"/>
+    <ImageButton
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:src="@mipmap/money"
+        android:scaleType="centerInside"
+        android:background="?android:attr/selectableItemBackground"
+
+        android:layout_height="match_parent"
+        android:tint ="#ffffff"
+        android:text="Activity B"
+        android:onClick="intentB"/>
+    <ImageButton
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:src="@mipmap/settings"
+        android:scaleType="centerInside"
+        android:background="?android:attr/selectableItemBackground"
+        android:layout_height="match_parent"
+        android:tint ="#ffffff"
+        android:text="Activity C"
+        android:onClick="intentC"/>
+    <ImageButton
+        android:layout_weight="1"
+        android:layout_width="0dp"
+        android:src="@mipmap/camera"
+        android:scaleType="centerInside"
+        android:background="?android:attr/selectableItemBackground"
+        android:layout_height="match_parent"
+        android:tint ="#ffffff"
+        android:text="Activity D"
+        android:onClick="intentD"/>
+
+</LinearLayout>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="splash"
+        android:summary="고객들에게 문자를 자동으로 전송합니다"
+        android:title="자동 문자 전송 기능" />
+
+    <ListPreference
+        android:entries="@array/list_preference_entries"
+        android:entryValues="@array/list_preference_entries"
+        android:key="listPreference"
+        android:summary="시간과 가격을 설정합니다."
+        android:title="시간 및 가격 설정" />
+    <EditTextPreference
+        android:key="password"
+        android:summary="데이터베이스에 있는 비밀번호를 변경합니다."
+        android:title="비밀번호 변경" />
+</PreferenceScreen>
