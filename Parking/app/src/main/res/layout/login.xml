@@ -27,21 +27,7 @@
         android:textColor = "#ffffff"
         android:textSize = "35dp" />
 
-    <EditText
-        android:layout_width = "wrap_content"
-        android:layout_height = "wrap_content"
-        android:id = "@+id/editText"
-        android:hint = "Enter ID"
-        android:focusable = "true"
-        android:textColorHighlight = "#ff7eff15"
-        android:textColorHint = "#ffffff"
-        android:textColor="#ffdf00"
-        android:layout_marginTop = "46dp"
-        android:layout_below = "@+id/imageView"
-        android:layout_alignParentLeft = "true"
-        android:layout_alignParentStart = "true"
-        android:layout_alignParentRight = "true"
-        android:layout_alignParentEnd = "true" />
+
 
     <ImageView
         android:id="@+id/imageView"
@@ -57,50 +43,18 @@
         tools:context="com.example.parking.ActivityD"
         />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPassword"
-        android:ems="10"
-        android:id="@+id/editText2"
-        android:textColor="#ffdf00"
-        android:layout_below="@+id/editText"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/editText"
-        android:layout_alignEnd="@+id/editText"
-        android:textColorHint="#ffffff"
-        android:hint="Password" />
 
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/Google_Login"
 
-    <Button
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="SignUp"
-    android:id="@+id/SignUpButton"
-    android:layout_alignParentBottom="true"
-    android:layout_toLeftOf="@+id/textview"
-    android:layout_toStartOf="@+id/textview"
-    android:onClick="intentA"
-    />
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="login"
-        android:id="@+id/LoginButton"
+        android:layout_width="match_parent"
+
+        android:layout_height="60dp"
+        android:layout_alignBottom="@id/imageView"
+
         android:layout_alignParentBottom="true"
-        android:layout_toRightOf="@+id/SignUpButton"
-        android:layout_toLeftOf="@+id/button2"
-        android:onClick="intentA"
-        />
+        android:layout_marginBottom="200dp"
+        android:text="login"></com.google.android.gms.common.SignInButton>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Cancel"
-        android:id="@+id/button2"
-        android:layout_alignParentBottom="true"
-        android:layout_toRightOf="@+id/textview"
-        android:layout_toEndOf="@+id/textview" />
 
 </RelativeLayout>

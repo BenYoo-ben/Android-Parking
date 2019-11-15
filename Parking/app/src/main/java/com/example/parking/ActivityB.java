@@ -24,6 +24,12 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Iterator;
+
 public class ActivityB extends AppCompatActivity implements View.OnClickListener {
 
     float initX,diffX, pushSensitivity = 150;
@@ -41,7 +47,7 @@ public class ActivityB extends AppCompatActivity implements View.OnClickListener
     public static float convertDpToPixel(float dp, Context context){
         return dp * ((float) context.getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
     }
-    int addContent(LinearLayout textLayout,String date,String vehicle_num,int money)
+    int addContent(LinearLayout textLayout,Income i)
     {
 
         LinearLayout ll = new LinearLayout(getApplicationContext());
@@ -51,9 +57,21 @@ public class ActivityB extends AppCompatActivity implements View.OnClickListener
         TextView textview2 = new TextView(this);
         TextView textview3 = new TextView(this);
 
-        textview1.setText(date);
-        textview2.setText(vehicle_num);
-        textview3.setText("$ "+Integer.toString(money));
+        SimpleDateFormat SDF = new SimpleDateFormat("yy-MM-dd HH:mm");
+        SimpleDateFormat date = new SimpleDateFormat("MM/dd");
+        SimpleDateFormat time = new SimpleDateFormat("HH : mm");
+        Calendar c = Calendar.getInstance();
+        try {
+            Date d = SDF.parse(i.getDeparture_time());
+            c.setTime(d);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        textview1.setText(date.format(c.getTime())+"\n"+time.format(c.getTime()));
+        textview2.setText(i.getVehicle_num());
+        textview3.setText("$ "+i.getMinutes()*Settings.hour_fair);
 
         pixels1 = convertDpToPixel(10f,getApplicationContext());
         pixels2 = convertDpToPixel(8f,getApplicationContext());
@@ -114,7 +132,7 @@ public class ActivityB extends AppCompatActivity implements View.OnClickListener
 
 
 
-        return money;
+        return 1;
     }
 
 
@@ -125,6 +143,20 @@ public class ActivityB extends AppCompatActivity implements View.OnClickListener
         toast.show();
 
     }
+    private long setIncomeView(LinearLayout textLayout)
+    {
+        long money_sum = 0;
+        Iterator i = FirebaseController.Incomes.iterator();
+        System.out.println("INCOMEVIEW START");
+        while (i.hasNext()) {
+            Income income = (Income)i.next();
+           addContent(scrollLinear,income);
+           money_sum += (income.getMinutes()/60)*Settings.hour_fair;
+        }
+        System.out.println("END");
+        return;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -138,40 +170,6 @@ public class ActivityB extends AppCompatActivity implements View.OnClickListener
         popup.setAnimationStyle(R.anim.slide_down);
         framelayout = new FrameLayout(this);
         scrollLinear = (LinearLayout)(findViewById(R.id.scrollLinear));
-
-        addContent(scrollLinear,String.valueOf((int)(Math.random()*13))+"/"+String.valueOf((int)(Math.random()*32))+"\n"+String.valueOf((int)(Math.random()*25))+" : "+String.valueOf((int)(Math.random()*61)),
-                String.valueOf((int)(Math.random()*100))+"랜"+String.valueOf((int)(Math.random()*10000)),(int)(Math.random()*300000));
-        addContent(scrollLinear,String.valueOf((int)(Math.random()*13))+"/"+String.valueOf((int)(Math.random()*32))+"\n"+String.valueOf((int)(Math.random()*25))+" : "+String.valueOf((int)(Math.random()*61)),
-                String.valueOf((int)(Math.random()*100))+"랜"+String.valueOf((int)(Math.random()*10000)),(int)(Math.random()*300000));
-        addContent(scrollLinear,String.valueOf((int)(Math.random()*13))+"/"+String.valueOf((int)(Math.random()*32))+"\n"+String.valueOf((int)(Math.random()*25))+" : "+String.valueOf((int)(Math.random()*61)),
-                String.valueOf((int)(Math.random()*100))+"랜"+String.valueOf((int)(Math.random()*10000)),(int)(Math.random()*300000));
-        addContent(scrollLinear,String.valueOf((int)(Math.random()*13))+"/"+String.valueOf((int)(Math.random()*32))+"\n"+String.valueOf((int)(Math.random()*25))+" : "+String.valueOf((int)(Math.random()*61)),
-                String.valueOf((int)(Math.random()*100))+"랜"+String.valueOf((int)(Math.random()*10000)),(int)(Math.random()*300000));
-        addContent(scrollLinear,String.valueOf((int)(Math.random()*13))+"/"+String.valueOf((int)(Math.random()*32))+"\n"+String.valueOf((int)(Math.random()*25))+" : "+String.valueOf((int)(Math.random()*61)),
-                String.valueOf((int)(Math.random()*100))+"랜"+String.valueOf((int)(Math.random()*10000)),(int)(Math.random()*300000));
-        addContent(scrollLinear,String.valueOf((int)(Math.random()*13))+"/"+String.valueOf((int)(Math.random()*32))+"\n"+String.valueOf((int)(Math.random()*25))+" : "+String.valueOf((int)(Math.random()*61)),
-                String.valueOf((int)(Math.random()*100))+"랜"+String.valueOf((int)(Math.random()*10000)),(int)(Math.random()*300000));
-        addContent(scrollLinear,String.valueOf((int)(Math.random()*13))+"/"+String.valueOf((int)(Math.random()*32))+"\n"+String.valueOf((int)(Math.random()*25))+" : "+String.valueOf((int)(Math.random()*61)),
-                String.valueOf((int)(Math.random()*100))+"랜"+String.valueOf((int)(Math.random()*10000)),(int)(Math.random()*300000));
-        addContent(scrollLinear,String.valueOf((int)(Math.random()*13))+"/"+String.valueOf((int)(Math.random()*32))+"\n"+String.valueOf((int)(Math.random()*25))+" : "+String.valueOf((int)(Math.random()*61)),
-                String.valueOf((int)(Math.random()*100))+"랜"+String.valueOf((int)(Math.random()*10000)),(int)(Math.random()*300000));
-        addContent(scrollLinear,String.valueOf((int)(Math.random()*13))+"/"+String.valueOf((int)(Math.random()*32))+"\n"+String.valueOf((int)(Math.random()*25))+" : "+String.valueOf((int)(Math.random()*61)),
-                String.valueOf((int)(Math.random()*100))+"랜"+String.valueOf((int)(Math.random()*10000)),(int)(Math.random()*300000));
-        addContent(scrollLinear,String.valueOf((int)(Math.random()*13))+"/"+String.valueOf((int)(Math.random()*32))+"\n"+String.valueOf((int)(Math.random()*25))+" : "+String.valueOf((int)(Math.random()*61)),
-                String.valueOf((int)(Math.random()*100))+"랜"+String.valueOf((int)(Math.random()*10000)),(int)(Math.random()*300000));
-        addContent(scrollLinear,String.valueOf((int)(Math.random()*13))+"/"+String.valueOf((int)(Math.random()*32))+"\n"+String.valueOf((int)(Math.random()*25))+" : "+String.valueOf((int)(Math.random()*61)),
-                String.valueOf((int)(Math.random()*100))+"랜"+String.valueOf((int)(Math.random()*10000)),(int)(Math.random()*300000));
-        addContent(scrollLinear,String.valueOf((int)(Math.random()*13))+"/"+String.valueOf((int)(Math.random()*32))+"\n"+String.valueOf((int)(Math.random()*25))+" : "+String.valueOf((int)(Math.random()*61)),
-                String.valueOf((int)(Math.random()*100))+"랜"+String.valueOf((int)(Math.random()*10000)),(int)(Math.random()*300000));
-        addContent(scrollLinear,String.valueOf((int)(Math.random()*13))+"/"+String.valueOf((int)(Math.random()*32))+"\n"+String.valueOf((int)(Math.random()*25))+" : "+String.valueOf((int)(Math.random()*61)),
-                String.valueOf((int)(Math.random()*100))+"랜"+String.valueOf((int)(Math.random()*10000)),(int)(Math.random()*300000));
-        addContent(scrollLinear,String.valueOf((int)(Math.random()*13))+"/"+String.valueOf((int)(Math.random()*32))+"\n"+String.valueOf((int)(Math.random()*25))+" : "+String.valueOf((int)(Math.random()*61)),
-                String.valueOf((int)(Math.random()*100))+"랜"+String.valueOf((int)(Math.random()*10000)),(int)(Math.random()*300000));
-        addContent(scrollLinear,String.valueOf((int)(Math.random()*13))+"/"+String.valueOf((int)(Math.random()*32))+"\n"+String.valueOf((int)(Math.random()*25))+" : "+String.valueOf((int)(Math.random()*61)),
-                String.valueOf((int)(Math.random()*100))+"랜"+String.valueOf((int)(Math.random()*10000)),(int)(Math.random()*300000));
-        addContent(scrollLinear,String.valueOf((int)(Math.random()*13))+"/"+String.valueOf((int)(Math.random()*32))+"\n"+String.valueOf((int)(Math.random()*25))+" : "+String.valueOf((int)(Math.random()*61)),
-                String.valueOf((int)(Math.random()*100))+"랜"+String.valueOf((int)(Math.random()*10000)),(int)(Math.random()*300000));
-
 
     }
 
@@ -212,7 +210,13 @@ public class ActivityB extends AppCompatActivity implements View.OnClickListener
         return super.onTouchEvent(m);
     }
 
+    @Override
+    public void onStart()
+    {
+        super.onStart();
+        setIncomeView(scrollLinear);
 
+    }
 
 
     @Override

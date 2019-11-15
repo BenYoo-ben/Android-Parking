@@ -80,9 +80,9 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
 
 
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-    private DatabaseReference databaseReference = firebaseDatabase.getReference();
+
     Vehicle LastSelectedVehicle = new Vehicle();
-    ;
+
 
 
     Vehicle addContent(LinearLayout[] ImageLayouts, LinearLayout[] TextLayouts, Vehicle veh) {
@@ -204,6 +204,7 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_a);
 
@@ -292,8 +293,9 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
 
     @Override
     protected void onStart() {
+        setTheme(R.style.Launcher);
         super.onStart();
-        FirebaseController.onStarter();
+
         setCarView(ImageLayouts, TextLayouts);
 
     }
@@ -363,6 +365,10 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
     public void CarOut(View view)  {
         removeView(LastSelectedVehicle);
         FirebaseController.removeVehicleCurrent(LastSelectedVehicle);
+        Income income = new Income(LastSelectedVehicle);
+
+       FirebaseController.addIncome(income);
+
 
     }
     public void intentD(View view)  {

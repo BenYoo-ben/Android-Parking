@@ -68,17 +68,22 @@ public class Vehicle
             return color;
         }
 
-        public void CalcMinutes()
-        {
-            try {
-            Calendar time_now = Calendar.getInstance();
-            SimpleDateFormat SF = new SimpleDateFormat(" yy/MM/dd HH:mm:ss");
+        public void setLocation(String location){ this.location =location; }
+        public void setName(String name){ this.name =name; }
+        public void setContact(String contact){ this.contact=contact; }
+        public void setVehicle_num(String vehicle_num){ this.vehicle_num =vehicle_num; }
+        public void setVehicle_type(String vehicle_type){ this.vehicle_type =vehicle_type; }
+        public void setArrival_time(String arrival_time){ this.arrival_time =arrival_time; }
+        public void setMinutes(int minutes){ this.minutes=minutes; }
+        public void setColor(int color){this.color = color;}
 
-                Date date = SF.parse(arrival_time);
-            minutes = (int)((time_now.getTime().getTime() - date.getTime()) / 1000) ;
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+
+
+        public void Arrivaltimenow()
+        {
+            SimpleDateFormat SF = new SimpleDateFormat(" yy-MM-dd HH:mm");
+            Calendar c = Calendar.getInstance();
+            this.arrival_time = SF.format(c.getTime());
         }
 
 
@@ -97,7 +102,7 @@ public class Vehicle
             this.arrival_time = arrival_time;
             this.color =color;
         }
-        public Vehicle(String vehicle_num,String name, String contact,String vehicle_type,int color,int minutes,String location)
+        public Vehicle(String location,String name,String contact,String vehicle_num, String vehicle_type,int minutes,int color)
         {
             this.location = location;
             this.name =name;
@@ -154,6 +159,7 @@ public class Vehicle
         Vehicle randomcarGen()
         {
                 Vehicle newV = new Vehicle();
+
                 int test_int = (int)(Math.random()*255);
             newV.location = Integer.toString(test_int);
             newV.name =Integer.toString(test_int);
@@ -161,6 +167,8 @@ public class Vehicle
             newV.vehicle_num = Integer.toString(test_int);
             newV.vehicle_type = Integer.toString(test_int);
             newV.color = (int)(Math.random()*16777215) + 0xFF000000;
+            newV.Arrivaltimenow();
+
 
 
             return newV;
