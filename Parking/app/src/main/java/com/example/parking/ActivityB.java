@@ -42,7 +42,7 @@ public class ActivityB extends AppCompatActivity implements View.OnClickListener
     FrameLayout framelayout;
     PopupWindow popup;
     DisplayMetrics displayMetrics;
-
+    TextView IncomeSumTextView;
 
     public static float convertDpToPixel(float dp, Context context){
         return dp * ((float) context.getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
@@ -154,7 +154,8 @@ public class ActivityB extends AppCompatActivity implements View.OnClickListener
            money_sum += (income.getMinutes()/60)*Settings.hour_fair;
         }
         System.out.println("END");
-        return;
+        IncomeSumTextView.setText("$ "+money_sum);
+        return money_sum;
     }
 
     @Override
@@ -165,7 +166,7 @@ public class ActivityB extends AppCompatActivity implements View.OnClickListener
        displayMetrics = new DisplayMetrics();
 
         LI = (LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
+        IncomeSumTextView = (TextView)findViewById(R.id.income_sum);
         popup = new PopupWindow(LI.inflate(R.layout.top_popup,null,false), ActionBar.LayoutParams.MATCH_PARENT,150,true);
         popup.setAnimationStyle(R.anim.slide_down);
         framelayout = new FrameLayout(this);

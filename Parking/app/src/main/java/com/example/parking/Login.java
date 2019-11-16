@@ -40,7 +40,11 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
+
+
         super.onCreate(savedInstanceState);
+
+       // startActivity(new Intent(this,CameraMain.class));
         setContentView(R.layout.login);
         mAuth = FirebaseAuth.getInstance();
 
@@ -109,8 +113,9 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
     }
     void startLoading(String userID)
     {
-        FirebaseController.userID =userID;
+       FirebaseController.userID =userID;
         startActivity(new Intent(this,Loading.class));
+
     }
 
     @Override

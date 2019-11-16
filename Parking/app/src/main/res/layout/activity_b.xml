@@ -85,6 +85,7 @@
         android:textAlignment="center"
       android:textColor="#FFDF00"
         android:gravity="center"
+        android:id="@+id/income_sum"
         />
         <ImageView
             android:layout_width="0dp"

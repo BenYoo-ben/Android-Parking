@@ -13,6 +13,7 @@ public class Income {
     private int minutes;
     private String vehicle_num;
     private String ID;
+    private int fair;
 
 
 
@@ -34,11 +35,14 @@ public class Income {
         return vehicle_num;
     }
     public String getID(){  return ID; }
+    public int getFair(){return fair;}
+
     public void setDeparture_time(String departure_time){this.departure_time = departure_time;}
     public void setArrival_time(String arrival_time){this.arrival_time=arrival_time;}
     public void setMinutes(int minutes){this.minutes = minutes;}
     public void setVehicle_num(String vehicle_num){this.vehicle_num=vehicle_num;}
     public void setID(String ID){this.ID=ID;}
+    public void setFair(int fiar){this.fair=fair;}
 
     public Income(Vehicle LastSelectedVehicle)
     {
@@ -47,6 +51,7 @@ public class Income {
         Departuretimenow();
        CalcMinutes();
        IDgen();
+       setFair(Settings.hour_fair);
     }
     public Income(){}
 

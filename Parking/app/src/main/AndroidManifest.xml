@@ -3,6 +3,13 @@
     package="com.example.parking">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+    <uses-feature android:name="android.hardware.location.gps" />
+
 
     <application
         android:allowBackup="true"
@@ -39,6 +46,11 @@
             android:name=".Loading"
 
             />
+        <activity
+
+        android:name=".CameraMain"
+
+        />
     </application>
 
 
