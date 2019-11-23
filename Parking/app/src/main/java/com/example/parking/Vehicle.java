@@ -81,7 +81,7 @@ public class Vehicle
 
         public void Arrivaltimenow()
         {
-            SimpleDateFormat SF = new SimpleDateFormat(" yy-MM-dd HH:mm");
+            SimpleDateFormat SF = new SimpleDateFormat("yy-MM-dd HH:mm");
             Calendar c = Calendar.getInstance();
             this.arrival_time = SF.format(c.getTime());
         }

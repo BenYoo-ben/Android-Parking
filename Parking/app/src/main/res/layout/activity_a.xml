@@ -279,7 +279,7 @@
         android:layout_columnWeight="1"
         android:layout_rowWeight="1"
         android:text="Save V"
-        android:onClick="ManualInput"
+        android:onClick="ShowCarInfo"
         android:src="@mipmap/map"
         android:tint="#FFFFFF"
         android:scaleType="centerInside"

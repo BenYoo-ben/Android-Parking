@@ -2,6 +2,7 @@ package com.example.parking;
 
 import android.app.ActionBar;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -10,6 +11,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
@@ -31,6 +33,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 
@@ -335,10 +338,21 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
 
 
 
-    public void ManualInput(View view)
+    public void ShowCarInfo(View view)
     {
-        System.out.println("MANUAL INPUIT");
-        FirebaseController.addVehicleCurrent(LastSelectedVehicle.randomcarGen());
+        AlertDialog.Builder builder=new AlertDialog.Builder(this);
+        builder.setTitle(LastSelectedVehicle.getVehicle_num()+" - 정보");
+        builder.setMessage("Name : "+LastSelectedVehicle.getName()+"\nPhone : "+LastSelectedVehicle.getContact()+"\nArrival : "+LastSelectedVehicle.getArrival_time()+"\nLocation : "+LastSelectedVehicle.getLocation()+"\nColor : "+LastSelectedVehicle.getColor());
+
+        builder.setPositiveButton("OK",
+                new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialogInterface,int i){
+
+                    }
+                });
+        AlertDialog dialog=builder.create();
+        dialog.show();
     }
 
     public void intentA(View view) {
@@ -371,9 +385,11 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
 
 
     }
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void intentD(View view)  {
 
-        FirebaseController.removeVehicleCurrent(new Vehicle(4));
+      PDFPrint pdfp = new PDFPrint("test_pdf.pdf",this);
+
     }
 
     public Vehicle SearchVehicleWithNum(String query)

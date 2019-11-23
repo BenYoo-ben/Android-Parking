@@ -71,10 +71,13 @@ public class Income {
     {
         try {
             Calendar time_now = Calendar.getInstance();
+            Calendar time_t = Calendar.getInstance();
             SimpleDateFormat SF = new SimpleDateFormat("yy-MM-dd HH:mm");
 
             Date date = SF.parse(arrival_time);
-            minutes = (int)((time_now.getTime().getTime() - date.getTime()) /  (60 * 1000) % 60) ;
+            time_t.setTime(date);
+            time_now.getTimeInMillis();
+            minutes = (int)((time_now.getTimeInMillis() - time_t.getTimeInMillis()) / 1000 / 60);
         } catch (ParseException e) {
             e.printStackTrace();
         }

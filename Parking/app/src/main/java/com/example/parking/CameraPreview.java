@@ -330,30 +330,33 @@ class CameraPreview extends ViewGroup implements SurfaceHolder.Callback {
     Camera.PictureCallback jpegCallback = new Camera.PictureCallback() {
         public void onPictureTaken(byte[] data, Camera camera) {
 
-            //decide image's width + height
-            int w = camera.getParameters().getPictureSize().width;
-            int h = camera.getParameters().getPictureSize().height;
-            int orientation = calculatePreviewOrientation(mCameraInfo, mDisplayOrientation);
+                    //decide image's width + height
+                    int w = camera.getParameters().getPictureSize().width;
+                    int h = camera.getParameters().getPictureSize().height;
+                    int orientation = calculatePreviewOrientation(mCameraInfo, mDisplayOrientation);
 
 
-            //bytearray to bitmap;
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-            Bitmap bitmap = BitmapFactory.decodeByteArray( data, 0, data.length, options);
+                    //bytearray to bitmap;
+                    BitmapFactory.Options options = new BitmapFactory.Options();
+                    options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+                    Bitmap bitmap = BitmapFactory.decodeByteArray( data, 0, data.length, options);
 
 
-            //rotate image to device orientation
-            Matrix matrix = new Matrix();
-            matrix.postRotate(orientation);
-            bitmap =  Bitmap.createBitmap(bitmap, 0, 0, w, h, matrix, true);
+                    //rotate image to device orientation
+                    Matrix matrix = new Matrix();
+                    matrix.postRotate(orientation);
+                    bitmap =  Bitmap.createBitmap(bitmap, 0, 0, w, h, matrix, true);
 
-            //bitmap to bytearray
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-            byte[] currentData = stream.toByteArray();
+                    //static process in OpenCVProcess get Bitmap.
+                    OpenCVProcess.BitmapOpenCV = bitmap;
 
-            //save in to gallery
-            new SaveImageTask().execute(currentData);
+                    //bitmap to bytearray
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+                    byte[] currentData = stream.toByteArray();
+
+                    //save in to gallery
+                    new SaveImageTask().execute(currentData);
 
         }
     };
@@ -374,7 +377,7 @@ class CameraPreview extends ViewGroup implements SurfaceHolder.Callback {
                     path.mkdirs();
                 }
 
-                String fileName = String.format("%d.jpg", System.currentTimeMillis());
+                String fileName = "__parking__temp__.jpg";
                 File outputFile = new File(path, fileName);
 
                 outStream = new FileOutputStream(outputFile);
