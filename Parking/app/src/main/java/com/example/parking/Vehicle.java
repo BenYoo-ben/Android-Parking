@@ -30,6 +30,7 @@ public class Vehicle
 
         private int minutes=0;
         private int color;
+        private int fair;
         public ImageView iv;
         public TextView tv;
 
@@ -67,6 +68,7 @@ public class Vehicle
         {
             return color;
         }
+        public int getFair(){return fair;}
 
         public void setLocation(String location){ this.location =location; }
         public void setName(String name){ this.name =name; }
@@ -76,7 +78,7 @@ public class Vehicle
         public void setArrival_time(String arrival_time){ this.arrival_time =arrival_time; }
         public void setMinutes(int minutes){ this.minutes=minutes; }
         public void setColor(int color){this.color = color;}
-
+        public void setFair(int fair){this.fair=fair;}
 
 
         public void Arrivaltimenow()

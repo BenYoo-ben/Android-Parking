@@ -46,15 +46,13 @@ public class PDFPrint extends AppCompatActivity {
 Activity a;
 String filename;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+Vehicle V;
 
    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-   PDFPrint(final String filename, Activity a ){
+   PDFPrint(final String filename, Activity a,Vehicle V ){
         this.a=a;
         this.filename = filename;
+        this.V = V;
         Dexter.withActivity(a)
                .withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                .withListener(new PermissionListener() {
@@ -97,8 +95,8 @@ String filename;
             //Setting
             document.setPageSize(PageSize.A4);
             document.addCreationDate();
-            document.addAuthor("KANTA");
-            document.addCreator("kanta");
+            document.addAuthor(FirebaseController.userID);
+            document.addCreator("Parking");
             //Font Setting
             BaseColor colorAccent = new BaseColor(0,153,204,255);
             float fontSize=20.0f;
@@ -109,21 +107,21 @@ String filename;
             //Create Title of Document
             Font orderNumberValueFont=new Font(fontName,valueFontSize,Font.NORMAL, BaseColor.BLACK);
             Font titleFont = new Font(fontName,36.0f,Font.NORMAL,BaseColor.BLACK);
-            addNewItem(document,"Order Details", Element.ALIGN_CENTER,titleFont);
+            addNewItem(document,"Parking Details", Element.ALIGN_CENTER,titleFont);
             //Add more
             Font orderNumberFont =new Font(fontName,fontSize,Font.NORMAL,colorAccent);
-            addNewItem(document,"order No:",Element.ALIGN_LEFT,orderNumberFont);
+            addNewItem(document,"Vehicle Number:",Element.ALIGN_LEFT,orderNumberFont);
 
-            addNewItem(document, "#717171",Element.ALIGN_LEFT,orderNumberValueFont);
+            addNewItem(document, V.getVehicle_num(),Element.ALIGN_LEFT,orderNumberValueFont);
             addLineSeperator(document);
             addLineSeperator(document);
 
-            addNewItem(document,"Order Date",Element.ALIGN_LEFT,orderNumberFont);
-            addNewItem(document,"22/11/2019", Element.ALIGN_LEFT,orderNumberValueFont);
+            addNewItem(document,"Arrival Time",Element.ALIGN_LEFT,orderNumberFont);
+            addNewItem(document,V.getArrival_time(), Element.ALIGN_LEFT,orderNumberValueFont);
 
             addLineSeperator(document);
             addNewItem(document,"Account Name",Element.ALIGN_LEFT,orderNumberFont);
-            addNewItem(document,"Emanuel kant", Element.ALIGN_LEFT,orderNumberValueFont);
+            addNewItem(document,V.getName(), Element.ALIGN_LEFT,orderNumberValueFont);
             addLineSeperator(document);
 
             //Add Product  order detail
@@ -132,12 +130,16 @@ String filename;
             addLineSeperator(document);
 
             //Item 1
-            addNewItemWithLeftAndRight(document,"Pizza 25","(0.0%)",titleFont,orderNumberValueFont);
-            addNewItemWithLeftAndRight(document,"12.0*1000","12000.0",titleFont,orderNumberValueFont);
+            addNewItemWithLeftAndRight(document,"Fee :","(-WON)",titleFont,orderNumberValueFont);
+            addNewItemWithLeftAndRight(document,"Hour * "+Integer.toString(Settings.hour_fair),"---",titleFont,orderNumberValueFont);
             addLineSeperator(document);
             //Item 2
-            addNewItemWithLeftAndRight(document,"Pizza 26","(0.0%)",titleFont,orderNumberValueFont);
-            addNewItemWithLeftAndRight(document,"12.0*1000","12000.0",titleFont,orderNumberValueFont);
+            addNewItemWithLeftAndRight(document,"Contact","+82",titleFont,orderNumberValueFont);
+            addNewItemWithLeftAndRight(document,Settings.contact,"---",titleFont,orderNumberValueFont);
+
+            //Item3
+            addNewItemWithLeftAndRight(document,"Location","--",titleFont,orderNumberValueFont);
+            addNewItemWithLeftAndRight(document,V.getLocation(),"---",titleFont,orderNumberValueFont);
 
             addLineSeperator(document);
 
@@ -145,7 +147,6 @@ String filename;
             addLineSpace(document);
             addLineSpace(document);
 
-            addNewItemWithLeftAndRight(document,"Total","24000.0",titleFont,orderNumberValueFont);
 
             document.close();
             Toast.makeText(a, "success", Toast.LENGTH_SHORT).show();

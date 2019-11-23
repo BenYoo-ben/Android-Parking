@@ -42,7 +42,7 @@ public class Income {
     public void setMinutes(int minutes){this.minutes = minutes;}
     public void setVehicle_num(String vehicle_num){this.vehicle_num=vehicle_num;}
     public void setID(String ID){this.ID=ID;}
-    public void setFair(int fiar){this.fair=fair;}
+    public void setFair(int fair){this.fair=fair;}
 
     public Income(Vehicle LastSelectedVehicle)
     {
@@ -51,7 +51,7 @@ public class Income {
         Departuretimenow();
        CalcMinutes();
        IDgen();
-       setFair(Settings.hour_fair);
+       setFair(LastSelectedVehicle.getFair());
     }
     public Income(){}
 

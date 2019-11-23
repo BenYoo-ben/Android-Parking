@@ -48,6 +48,7 @@ public class FirebaseController extends AppCompatActivity {
         ref.child(userID).child("Current").child(veh.getVehicle_num()).child("arrival_time").setValue(veh.getArrival_time());
         ref.child(userID).child("Current").child(veh.getVehicle_num()).child("color").setValue(veh.getColor());
         ref.child(userID).child("Current").child(veh.getVehicle_num()).child("vehicle_num").setValue(veh.getVehicle_num());
+        ref.child(userID).child("Current").child(veh.getVehicle_num()).child("vehicle_num").setValue(veh.getFair());
 
         Vehicles.add(veh);
     }
@@ -67,6 +68,7 @@ public class FirebaseController extends AppCompatActivity {
         ref.child(userID).child("Income").child(i.getID()).child("minutes").setValue(i.getMinutes());
         ref.child(userID).child("Income").child(i.getID()).child("vehicle_num").setValue(i.getVehicle_num());
         ref.child(userID).child("Income").child(i.getID()).child("ID").setValue(i.getID());
+        ref.child(userID).child("Income").child(i.getID()).child("ID").setValue(i.getFair());
         Incomes.add(i);
 
     }

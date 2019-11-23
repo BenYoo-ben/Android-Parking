@@ -364,7 +364,7 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
     public void addNewCar(View view)
     {
         Vehicle newV = LastSelectedVehicle.randomcarGen();
-
+                newV.setFair(Settings.hour_fair);
 
             FirebaseController.addVehicleCurrent(newV);
             addContent(ImageLayouts,TextLayouts,newV);
@@ -388,7 +388,8 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void intentD(View view)  {
 
-      PDFPrint pdfp = new PDFPrint("test_pdf.pdf",this);
+        //need Change
+      PDFPrint pdfp = new PDFPrint("test_pdf.pdf",this,LastSelectedVehicle);
 
     }
 
