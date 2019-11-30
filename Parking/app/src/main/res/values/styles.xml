@@ -9,7 +9,15 @@
     </style>
 
     <!-- The launcher theme. It sets the main window background to the launch_screen drawable -->
+    <style name="MyAlertDialogStyle" parent="@style/Theme.AppCompat.Dialog.Alert">
 
+        <item name="android:textColor">@color/white</item>
+
+        <item name="android:typeface">monospace</item>
+
+        <item name="android:background">@color/lightnavy</item>
+
+    </style>
 
 
     <style name="Launcher">

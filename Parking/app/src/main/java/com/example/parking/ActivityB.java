@@ -33,8 +33,6 @@ import java.util.Iterator;
 public class ActivityB extends AppCompatActivity implements View.OnClickListener {
 
     float initX,diffX, pushSensitivity = 150;
-
-
     float initY,diffY;
 
     LinearLayout scrollLinear;
@@ -57,28 +55,23 @@ public class ActivityB extends AppCompatActivity implements View.OnClickListener
         TextView textview2 = new TextView(this);
         TextView textview3 = new TextView(this);
 
-        SimpleDateFormat SDF = new SimpleDateFormat("yy-MM-dd HH:mm");
-        SimpleDateFormat date = new SimpleDateFormat("MM/dd");
-        SimpleDateFormat time = new SimpleDateFormat("HH : mm");
+        Timer t = new Timer();
+
         Calendar c = Calendar.getInstance();
         try {
-            Date d = SDF.parse(i.getDeparture_time());
+            Date d = t.SDF.parse(i.getDeparture_time());
             c.setTime(d);
 
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
-        textview1.setText(date.format(c.getTime())+"\n"+time.format(c.getTime()));
+        textview1.setText(t.date.format(c.getTime())+"\n"+t.time.format(c.getTime()));
         textview2.setText(i.getVehicle_num());
         textview3.setText("$ "+i.getMinutes()*Settings.hour_fair);
 
         pixels1 = convertDpToPixel(10f,getApplicationContext());
         pixels2 = convertDpToPixel(8f,getApplicationContext());
-
-
-
-
 
         Typeface tf1 = ResourcesCompat.getFont(this,R.font.kenteken);
         Typeface tf2 = ResourcesCompat.getFont(this,R.font.digital7);
@@ -93,7 +86,6 @@ public class ActivityB extends AppCompatActivity implements View.OnClickListener
         textview2.setTypeface(tf1);
         textview2.setTextColor(Color.WHITE);
         textview2.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM);
-
 
         LinearLayout.LayoutParams tlp =new  LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f);
         tlp.setMargins(0,0,0,0);
@@ -130,18 +122,13 @@ public class ActivityB extends AppCompatActivity implements View.OnClickListener
         ll.setBackgroundResource(R.drawable.image_border2);
        textLayout.addView(ll);
 
-
-
         return 1;
     }
-
-
 
     private void showToast(String message)
     {
         Toast toast = Toast.makeText(this,message,Toast.LENGTH_SHORT);
         toast.show();
-
     }
     private long setIncomeView(LinearLayout textLayout)
     {
@@ -222,24 +209,24 @@ public class ActivityB extends AppCompatActivity implements View.OnClickListener
 
     @Override
     public void onClick(View view) {
-
     }
-    public void intentA(View view) {
+    public void intentA(View view)
+    {
         startActivity(new Intent(this,ActivityA.class));
         overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
     }
-    public void intentB(View view) {
+    public void intentB(View view)
+    {
         showToast("current Screen");
     }
-    public void intentC(View view) {
+    public void intentC(View view)
+    {
         startActivity(new Intent(this,ActivityC.class));
         overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
     }
-    public void intentD(View view)  {
+    public void intentD(View view)
+    {
         startActivity(new Intent(this,ActivityD.class));
         overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
     }
-
-
-
 }

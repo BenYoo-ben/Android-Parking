@@ -5,7 +5,7 @@ import java.text.DecimalFormat;
 import org.opencv.core.Core;
 
 import android.graphics.Canvas;
-import android.graphics.Color;
+import android.graphics.color;
 import android.graphics.Paint;
 import android.util.Log;
 
@@ -30,7 +30,7 @@ public class FpsMeter {
         mStrfps = "";
 
         mPaint = new Paint();
-        mPaint.setColor(Color.BLUE);
+        mPaint.setcolor(color.BLUE);
         mPaint.setTextSize(20);
     }
 

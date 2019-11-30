@@ -36,14 +36,14 @@ public abstract class CameraGLRendererBase implements GLSurfaceView.Renderer, Su
             + "uniform samplerExternalOES sTexture;\n"
             + "varying vec2 texCoord;\n"
             + "void main() {\n"
-            + "  gl_FragColor = texture2D(sTexture,texCoord);\n" + "}";
+            + "  gl_Fragcolor = texture2D(sTexture,texCoord);\n" + "}";
 
     private final String fss2D = ""
             + "precision mediump float;\n"
             + "uniform sampler2D sTexture;\n"
             + "varying vec2 texCoord;\n"
             + "void main() {\n"
-            + "  gl_FragColor = texture2D(sTexture,texCoord);\n" + "}";
+            + "  gl_Fragcolor = texture2D(sTexture,texCoord);\n" + "}";
 
     // coord-s
     private final float vertices[] = {
@@ -119,7 +119,7 @@ public abstract class CameraGLRendererBase implements GLSurfaceView.Renderer, Su
                 mUpdateST = false;
             }
 
-            GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
+            GLES20.glClear(GLES20.GL_color_BUFFER_BIT);
 
             CameraTextureListener texListener = mView.getCameraTextureListener();
             if(texListener != null) {
@@ -165,7 +165,7 @@ public abstract class CameraGLRendererBase implements GLSurfaceView.Renderer, Su
         if (strGLVersion != null)
             Log.i(LOGTAG, "OpenGL ES version: " + strGLVersion);
 
-        GLES20.glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+        GLES20.glClearcolor(1.0f, 1.0f, 1.0f, 1.0f);
 
         progOES = loadShader(vss, fssOES);
         vPosOES = GLES20.glGetAttribLocation(progOES, "vPosition");
@@ -303,7 +303,7 @@ public abstract class CameraGLRendererBase implements GLSurfaceView.Renderer, Su
         //int hFBO;
         GLES20.glGenFramebuffers(1, FBO, 0);
         GLES20.glBindFramebuffer(GLES20.GL_FRAMEBUFFER, FBO[0]);
-        GLES20.glFramebufferTexture2D(GLES20.GL_FRAMEBUFFER, GLES20.GL_COLOR_ATTACHMENT0, GLES20.GL_TEXTURE_2D, texFBO[0], 0);
+        GLES20.glFramebufferTexture2D(GLES20.GL_FRAMEBUFFER, GLES20.GL_color_ATTACHMENT0, GLES20.GL_TEXTURE_2D, texFBO[0], 0);
         Log.d(LOGTAG, "initFBO error status: " + GLES20.glGetError());
 
         int FBOstatus = GLES20.glCheckFramebufferStatus(GLES20.GL_FRAMEBUFFER);
@@ -324,7 +324,7 @@ public abstract class CameraGLRendererBase implements GLSurfaceView.Renderer, Su
         else
             GLES20.glViewport(0, 0, mFBOWidth, mFBOHeight);
 
-        GLES20.glClear(GLES20.GL_COLOR_BUFFER_BIT);
+        GLES20.glClear(GLES20.GL_color_BUFFER_BIT);
 
         if(isOES) {
             GLES20.glUseProgram(progOES);

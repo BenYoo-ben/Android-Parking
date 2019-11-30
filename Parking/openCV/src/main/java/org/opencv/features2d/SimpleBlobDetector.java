@@ -28,8 +28,8 @@ import org.opencv.features2d.SimpleBlobDetector;
  * <ul>
  *   <li>
  *    <b>By color</b>. This filter compares the intensity of a binary image at the center of a blob to
- * blobColor. If they differ, the blob is filtered out. Use blobColor = 0 to extract dark blobs
- * and blobColor = 255 to extract light blobs.
+ * blobcolor. If they differ, the blob is filtered out. Use blobcolor = 0 to extract dark blobs
+ * and blobcolor = 255 to extract light blobs.
  *   </li>
  *   <li>
  *    <b>By area</b>. Extracted blobs have an area between minArea (inclusive) and maxArea (exclusive).

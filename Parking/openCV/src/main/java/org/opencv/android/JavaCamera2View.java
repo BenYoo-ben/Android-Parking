@@ -357,10 +357,10 @@ public class JavaCamera2View extends CameraBridgeViewBase {
                 long addr_diff = uv_mat2.dataAddr() - uv_mat1.dataAddr();
                 if (addr_diff > 0) {
                     assert(addr_diff == 1);
-                    Imgproc.cvtColorTwoPlane(y_mat, uv_mat1, mRgba, Imgproc.COLOR_YUV2RGBA_NV12);
+                    Imgproc.cvtcolorTwoPlane(y_mat, uv_mat1, mRgba, Imgproc.color_YUV2RGBA_NV12);
                 } else {
                     assert(addr_diff == -1);
-                    Imgproc.cvtColorTwoPlane(y_mat, uv_mat2, mRgba, Imgproc.COLOR_YUV2RGBA_NV21);
+                    Imgproc.cvtcolorTwoPlane(y_mat, uv_mat2, mRgba, Imgproc.color_YUV2RGBA_NV21);
                 }
                 return mRgba;
             } else { // Chroma channels are not interleaved
@@ -401,7 +401,7 @@ public class JavaCamera2View extends CameraBridgeViewBase {
 
                 Mat yuv_mat = new Mat(h+h/2, w, CvType.CV_8UC1);
                 yuv_mat.put(0, 0, yuv_bytes);
-                Imgproc.cvtColor(yuv_mat, mRgba, Imgproc.COLOR_YUV2RGBA_I420, 4);
+                Imgproc.cvtcolor(yuv_mat, mRgba, Imgproc.color_YUV2RGBA_I420, 4);
                 return mRgba;
             }
         }

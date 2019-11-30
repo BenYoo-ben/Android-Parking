@@ -40,16 +40,16 @@ public class Imgcodecs {
     public static final int
             IMREAD_UNCHANGED = -1,
             IMREAD_GRAYSCALE = 0,
-            IMREAD_COLOR = 1,
+            IMREAD_color = 1,
             IMREAD_ANYDEPTH = 2,
-            IMREAD_ANYCOLOR = 4,
+            IMREAD_ANYcolor = 4,
             IMREAD_LOAD_GDAL = 8,
             IMREAD_REDUCED_GRAYSCALE_2 = 16,
-            IMREAD_REDUCED_COLOR_2 = 17,
+            IMREAD_REDUCED_color_2 = 17,
             IMREAD_REDUCED_GRAYSCALE_4 = 32,
-            IMREAD_REDUCED_COLOR_4 = 33,
+            IMREAD_REDUCED_color_4 = 33,
             IMREAD_REDUCED_GRAYSCALE_8 = 64,
-            IMREAD_REDUCED_COLOR_8 = 65,
+            IMREAD_REDUCED_color_8 = 65,
             IMREAD_IGNORE_ORIENTATION = 128;
 
 
@@ -101,7 +101,7 @@ public class Imgcodecs {
 
 
     //
-    // C++:  Mat cv::imread(String filename, int flags = IMREAD_COLOR)
+    // C++:  Mat cv::imread(String filename, int flags = IMREAD_color)
     //
 
     /**
@@ -164,7 +164,7 @@ public class Imgcodecs {
      *   </li>
      *   <li>
      *    When using IMREAD_GRAYSCALE, the codec's internal grayscale conversion will be used, if available.
-     *     Results may differ to the output of cvtColor()
+     *     Results may differ to the output of cvtcolor()
      *   </li>
      *   <li>
      *    On Microsoft Windows\* OS and MacOSX\*, the codecs shipped with an OpenCV image (libjpeg,
@@ -266,7 +266,7 @@ public class Imgcodecs {
      *   </li>
      *   <li>
      *    When using IMREAD_GRAYSCALE, the codec's internal grayscale conversion will be used, if available.
-     *     Results may differ to the output of cvtColor()
+     *     Results may differ to the output of cvtcolor()
      *   </li>
      *   <li>
      *    On Microsoft Windows\* OS and MacOSX\*, the codecs shipped with an OpenCV image (libjpeg,
@@ -378,7 +378,7 @@ public class Imgcodecs {
 
 
     //
-    // C++:  bool cv::imreadmulti(String filename, vector_Mat& mats, int flags = IMREAD_ANYCOLOR)
+    // C++:  bool cv::imreadmulti(String filename, vector_Mat& mats, int flags = IMREAD_ANYcolor)
     //
 
     /**
@@ -386,7 +386,7 @@ public class Imgcodecs {
      *
      * The function imreadmulti loads a multi-page image from the specified file into a vector of Mat objects.
      * @param filename Name of file to be loaded.
-     * @param flags Flag that can take values of cv::ImreadModes, default with cv::IMREAD_ANYCOLOR.
+     * @param flags Flag that can take values of cv::ImreadModes, default with cv::IMREAD_ANYcolor.
      * @param mats A vector of Mat objects holding each page, if more than one.
      * SEE: cv::imread
      * @return automatically generated
@@ -446,7 +446,7 @@ public class Imgcodecs {
      * </ul>
      *
      * If the format, depth or channel order is different, use
-     * Mat::convertTo and cv::cvtColor to convert it before saving. Or, use the universal FileStorage I/O
+     * Mat::convertTo and cv::cvtcolor to convert it before saving. Or, use the universal FileStorage I/O
      * functions to save the image to XML or YAML format.
      *
      * The sample below shows how to create a BGRA image and save it to a PNG file. It also demonstrates how to set custom
@@ -487,7 +487,7 @@ public class Imgcodecs {
      * </ul>
      *
      * If the format, depth or channel order is different, use
-     * Mat::convertTo and cv::cvtColor to convert it before saving. Or, use the universal FileStorage I/O
+     * Mat::convertTo and cv::cvtcolor to convert it before saving. Or, use the universal FileStorage I/O
      * functions to save the image to XML or YAML format.
      *
      * The sample below shows how to create a BGRA image and save it to a PNG file. It also demonstrates how to set custom
@@ -507,7 +507,7 @@ public class Imgcodecs {
     // C++:  Mat cv::imdecode(Mat buf, int flags)
     private static native long imdecode_0(long buf_nativeObj, int flags);
 
-    // C++:  Mat cv::imread(String filename, int flags = IMREAD_COLOR)
+    // C++:  Mat cv::imread(String filename, int flags = IMREAD_color)
     private static native long imread_0(String filename, int flags);
     private static native long imread_1(String filename);
 
@@ -521,7 +521,7 @@ public class Imgcodecs {
     private static native boolean imencode_0(String ext, long img_nativeObj, long buf_mat_nativeObj, long params_mat_nativeObj);
     private static native boolean imencode_1(String ext, long img_nativeObj, long buf_mat_nativeObj);
 
-    // C++:  bool cv::imreadmulti(String filename, vector_Mat& mats, int flags = IMREAD_ANYCOLOR)
+    // C++:  bool cv::imreadmulti(String filename, vector_Mat& mats, int flags = IMREAD_ANYcolor)
     private static native boolean imreadmulti_0(String filename, long mats_mat_nativeObj, int flags);
     private static native boolean imreadmulti_1(String filename, long mats_mat_nativeObj);
 

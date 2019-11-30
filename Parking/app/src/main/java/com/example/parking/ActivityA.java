@@ -9,12 +9,14 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -47,6 +49,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -69,9 +72,9 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
 
     LinearLayout ImageLayout1, TextLayout1;
     LinearLayout ImageLayout2, TextLayout2;
-    LinearLayout ImageLayouts[];
-    LinearLayout TextLayouts[];
-    int LayoutOrder = 0, removeOrder;
+    LinearLayout ImageLayout;
+    LinearLayout TextLayout;
+
 
 
     float initX, diffX, pushSensitivity = 150;
@@ -88,12 +91,12 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
 
 
 
-    Vehicle addContent(LinearLayout[] ImageLayouts, LinearLayout[] TextLayouts, Vehicle veh) {
+    Vehicle addContent(LinearLayout ImageLayout, LinearLayout TextLayout, Vehicle veh) {
         LinearLayout imageLayout;
         LinearLayout textLayout;
-        imageLayout = ImageLayouts[LayoutOrder];
-        textLayout = TextLayouts[LayoutOrder];
-        LayoutOrder = (LayoutOrder == 1) ? (LayoutOrder = 0) : (LayoutOrder = 1);
+        imageLayout = ImageLayout;
+        textLayout = TextLayout;
+
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -103,12 +106,15 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
         imageview = new ImageView(getApplicationContext());
 
 
-        imageview.setPadding(2, 2, 2, 2);
-        imageview.setImageBitmap(BitmapFactory.decodeResource(
-                getResources(), R.mipmap.cartopview));
-        imageview.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+
+
+        imageview.setScaleType(ImageView.ScaleType.FIT_XY);
+
         LinearLayout.LayoutParams ilp = new LinearLayout.LayoutParams((int) (screen_width * 0.45), LinearLayout.LayoutParams.WRAP_CONTENT, 0.25f);
-        imageview.setColorFilter(veh.getColor());
+
+        imageview.setImageBitmap(BitmapFactory.decodeFile(Settings.imgloc+veh.getImagecode()));
+        Log.d("HELPME!!",Settings.imgloc+veh.getImagecode());;
+        imageview.setPadding(2, 2, 2, 2);
 
 
         // ilp.width = ViewGroup.LayoutParams.WRAP_CONTENT;
@@ -184,17 +190,24 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
 
     }
 
-    void setCarView(LinearLayout[] imageLayout, LinearLayout[] textLayout) {
+    void setCarView(LinearLayout imageLayout, LinearLayout textLayout) {
 
         Iterator i = FirebaseController.Vehicles.iterator();
-
+        clearCarView(imageLayout,textLayout);
         System.out.println("CARVIEW START");
         while (i.hasNext()) {
 
-            addContent(ImageLayouts, TextLayouts, (Vehicle) i.next());
+            addContent(ImageLayout, TextLayout, (Vehicle) i.next());
         }
         System.out.println("END");
         return;
+    }
+    void clearCarView(LinearLayout imageLayout, LinearLayout textLayout)
+    {
+        imageLayout.removeAllViews();
+
+        textLayout.removeAllViews();
+
     }
 
 
@@ -204,6 +217,11 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        setCarView(ImageLayout, TextLayout);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -226,17 +244,8 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
         timeView = (TextView) findViewById(R.id.timeview);
         dateView = (TextView) findViewById(R.id.dateview);
         MiddleLayout = (LinearLayout) findViewById(R.id.linear_middle);
-        ImageLayout1 = (LinearLayout) findViewById(R.id.linear_image1);
-        TextLayout1 = (LinearLayout) findViewById(R.id.linear_text1);
-        ImageLayout2 = (LinearLayout) findViewById(R.id.linear_image2);
-        TextLayout2 = (LinearLayout) findViewById(R.id.linear_text2);
-
-        ImageLayouts = new LinearLayout[2];
-        TextLayouts = new LinearLayout[2];
-        ImageLayouts[0] = ImageLayout1;
-        ImageLayouts[1] = ImageLayout2;
-        TextLayouts[0] = TextLayout1;
-        TextLayouts[1] = TextLayout2;
+        ImageLayout = (LinearLayout) findViewById(R.id.linear_image1);
+        TextLayout = (LinearLayout) findViewById(R.id.linear_text1);
 
 
         iv1 = (ImageView) findViewById(R.id.iv1);
@@ -256,7 +265,6 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
 
         TimeManager tm = new TimeManager(timeView, dateView);
         tm.start();
-        removeOrder = FirebaseController.Vehicles.size() % 2;
     }
 
     @Override
@@ -299,7 +307,7 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
         setTheme(R.style.Launcher);
         super.onStart();
 
-        setCarView(ImageLayouts, TextLayouts);
+        setCarView(ImageLayout, TextLayout);
 
     }
 
@@ -342,7 +350,7 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
     {
         AlertDialog.Builder builder=new AlertDialog.Builder(this);
         builder.setTitle(LastSelectedVehicle.getVehicle_num()+" - 정보");
-        builder.setMessage("Name : "+LastSelectedVehicle.getName()+"\nPhone : "+LastSelectedVehicle.getContact()+"\nArrival : "+LastSelectedVehicle.getArrival_time()+"\nLocation : "+LastSelectedVehicle.getLocation()+"\nColor : "+LastSelectedVehicle.getColor());
+        builder.setMessage("Name : "+LastSelectedVehicle.getName()+"\nPhone : "+LastSelectedVehicle.getContact()+"\nArrival : "+LastSelectedVehicle.getArrival_time()+"\nLocation : "+LastSelectedVehicle.getLocation()+"\nimaegcode : "+LastSelectedVehicle.getImagecode());
 
         builder.setPositiveButton("OK",
                 new DialogInterface.OnClickListener(){
@@ -363,13 +371,81 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
 
     public void addNewCar(View view)
     {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        builder.setTitle("Choose Option");
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                switch (which) {
+                    case DialogInterface.BUTTON_NEUTRAL: //Manual Input
+                        break;
+                    case DialogInterface.BUTTON_POSITIVE:
+                        startCamera();
+                        break;
+
+                }
+            }
+            void startCamera()
+            {
+                Intent a = new Intent(getApplicationContext(),CameraMain.class);
+                startActivity(a);
+            }
+        };
+        builder.setMessage("Manually / Camera");
+        builder.setNeutralButton("Manual", dialogClickListener);
+        builder.setPositiveButton("Camera", dialogClickListener);
+
+
+
+
+        builder.show();
+
+/*
         Vehicle newV = LastSelectedVehicle.randomcarGen();
                 newV.setFair(Settings.hour_fair);
 
-            FirebaseController.addVehicleCurrent(newV);
+            FirebaseController.addVehicle(newV);
             addContent(ImageLayouts,TextLayouts,newV);
+  */
     }
+    protected void ManualCarIn()
+    {/*
+        final EditText et = new EditText(getApplicationContext());
+        FrameLayout container = new FrameLayout(getApplicationContext());
 
+        FrameLayout.LayoutParams params = new  FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+
+        params.leftMargin = getResources().getDimensionPixelSize(R.dimen.dialog_margin);
+
+        params.rightMargin = getResources().getDimensionPixelSize(R.dimen.dialog_margin);
+
+        et.setLayoutParams(params);
+
+        container.addView(et);
+
+        final AlertDialog.Builder alt_bld = new AlertDialog.Builder(getApplicationContext(),R.style.MyAlertDialogStyle);
+
+        alt_bld.setTitle("닉네임 변경").setMessage("변경할 닉네임을 입력하세요")
+                .setIcon(R.drawable.check_dialog_64).setCancelable(false).setView(container)
+                .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int id) {
+
+                        String value = et.getText().toString();
+
+                        user_name.setText(value);
+
+                    }
+
+                });
+
+        AlertDialog alert = alt_bld.create();
+
+        alert.show();
+
+    */}
     public void intentB(View view) {
 
         startActivity(new Intent(this,ActivityB.class));

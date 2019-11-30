@@ -1,7 +1,11 @@
 package com.example.parking;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -28,6 +32,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import java.io.File;
+
 
 public class Login extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
     SignInButton Google_Login;
@@ -44,16 +50,29 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
 
         super.onCreate(savedInstanceState);
 
-       // startActivity(new Intent(this,CameraMain.class));
+  //ML Kit test working fine.
+//dezeen_South-Korean-road-signs-by-Studio-Dumbar.jpg
+        /*Bitmap bMap = BitmapFactory.decodeFile(
+                Environment.getExternalStorageDirectory()
+                        .getAbsolutePath()+"/Download/plate.jpg" );
+        MLKit mlk = new MLKit(getApplicationContext());
+        mlk.runTextRecognition(bMap);
+
+
+
+        startActivity(new Intent(this,CameraMain.class));
+*/
+
+
         setContentView(R.layout.login);
         mAuth = FirebaseAuth.getInstance();
 
         Firebase.setAndroidContext(this);
 
         FirebaseUser currentUser = mAuth.getCurrentUser();
-       /* if(currentUser!=null) {
-            startA(currentUser.getUid());
-        }*/
+        if(currentUser!=null) {
+            startLoading(currentUser.getUid());
+        }
        Google_Login = findViewById(R.id.Google_Login);
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))

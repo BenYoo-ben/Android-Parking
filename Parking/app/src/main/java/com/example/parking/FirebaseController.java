@@ -37,18 +37,17 @@ public class FirebaseController extends AppCompatActivity {
     static private FirebaseDatabase firebaseDatabase;
     static private DatabaseReference ref;
 
-    static void addVehicleCurrent(Vehicle veh) {
+    static void addVehicle(Vehicle veh) {
 
 
         ref.child(userID).child("Current").child(veh.getVehicle_num());
         ref.child(userID).child("Current").child(veh.getVehicle_num()).child("location").setValue(veh.getLocation());
         ref.child(userID).child("Current").child(veh.getVehicle_num()).child("name").setValue(veh.getName());
         ref.child(userID).child("Current").child(veh.getVehicle_num()).child("contact").setValue(veh.getContact());
-        ref.child(userID).child("Current").child(veh.getVehicle_num()).child("vehicle_type").setValue(veh.getVehicle_type());
         ref.child(userID).child("Current").child(veh.getVehicle_num()).child("arrival_time").setValue(veh.getArrival_time());
-        ref.child(userID).child("Current").child(veh.getVehicle_num()).child("color").setValue(veh.getColor());
+        ref.child(userID).child("Current").child(veh.getVehicle_num()).child("imagecode").setValue(veh.getImagecode());
         ref.child(userID).child("Current").child(veh.getVehicle_num()).child("vehicle_num").setValue(veh.getVehicle_num());
-        ref.child(userID).child("Current").child(veh.getVehicle_num()).child("vehicle_num").setValue(veh.getFair());
+        ref.child(userID).child("Current").child(veh.getVehicle_num()).child("fair").setValue(veh.getFair());
 
         Vehicles.add(veh);
     }
@@ -68,7 +67,7 @@ public class FirebaseController extends AppCompatActivity {
         ref.child(userID).child("Income").child(i.getID()).child("minutes").setValue(i.getMinutes());
         ref.child(userID).child("Income").child(i.getID()).child("vehicle_num").setValue(i.getVehicle_num());
         ref.child(userID).child("Income").child(i.getID()).child("ID").setValue(i.getID());
-        ref.child(userID).child("Income").child(i.getID()).child("ID").setValue(i.getFair());
+        ref.child(userID).child("Income").child(i.getID()).child("fair").setValue(i.getFair());
         Incomes.add(i);
 
     }
@@ -92,7 +91,7 @@ public class FirebaseController extends AppCompatActivity {
                 if(!dataSnapshot.exists())
                 {
                     System.out.println("DATA DOESN'T EXIST!!!");
-
+                    loading_state_value = 1;
                     return;
                 }
                 else
@@ -128,7 +127,7 @@ public class FirebaseController extends AppCompatActivity {
                     if(top1!=0) {
 
 
-
+                        Vehicles.clear();
                            for (DataSnapshot dss : dataSnapshot.child(userID).child("Current").getChildren()) {
 
 

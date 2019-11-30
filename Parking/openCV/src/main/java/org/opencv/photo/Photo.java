@@ -789,8 +789,8 @@ public class Photo {
      * removes image details, smaller h value preserves details but also preserves some noise
      *
      * This function expected to be applied to grayscale images. For colored images look at
-     * fastNlMeansDenoisingColored. Advanced usage of this functions can be manual denoising of colored
-     * image in different colorspaces. Such approach is used in fastNlMeansDenoisingColored by converting
+     * fastNlMeansDenoisingcolored. Advanced usage of this functions can be manual denoising of colored
+     * image in different colorspaces. Such approach is used in fastNlMeansDenoisingcolored by converting
      * image to CIELAB colorspace and then separately denoise L and AB components with different h
      * parameter.
      */
@@ -813,8 +813,8 @@ public class Photo {
      * removes image details, smaller h value preserves details but also preserves some noise
      *
      * This function expected to be applied to grayscale images. For colored images look at
-     * fastNlMeansDenoisingColored. Advanced usage of this functions can be manual denoising of colored
-     * image in different colorspaces. Such approach is used in fastNlMeansDenoisingColored by converting
+     * fastNlMeansDenoisingcolored. Advanced usage of this functions can be manual denoising of colored
+     * image in different colorspaces. Such approach is used in fastNlMeansDenoisingcolored by converting
      * image to CIELAB colorspace and then separately denoise L and AB components with different h
      * parameter.
      */
@@ -836,8 +836,8 @@ public class Photo {
      * removes image details, smaller h value preserves details but also preserves some noise
      *
      * This function expected to be applied to grayscale images. For colored images look at
-     * fastNlMeansDenoisingColored. Advanced usage of this functions can be manual denoising of colored
-     * image in different colorspaces. Such approach is used in fastNlMeansDenoisingColored by converting
+     * fastNlMeansDenoisingcolored. Advanced usage of this functions can be manual denoising of colored
+     * image in different colorspaces. Such approach is used in fastNlMeansDenoisingcolored by converting
      * image to CIELAB colorspace and then separately denoise L and AB components with different h
      * parameter.
      */
@@ -858,8 +858,8 @@ public class Photo {
      * removes image details, smaller h value preserves details but also preserves some noise
      *
      * This function expected to be applied to grayscale images. For colored images look at
-     * fastNlMeansDenoisingColored. Advanced usage of this functions can be manual denoising of colored
-     * image in different colorspaces. Such approach is used in fastNlMeansDenoisingColored by converting
+     * fastNlMeansDenoisingcolored. Advanced usage of this functions can be manual denoising of colored
+     * image in different colorspaces. Such approach is used in fastNlMeansDenoisingcolored by converting
      * image to CIELAB colorspace and then separately denoise L and AB components with different h
      * parameter.
      */
@@ -892,8 +892,8 @@ public class Photo {
      * @param normType Type of norm used for weight calculation. Can be either NORM_L2 or NORM_L1
      *
      * This function expected to be applied to grayscale images. For colored images look at
-     * fastNlMeansDenoisingColored. Advanced usage of this functions can be manual denoising of colored
-     * image in different colorspaces. Such approach is used in fastNlMeansDenoisingColored by converting
+     * fastNlMeansDenoisingcolored. Advanced usage of this functions can be manual denoising of colored
+     * image in different colorspaces. Such approach is used in fastNlMeansDenoisingcolored by converting
      * image to CIELAB colorspace and then separately denoise L and AB components with different h
      * parameter.
      */
@@ -921,8 +921,8 @@ public class Photo {
      * value preserves details but also preserves some noise
      *
      * This function expected to be applied to grayscale images. For colored images look at
-     * fastNlMeansDenoisingColored. Advanced usage of this functions can be manual denoising of colored
-     * image in different colorspaces. Such approach is used in fastNlMeansDenoisingColored by converting
+     * fastNlMeansDenoisingcolored. Advanced usage of this functions can be manual denoising of colored
+     * image in different colorspaces. Such approach is used in fastNlMeansDenoisingcolored by converting
      * image to CIELAB colorspace and then separately denoise L and AB components with different h
      * parameter.
      */
@@ -949,8 +949,8 @@ public class Photo {
      * value preserves details but also preserves some noise
      *
      * This function expected to be applied to grayscale images. For colored images look at
-     * fastNlMeansDenoisingColored. Advanced usage of this functions can be manual denoising of colored
-     * image in different colorspaces. Such approach is used in fastNlMeansDenoisingColored by converting
+     * fastNlMeansDenoisingcolored. Advanced usage of this functions can be manual denoising of colored
+     * image in different colorspaces. Such approach is used in fastNlMeansDenoisingcolored by converting
      * image to CIELAB colorspace and then separately denoise L and AB components with different h
      * parameter.
      */
@@ -976,8 +976,8 @@ public class Photo {
      * value preserves details but also preserves some noise
      *
      * This function expected to be applied to grayscale images. For colored images look at
-     * fastNlMeansDenoisingColored. Advanced usage of this functions can be manual denoising of colored
-     * image in different colorspaces. Such approach is used in fastNlMeansDenoisingColored by converting
+     * fastNlMeansDenoisingcolored. Advanced usage of this functions can be manual denoising of colored
+     * image in different colorspaces. Such approach is used in fastNlMeansDenoisingcolored by converting
      * image to CIELAB colorspace and then separately denoise L and AB components with different h
      * parameter.
      */

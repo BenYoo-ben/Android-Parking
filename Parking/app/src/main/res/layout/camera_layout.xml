@@ -2,22 +2,28 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:id="@+id/layout_main"
     >
 
     <SurfaceView
         android:id="@+id/surfaceView"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:layout_weight="10"
         />
 
     <LinearLayout
+        android:layout_width = "match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:orientation="horizontal"
+        >
+    <LinearLayout
         android:id="@+id/openCV_linear"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="3"
+        android:layout_weight="4"
         android:orientation="vertical"
         android:layout_gravity="center_horizontal|bottom"
         android:src="@android:drawable/ic_menu_camera"
@@ -35,7 +41,9 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="2"/>
+            android:layout_weight="2"
+            android:id="@+id/edit_v"
+            />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -45,37 +53,46 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="2"/>
+            android:layout_weight="2"
+            android:id="@+id/edit_p"
+            />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:text="Vehicle Color"
+            android:text="Name"
+
             />
         <EditText
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="2"/>
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="3"
-            android:id="@+id/result_of_ROI"
-            />
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
             android:layout_weight="2"
-            android:text="Capture"
-            android:id="@+id/button_main_capture"
+            android:id="@+id/edit_c"
+
             />
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="5"
-            >
 
-        </Space>
+
+
     </LinearLayout>
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:scaleType="fitXY"
+            android:id="@+id/ImagePreview"
+            />
 
+       <Button
+            android:id="@+id/Confirm_Button"
+            android:layout_width="0dp"
+           android:layout_height="match_parent"
+           android:layout_weight="2"
+           android:text="OK"
+
+
+           />
+
+
+
+    </LinearLayout>
 </LinearLayout>

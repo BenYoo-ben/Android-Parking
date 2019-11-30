@@ -2658,7 +2658,7 @@ public class Core {
      *     // select the middle part of it w/o copying data
      *     Mat gray(gray_canvas, Rect(border, border, rgb.cols, rgb.rows));
      *     // convert image from RGB to grayscale
-     *     cvtColor(rgb, gray, COLOR_RGB2GRAY);
+     *     cvtcolor(rgb, gray, color_RGB2GRAY);
      *     // form a border in-place
      *     copyMakeBorder(gray, gray_buf, border, border,
      *                    border, border, BORDER_REPLICATE);
@@ -2706,7 +2706,7 @@ public class Core {
      *     // select the middle part of it w/o copying data
      *     Mat gray(gray_canvas, Rect(border, border, rgb.cols, rgb.rows));
      *     // convert image from RGB to grayscale
-     *     cvtColor(rgb, gray, COLOR_RGB2GRAY);
+     *     cvtcolor(rgb, gray, color_RGB2GRAY);
      *     // form a border in-place
      *     copyMakeBorder(gray, gray_buf, border, border,
      *                    border, border, BORDER_REPLICATE);

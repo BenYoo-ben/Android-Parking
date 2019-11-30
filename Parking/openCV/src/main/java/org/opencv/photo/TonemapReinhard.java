@@ -22,11 +22,11 @@ public class TonemapReinhard extends Tonemap {
     public static TonemapReinhard __fromPtr__(long addr) { return new TonemapReinhard(addr); }
 
     //
-    // C++:  float cv::TonemapReinhard::getColorAdaptation()
+    // C++:  float cv::TonemapReinhard::getcolorAdaptation()
     //
 
-    public float getColorAdaptation() {
-        return getColorAdaptation_0(nativeObj);
+    public float getcolorAdaptation() {
+        return getcolorAdaptation_0(nativeObj);
     }
 
 
@@ -49,11 +49,11 @@ public class TonemapReinhard extends Tonemap {
 
 
     //
-    // C++:  void cv::TonemapReinhard::setColorAdaptation(float color_adapt)
+    // C++:  void cv::TonemapReinhard::setcolorAdaptation(float color_adapt)
     //
 
-    public void setColorAdaptation(float color_adapt) {
-        setColorAdaptation_0(nativeObj, color_adapt);
+    public void setcolorAdaptation(float color_adapt) {
+        setcolorAdaptation_0(nativeObj, color_adapt);
     }
 
 
@@ -82,8 +82,8 @@ public class TonemapReinhard extends Tonemap {
 
 
 
-    // C++:  float cv::TonemapReinhard::getColorAdaptation()
-    private static native float getColorAdaptation_0(long nativeObj);
+    // C++:  float cv::TonemapReinhard::getcolorAdaptation()
+    private static native float getcolorAdaptation_0(long nativeObj);
 
     // C++:  float cv::TonemapReinhard::getIntensity()
     private static native float getIntensity_0(long nativeObj);
@@ -91,8 +91,8 @@ public class TonemapReinhard extends Tonemap {
     // C++:  float cv::TonemapReinhard::getLightAdaptation()
     private static native float getLightAdaptation_0(long nativeObj);
 
-    // C++:  void cv::TonemapReinhard::setColorAdaptation(float color_adapt)
-    private static native void setColorAdaptation_0(long nativeObj, float color_adapt);
+    // C++:  void cv::TonemapReinhard::setcolorAdaptation(float color_adapt)
+    private static native void setcolorAdaptation_0(long nativeObj, float color_adapt);
 
     // C++:  void cv::TonemapReinhard::setIntensity(float intensity)
     private static native void setIntensity_0(long nativeObj, float intensity);

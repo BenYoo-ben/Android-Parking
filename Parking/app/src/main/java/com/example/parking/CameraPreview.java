@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.hardware.Camera;
 import android.hardware.Camera.Size;
+import android.media.Image;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
@@ -16,6 +17,8 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -24,6 +27,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -43,8 +47,24 @@ class CameraPreview extends ViewGroup implements SurfaceHolder.Callback {
     private boolean isPreview = false;
 
     private AppCompatActivity mActivity;
+    private String resultString = "";
+   private MLKit mlk;
+    protected void getMLK(MLKit mlk)
+    {
+        this.mlk = mlk;
+    }
 
+    private int focusing=0;
 
+    private int scaledX=400, scaledY=400;
+    private long imagecode;
+
+    private ImageView IV;
+
+    public void getImageView(ImageView iv)
+    {
+        this.IV = iv;
+    }
     public CameraPreview(Context context, AppCompatActivity activity, int cameraID, SurfaceView surfaceView) {
         super(context);
 
@@ -295,7 +315,17 @@ class CameraPreview extends ViewGroup implements SurfaceHolder.Callback {
     }
 
 
-
+    public void Focused() {
+        if (focusing == 0) {
+            focusing=1;
+            mCamera.autoFocus(new Camera.AutoFocusCallback() {
+                @Override
+                public void onAutoFocus(boolean success, Camera camera) {
+                    focusing=0;
+                }
+            });
+        }
+    }
     public void takePicture(){
 
 
@@ -330,34 +360,46 @@ class CameraPreview extends ViewGroup implements SurfaceHolder.Callback {
     Camera.PictureCallback jpegCallback = new Camera.PictureCallback() {
         public void onPictureTaken(byte[] data, Camera camera) {
 
-                    //decide image's width + height
-                    int w = camera.getParameters().getPictureSize().width;
-                    int h = camera.getParameters().getPictureSize().height;
-                    int orientation = calculatePreviewOrientation(mCameraInfo, mDisplayOrientation);
+
+            //이미지의 너비와 높이 결정
+            int w = camera.getParameters().getPictureSize().width;
+            int h = camera.getParameters().getPictureSize().height;
+            int orientation = calculatePreviewOrientation(mCameraInfo, mDisplayOrientation);
 
 
-                    //bytearray to bitmap;
-                    BitmapFactory.Options options = new BitmapFactory.Options();
-                    options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-                    Bitmap bitmap = BitmapFactory.decodeByteArray( data, 0, data.length, options);
+            //byte array를 bitmap으로 변환
+            BitmapFactory.Options options = new BitmapFactory.Options();
+            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+            Bitmap bitmap = BitmapFactory.decodeByteArray( data, 0, data.length, options);
 
 
-                    //rotate image to device orientation
-                    Matrix matrix = new Matrix();
-                    matrix.postRotate(orientation);
-                    bitmap =  Bitmap.createBitmap(bitmap, 0, 0, w, h, matrix, true);
+            //이미지를 디바이스 방향으로 회전
+            Matrix matrix = new Matrix();
+            matrix.postRotate(orientation);
+            bitmap =  Bitmap.createBitmap(bitmap, 0, 0, w, h, matrix, true);
+            Calendar c = Calendar.getInstance();
+          imagecode = c.getTimeInMillis();
 
-                    //static process in OpenCVProcess get Bitmap.
-                    OpenCVProcess.BitmapOpenCV = bitmap;
+            mlk.runTextRecognition(bitmap);
 
-                    //bitmap to bytearray
-                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-                    byte[] currentData = stream.toByteArray();
 
-                    //save in to gallery
-                    new SaveImageTask().execute(currentData);
 
+
+            Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap,scaledX, scaledY, true);
+            //bitmap을 byte array로 변환
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+
+             scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+
+            byte[] currentData = stream.toByteArray();
+
+            //파일로 저장
+
+
+
+            new SaveImageTask().execute(currentData);
+
+            IV.setImageBitmap(scaledBitmap);
         }
     };
 
@@ -372,17 +414,25 @@ class CameraPreview extends ViewGroup implements SurfaceHolder.Callback {
 
             try {
 
-                File path = new File (Environment.getExternalStorageDirectory().getAbsolutePath() + "/camtest");
+                File path = new File (Settings.imgloc);
                 if (!path.exists()) {
                     path.mkdirs();
                 }
 
-                String fileName = "__parking__temp__.jpg";
+                String fileName =imagecode+".jpg";
                 File outputFile = new File(path, fileName);
+                File outputText = new File(path,"ResultText.txt");
+
 
                 outStream = new FileOutputStream(outputFile);
                 outStream.write(data[0]);
                 outStream.flush();
+
+                outStream = new FileOutputStream(outputText);
+                if(resultString!=null) {
+                    byte[] tmpdata = resultString.getBytes();
+                    outStream.write(tmpdata);
+                }
                 outStream.close();
 
                 Log.d(TAG, "onPictureTaken - wrote bytes: " + data.length + " to "
@@ -401,13 +451,14 @@ class CameraPreview extends ViewGroup implements SurfaceHolder.Callback {
 
                 try {
                     mCamera.setPreviewDisplay(mHolder);
-                    mCamera.startPreview();
+                     mCamera.startPreview();
                     Log.d(TAG, "Camera preview started.");
                 } catch (Exception e) {
                     Log.d(TAG, "Error starting camera preview: " + e.getMessage());
                 }
 
-
+                    //imagecoe to mlkit
+                    mlk.setImageCode(imagecode);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (IOException e) {

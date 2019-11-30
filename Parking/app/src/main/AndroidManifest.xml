@@ -22,37 +22,45 @@
 
         >
         <activity
+            android:launchMode="singleTask"
             android:name=".Settings"
             android:label="@string/title_activity_settings"></activity>
         <activity android:name=".Login">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            android:launchMode="singleTask"
         </activity>
         <activity
+            android:launchMode="singleTask"
             android:name=".ActivityB"
             android:label="Activity B" />
         <activity
-
+            android:launchMode="singleTask"
             android:name=".ActivityA"
             android:label="Activity A" />
         <activity
+            android:launchMode="singleTask"
             android:name=".ActivityC"
             android:label="Activity C" />
         <activity
+            android:launchMode="singleTask"
             android:name=".ActivityD"
             android:label="Activity D" />
         <activity
-
+            android:launchMode="singleTask"
             android:name=".Loading"
 
             />
         <activity
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustPan"
 
-        android:name=".CameraMain"
+            android:name=".CameraMain"
 
-        />
+            />
     </application>
 
 

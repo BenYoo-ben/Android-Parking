@@ -24,12 +24,11 @@ public class Vehicle
         private String name = null;
         private String contact = null;
         private String vehicle_num = null;
-        private String vehicle_type = null;
         private String arrival_time = null;
         // ex  "11/03/14 09:29:58";
 
         private int minutes=0;
-        private int color;
+        private long imagecode;
         private int fair;
         public ImageView iv;
         public TextView tv;
@@ -52,10 +51,6 @@ public class Vehicle
         {
             return vehicle_num;
         }
-        public String getVehicle_type()
-        {
-            return vehicle_type;
-        }
         public String getArrival_time()
         {
             return arrival_time;
@@ -64,9 +59,9 @@ public class Vehicle
         {
             return minutes;
         }
-        public int getColor()
+        public long getImagecode()
         {
-            return color;
+            return imagecode;
         }
         public int getFair(){return fair;}
 
@@ -74,45 +69,38 @@ public class Vehicle
         public void setName(String name){ this.name =name; }
         public void setContact(String contact){ this.contact=contact; }
         public void setVehicle_num(String vehicle_num){ this.vehicle_num =vehicle_num; }
-        public void setVehicle_type(String vehicle_type){ this.vehicle_type =vehicle_type; }
         public void setArrival_time(String arrival_time){ this.arrival_time =arrival_time; }
         public void setMinutes(int minutes){ this.minutes=minutes; }
-        public void setColor(int color){this.color = color;}
+        public void setImagecode(long imagecode){this.imagecode = imagecode;}
         public void setFair(int fair){this.fair=fair;}
 
 
         public void Arrivaltimenow()
         {
-            SimpleDateFormat SF = new SimpleDateFormat("yy-MM-dd HH:mm");
+
+
             Calendar c = Calendar.getInstance();
-            this.arrival_time = SF.format(c.getTime());
+            this.arrival_time =   new Timer().SDF.format(c.getTime());
         }
 
 
        public Vehicle(){}
+
+       public Vehicle(String location,String name,String contact,String vehicle_num,String arrival_time,long imagecode)
+       {
+           setLocation(location);
+           setName(name);
+           setContact(contact);
+           setVehicle_num(vehicle_num);
+           setArrival_time(arrival_time);
+           setMinutes(0);
+           setImagecode(imagecode);
+           setFair(Settings.hour_fair);
+       }
+
         Vehicle(int num)
         {
             this.vehicle_num=Integer.toString(num);
-        }
-        public Vehicle(String vehicle_num,String name, String contact,String location,String vehicle_type,int color, String arrival_time)
-        {
-            this.location = location;
-            this.name =name;
-            this.contact = contact;
-            this.vehicle_num = vehicle_num;
-            this.vehicle_type = vehicle_type;
-            this.arrival_time = arrival_time;
-            this.color =color;
-        }
-        public Vehicle(String location,String name,String contact,String vehicle_num, String vehicle_type,int minutes,int color)
-        {
-            this.location = location;
-            this.name =name;
-            this.contact = contact;
-            this.vehicle_num = vehicle_num;
-            this.vehicle_type = vehicle_type;
-            this.minutes =minutes;
-            this.color =color;
         }
 
         public void ManualInput(){}
@@ -123,26 +111,24 @@ public class Vehicle
         {
 
             System.out.println();
-            System.out.println("vehicle_type :"+vehicle_type);
             System.out.println("location :"+location);
             System.out.println("name :"+name);
             System.out.println("contact :"+contact);
             System.out.println("vehicle_num :"+vehicle_num);
             System.out.println("arrival_time :"+arrival_time);
-            System.out.println("color :"+color);
+            System.out.println("imagecode :"+imagecode);
 
         }
         void VehiclePrint(Vehicle v)
         {
 
             System.out.println();
-            System.out.println("vehicle_type :"+v.vehicle_type);
             System.out.println("location :"+v.location);
             System.out.println("name :"+v.name);
             System.out.println("contact :"+v.contact);
             System.out.println("vehicle_num :"+v.vehicle_num);
             System.out.println("arrival_time :"+v.arrival_time);
-            System.out.println("color :"+v.color);
+            System.out.println("imagecode :"+v.imagecode);
 
         }
         void VehicleVectorPrint(Vector<Vehicle> V)
@@ -167,10 +153,9 @@ public class Vehicle
             newV.name =Integer.toString(test_int);
             newV.contact = Integer.toString(test_int);
             newV.vehicle_num = Integer.toString(test_int);
-            newV.vehicle_type = Integer.toString(test_int);
-            newV.color = (int)(Math.random()*16777215) + 0xFF000000;
+            newV.imagecode = (int)(Math.random()*16777215) + 0xFF000000;
             newV.Arrivaltimenow();
-
+            newV.fair = Settings.hour_fair;
 
 
             return newV;

@@ -23,7 +23,7 @@ public class VideoWriter {
     public static VideoWriter __fromPtr__(long addr) { return new VideoWriter(addr); }
 
     //
-    // C++:   cv::VideoWriter::VideoWriter(String filename, int apiPreference, int fourcc, double fps, Size frameSize, bool isColor = true)
+    // C++:   cv::VideoWriter::VideoWriter(String filename, int apiPreference, int fourcc, double fps, Size frameSize, bool iscolor = true)
     //
 
     /**
@@ -35,10 +35,10 @@ public class VideoWriter {
      * @param fourcc automatically generated
      * @param fps automatically generated
      * @param frameSize automatically generated
-     * @param isColor automatically generated
+     * @param iscolor automatically generated
      */
-    public VideoWriter(String filename, int apiPreference, int fourcc, double fps, Size frameSize, boolean isColor) {
-        nativeObj = VideoWriter_0(filename, apiPreference, fourcc, fps, frameSize.width, frameSize.height, isColor);
+    public VideoWriter(String filename, int apiPreference, int fourcc, double fps, Size frameSize, boolean iscolor) {
+        nativeObj = VideoWriter_0(filename, apiPreference, fourcc, fps, frameSize.width, frameSize.height, iscolor);
     }
 
     /**
@@ -57,7 +57,7 @@ public class VideoWriter {
 
 
     //
-    // C++:   cv::VideoWriter::VideoWriter(String filename, int fourcc, double fps, Size frameSize, bool isColor = true)
+    // C++:   cv::VideoWriter::VideoWriter(String filename, int fourcc, double fps, Size frameSize, bool iscolor = true)
     //
 
     /**
@@ -71,7 +71,7 @@ public class VideoWriter {
      *     so you may receive a warning message from OpenCV about fourcc code conversion.
      *     @param fps Framerate of the created video stream.
      *     @param frameSize Size of the video frames.
-     *     @param isColor If it is not zero, the encoder will expect and encode color frames, otherwise it
+     *     @param iscolor If it is not zero, the encoder will expect and encode color frames, otherwise it
      *     will work with grayscale frames (the flag is currently supported on Windows only).
      *
      *     <b>Tips</b>:
@@ -92,8 +92,8 @@ public class VideoWriter {
      *   </li>
      * </ul>
      */
-    public VideoWriter(String filename, int fourcc, double fps, Size frameSize, boolean isColor) {
-        nativeObj = VideoWriter_2(filename, fourcc, fps, frameSize.width, frameSize.height, isColor);
+    public VideoWriter(String filename, int fourcc, double fps, Size frameSize, boolean iscolor) {
+        nativeObj = VideoWriter_2(filename, fourcc, fps, frameSize.width, frameSize.height, iscolor);
     }
 
     /**
@@ -186,11 +186,11 @@ public class VideoWriter {
 
 
     //
-    // C++:  bool cv::VideoWriter::open(String filename, int apiPreference, int fourcc, double fps, Size frameSize, bool isColor = true)
+    // C++:  bool cv::VideoWriter::open(String filename, int apiPreference, int fourcc, double fps, Size frameSize, bool iscolor = true)
     //
 
-    public boolean open(String filename, int apiPreference, int fourcc, double fps, Size frameSize, boolean isColor) {
-        return open_0(nativeObj, filename, apiPreference, fourcc, fps, frameSize.width, frameSize.height, isColor);
+    public boolean open(String filename, int apiPreference, int fourcc, double fps, Size frameSize, boolean iscolor) {
+        return open_0(nativeObj, filename, apiPreference, fourcc, fps, frameSize.width, frameSize.height, iscolor);
     }
 
     public boolean open(String filename, int apiPreference, int fourcc, double fps, Size frameSize) {
@@ -199,7 +199,7 @@ public class VideoWriter {
 
 
     //
-    // C++:  bool cv::VideoWriter::open(String filename, int fourcc, double fps, Size frameSize, bool isColor = true)
+    // C++:  bool cv::VideoWriter::open(String filename, int fourcc, double fps, Size frameSize, bool iscolor = true)
     //
 
     /**
@@ -214,10 +214,10 @@ public class VideoWriter {
      * @param fourcc automatically generated
      * @param fps automatically generated
      * @param frameSize automatically generated
-     * @param isColor automatically generated
+     * @param iscolor automatically generated
      */
-    public boolean open(String filename, int fourcc, double fps, Size frameSize, boolean isColor) {
-        return open_2(nativeObj, filename, fourcc, fps, frameSize.width, frameSize.height, isColor);
+    public boolean open(String filename, int fourcc, double fps, Size frameSize, boolean iscolor) {
+        return open_2(nativeObj, filename, fourcc, fps, frameSize.width, frameSize.height, iscolor);
     }
 
     /**
@@ -334,12 +334,12 @@ public class VideoWriter {
 
 
 
-    // C++:   cv::VideoWriter::VideoWriter(String filename, int apiPreference, int fourcc, double fps, Size frameSize, bool isColor = true)
-    private static native long VideoWriter_0(String filename, int apiPreference, int fourcc, double fps, double frameSize_width, double frameSize_height, boolean isColor);
+    // C++:   cv::VideoWriter::VideoWriter(String filename, int apiPreference, int fourcc, double fps, Size frameSize, bool iscolor = true)
+    private static native long VideoWriter_0(String filename, int apiPreference, int fourcc, double fps, double frameSize_width, double frameSize_height, boolean iscolor);
     private static native long VideoWriter_1(String filename, int apiPreference, int fourcc, double fps, double frameSize_width, double frameSize_height);
 
-    // C++:   cv::VideoWriter::VideoWriter(String filename, int fourcc, double fps, Size frameSize, bool isColor = true)
-    private static native long VideoWriter_2(String filename, int fourcc, double fps, double frameSize_width, double frameSize_height, boolean isColor);
+    // C++:   cv::VideoWriter::VideoWriter(String filename, int fourcc, double fps, Size frameSize, bool iscolor = true)
+    private static native long VideoWriter_2(String filename, int fourcc, double fps, double frameSize_width, double frameSize_height, boolean iscolor);
     private static native long VideoWriter_3(String filename, int fourcc, double fps, double frameSize_width, double frameSize_height);
 
     // C++:   cv::VideoWriter::VideoWriter()
@@ -351,12 +351,12 @@ public class VideoWriter {
     // C++:  bool cv::VideoWriter::isOpened()
     private static native boolean isOpened_0(long nativeObj);
 
-    // C++:  bool cv::VideoWriter::open(String filename, int apiPreference, int fourcc, double fps, Size frameSize, bool isColor = true)
-    private static native boolean open_0(long nativeObj, String filename, int apiPreference, int fourcc, double fps, double frameSize_width, double frameSize_height, boolean isColor);
+    // C++:  bool cv::VideoWriter::open(String filename, int apiPreference, int fourcc, double fps, Size frameSize, bool iscolor = true)
+    private static native boolean open_0(long nativeObj, String filename, int apiPreference, int fourcc, double fps, double frameSize_width, double frameSize_height, boolean iscolor);
     private static native boolean open_1(long nativeObj, String filename, int apiPreference, int fourcc, double fps, double frameSize_width, double frameSize_height);
 
-    // C++:  bool cv::VideoWriter::open(String filename, int fourcc, double fps, Size frameSize, bool isColor = true)
-    private static native boolean open_2(long nativeObj, String filename, int fourcc, double fps, double frameSize_width, double frameSize_height, boolean isColor);
+    // C++:  bool cv::VideoWriter::open(String filename, int fourcc, double fps, Size frameSize, bool iscolor = true)
+    private static native boolean open_2(long nativeObj, String filename, int fourcc, double fps, double frameSize_width, double frameSize_height, boolean iscolor);
     private static native boolean open_3(long nativeObj, String filename, int fourcc, double fps, double frameSize_width, double frameSize_height);
 
     // C++:  bool cv::VideoWriter::set(int propId, double value)

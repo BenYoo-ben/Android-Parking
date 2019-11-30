@@ -2,12 +2,16 @@ package com.example.parking;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.hardware.Camera;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +19,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.google.android.material.snackbar.Snackbar;
+
+import java.util.Calendar;
 
 
 public class CameraMain extends AppCompatActivity
@@ -29,6 +35,11 @@ public class CameraMain extends AppCompatActivity
     private SurfaceView surfaceView;
     private CameraPreview mCameraPreview;
     private View mLayout;
+    private Button Confirm_Button;
+    private MLKit mlk;
+    private EditText[] VPC = new EditText[3];
+    private ImageView IV;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,15 +61,55 @@ public class CameraMain extends AppCompatActivity
 
         //Until permission is not granted, surfaceview is not visible.
         surfaceView.setVisibility(View.GONE);
+        VPC[0] = (EditText)findViewById(R.id.edit_v);
+        VPC[1] = (EditText)findViewById(R.id.edit_p);
+        VPC[2] = (EditText)findViewById(R.id.edit_c);
+        IV = (ImageView)findViewById(R.id.ImagePreview);
 
-        Button button = findViewById(R.id.button_main_capture);
-        button.setOnClickListener(new View.OnClickListener() {
+        Confirm_Button = (Button)findViewById(R.id.Confirm_Button);
+        Confirm_Button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    boolean b = true;
+                    for(int i=0;i<3;i++)
+                    {
+                        if(VPC[0].getText().toString().equals("")){
+                            b=false;
+                        }
+                    }
+                    if(b==true)
+                    {
+                        Calendar c = Calendar.getInstance();
+
+                        Vehicle newV = new Vehicle(Settings.location,VPC[2].getText().toString(),VPC[1].getText().toString(),VPC[0].getText().toString(),
+                            new Timer().SDF.format(c.getTime()),mlk.getImageCode());
+                        FirebaseController.addVehicle(newV);
+                        finish();
+                    }
+            }
+        });
+
+        surfaceView.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 mCameraPreview.takePicture();
             }
         });
+        surfaceView.setOnTouchListener(new View.OnTouchListener()
+        {
+
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN)
+                {
+                    mCameraPreview.Focused();
+                }
+                return false;
+            }
+        });
+
 
 
 
@@ -119,7 +170,12 @@ public class CameraMain extends AppCompatActivity
     void startCamera(){
 
         // Create the Preview view and set it as the content of this Activity.
+        mlk = new MLKit(getApplicationContext());
+        mlk.getVPC(VPC);
         mCameraPreview = new CameraPreview(this, this, CAMERA_FACING, surfaceView);
+        mCameraPreview.setBackgroundColor(Color.TRANSPARENT);
+        mCameraPreview.getMLK(mlk);
+        mCameraPreview.getImageView(IV);
 
     }
 

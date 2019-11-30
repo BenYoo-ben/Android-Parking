@@ -3,6 +3,7 @@ package com.example.parking;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.os.Environment;
 import android.preference.PreferenceFragment;
 
 import androidx.annotation.Nullable;
@@ -12,6 +13,9 @@ import androidx.appcompat.app.AppCompatActivity;
 public class Settings extends AppCompatActivity {
     static int hour_fair = 2500;
     static String contact="010-0000-0000";
+    static String imgloc = Environment.getDataDirectory().getAbsolutePath()+"/ParkingCarPictures/";
+    static String location = "Seoul Gangnam-gu P2";
+
 
 
     @Override

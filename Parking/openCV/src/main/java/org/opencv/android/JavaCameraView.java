@@ -319,9 +319,9 @@ public class JavaCameraView extends CameraBridgeViewBase implements PreviewCallb
         @Override
         public Mat rgba() {
             if (mPreviewFormat == ImageFormat.NV21)
-                Imgproc.cvtColor(mYuvFrameData, mRgba, Imgproc.COLOR_YUV2RGBA_NV21, 4);
+                Imgproc.cvtcolor(mYuvFrameData, mRgba, Imgproc.color_YUV2RGBA_NV21, 4);
             else if (mPreviewFormat == ImageFormat.YV12)
-                Imgproc.cvtColor(mYuvFrameData, mRgba, Imgproc.COLOR_YUV2RGB_I420, 4);  // COLOR_YUV2RGBA_YV12 produces inverted colors
+                Imgproc.cvtcolor(mYuvFrameData, mRgba, Imgproc.color_YUV2RGB_I420, 4);  // color_YUV2RGBA_YV12 produces inverted colors
             else
                 throw new IllegalArgumentException("Preview Format can be NV21 or YV12");
 

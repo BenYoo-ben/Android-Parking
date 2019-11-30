@@ -44,7 +44,6 @@ dependencies {
     testImplementation 'junit:junit:4.12'
 
     implementation 'com.android.support:design:28.0.0'
-    implementation project(path: ':openCV')
 
     implementation  'com.itextpdf:itextg:5.5.10'
 
@@ -52,4 +51,8 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.3'
 
 
+    implementation 'com.google.firebase:firebase-ml-vision:24.0.1'
+    implementation 'com.google.firebase:firebase-ml-vision-image-label-model:19.0.0'
+    implementation 'com.google.firebase:firebase-ml-vision-face-model:19.0.0'
+    implementation 'com.google.firebase:firebase-ml-model-interpreter:22.0.1'
 }

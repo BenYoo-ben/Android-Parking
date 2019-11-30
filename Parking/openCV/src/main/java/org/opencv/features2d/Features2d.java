@@ -35,7 +35,7 @@ public class Features2d {
      * @param keypoints Keypoints from the source image.
      * @param outImage Output image. Its content depends on the flags value defining what is drawn in the
      * output image. See possible flags bit values below.
-     * @param color Color of keypoints.
+     * @param color color of keypoints.
      * @param flags Flags setting drawing features. Possible flags bit values are defined by
      * DrawMatchesFlags. See details above in drawMatches .
      *
@@ -56,7 +56,7 @@ public class Features2d {
      * @param keypoints Keypoints from the source image.
      * @param outImage Output image. Its content depends on the flags value defining what is drawn in the
      * output image. See possible flags bit values below.
-     * @param color Color of keypoints.
+     * @param color color of keypoints.
      * DrawMatchesFlags. See details above in drawMatches .
      *
      * <b>Note:</b>
@@ -90,7 +90,7 @@ public class Features2d {
 
 
     //
-    // C++:  void cv::drawMatches(Mat img1, vector_KeyPoint keypoints1, Mat img2, vector_KeyPoint keypoints2, vector_DMatch matches1to2, Mat& outImg, Scalar matchColor = Scalar::all(-1), Scalar singlePointColor = Scalar::all(-1), vector_char matchesMask = std::vector<char>(), DrawMatchesFlags flags = DrawMatchesFlags::DEFAULT)
+    // C++:  void cv::drawMatches(Mat img1, vector_KeyPoint keypoints1, Mat img2, vector_KeyPoint keypoints2, vector_DMatch matches1to2, Mat& outImg, Scalar matchcolor = Scalar::all(-1), Scalar singlePointcolor = Scalar::all(-1), vector_char matchesMask = std::vector<char>(), DrawMatchesFlags flags = DrawMatchesFlags::DEFAULT)
     //
 
     /**
@@ -104,10 +104,10 @@ public class Features2d {
      * has a corresponding point in keypoints2[matches[i]] .
      * @param outImg Output image. Its content depends on the flags value defining what is drawn in the
      * output image. See possible flags bit values below.
-     * @param matchColor Color of matches (lines and connected keypoints). If matchColor==Scalar::all(-1)
+     * @param matchcolor color of matches (lines and connected keypoints). If matchcolor==Scalar::all(-1)
      * , the color is generated randomly.
-     * @param singlePointColor Color of single keypoints (circles), which means that keypoints do not
-     * have the matches. If singlePointColor==Scalar::all(-1) , the color is generated randomly.
+     * @param singlePointcolor color of single keypoints (circles), which means that keypoints do not
+     * have the matches. If singlePointcolor==Scalar::all(-1) , the color is generated randomly.
      * @param matchesMask Mask determining which matches are drawn. If the mask is empty, all matches are
      * drawn.
      * @param flags Flags setting drawing features. Possible flags bit values are defined by
@@ -116,12 +116,12 @@ public class Features2d {
      * This function draws matches of keypoints from two images in the output image. Match is a line
      * connecting two keypoints (circles). See cv::DrawMatchesFlags.
      */
-    public static void drawMatches(Mat img1, MatOfKeyPoint keypoints1, Mat img2, MatOfKeyPoint keypoints2, MatOfDMatch matches1to2, Mat outImg, Scalar matchColor, Scalar singlePointColor, MatOfByte matchesMask, int flags) {
+    public static void drawMatches(Mat img1, MatOfKeyPoint keypoints1, Mat img2, MatOfKeyPoint keypoints2, MatOfDMatch matches1to2, Mat outImg, Scalar matchcolor, Scalar singlePointcolor, MatOfByte matchesMask, int flags) {
         Mat keypoints1_mat = keypoints1;
         Mat keypoints2_mat = keypoints2;
         Mat matches1to2_mat = matches1to2;
         Mat matchesMask_mat = matchesMask;
-        drawMatches_0(img1.nativeObj, keypoints1_mat.nativeObj, img2.nativeObj, keypoints2_mat.nativeObj, matches1to2_mat.nativeObj, outImg.nativeObj, matchColor.val[0], matchColor.val[1], matchColor.val[2], matchColor.val[3], singlePointColor.val[0], singlePointColor.val[1], singlePointColor.val[2], singlePointColor.val[3], matchesMask_mat.nativeObj, flags);
+        drawMatches_0(img1.nativeObj, keypoints1_mat.nativeObj, img2.nativeObj, keypoints2_mat.nativeObj, matches1to2_mat.nativeObj, outImg.nativeObj, matchcolor.val[0], matchcolor.val[1], matchcolor.val[2], matchcolor.val[3], singlePointcolor.val[0], singlePointcolor.val[1], singlePointcolor.val[2], singlePointcolor.val[3], matchesMask_mat.nativeObj, flags);
     }
 
     /**
@@ -135,10 +135,10 @@ public class Features2d {
      * has a corresponding point in keypoints2[matches[i]] .
      * @param outImg Output image. Its content depends on the flags value defining what is drawn in the
      * output image. See possible flags bit values below.
-     * @param matchColor Color of matches (lines and connected keypoints). If matchColor==Scalar::all(-1)
+     * @param matchcolor color of matches (lines and connected keypoints). If matchcolor==Scalar::all(-1)
      * , the color is generated randomly.
-     * @param singlePointColor Color of single keypoints (circles), which means that keypoints do not
-     * have the matches. If singlePointColor==Scalar::all(-1) , the color is generated randomly.
+     * @param singlePointcolor color of single keypoints (circles), which means that keypoints do not
+     * have the matches. If singlePointcolor==Scalar::all(-1) , the color is generated randomly.
      * @param matchesMask Mask determining which matches are drawn. If the mask is empty, all matches are
      * drawn.
      * DrawMatchesFlags.
@@ -146,12 +146,12 @@ public class Features2d {
      * This function draws matches of keypoints from two images in the output image. Match is a line
      * connecting two keypoints (circles). See cv::DrawMatchesFlags.
      */
-    public static void drawMatches(Mat img1, MatOfKeyPoint keypoints1, Mat img2, MatOfKeyPoint keypoints2, MatOfDMatch matches1to2, Mat outImg, Scalar matchColor, Scalar singlePointColor, MatOfByte matchesMask) {
+    public static void drawMatches(Mat img1, MatOfKeyPoint keypoints1, Mat img2, MatOfKeyPoint keypoints2, MatOfDMatch matches1to2, Mat outImg, Scalar matchcolor, Scalar singlePointcolor, MatOfByte matchesMask) {
         Mat keypoints1_mat = keypoints1;
         Mat keypoints2_mat = keypoints2;
         Mat matches1to2_mat = matches1to2;
         Mat matchesMask_mat = matchesMask;
-        drawMatches_1(img1.nativeObj, keypoints1_mat.nativeObj, img2.nativeObj, keypoints2_mat.nativeObj, matches1to2_mat.nativeObj, outImg.nativeObj, matchColor.val[0], matchColor.val[1], matchColor.val[2], matchColor.val[3], singlePointColor.val[0], singlePointColor.val[1], singlePointColor.val[2], singlePointColor.val[3], matchesMask_mat.nativeObj);
+        drawMatches_1(img1.nativeObj, keypoints1_mat.nativeObj, img2.nativeObj, keypoints2_mat.nativeObj, matches1to2_mat.nativeObj, outImg.nativeObj, matchcolor.val[0], matchcolor.val[1], matchcolor.val[2], matchcolor.val[3], singlePointcolor.val[0], singlePointcolor.val[1], singlePointcolor.val[2], singlePointcolor.val[3], matchesMask_mat.nativeObj);
     }
 
     /**
@@ -165,21 +165,21 @@ public class Features2d {
      * has a corresponding point in keypoints2[matches[i]] .
      * @param outImg Output image. Its content depends on the flags value defining what is drawn in the
      * output image. See possible flags bit values below.
-     * @param matchColor Color of matches (lines and connected keypoints). If matchColor==Scalar::all(-1)
+     * @param matchcolor color of matches (lines and connected keypoints). If matchcolor==Scalar::all(-1)
      * , the color is generated randomly.
-     * @param singlePointColor Color of single keypoints (circles), which means that keypoints do not
-     * have the matches. If singlePointColor==Scalar::all(-1) , the color is generated randomly.
+     * @param singlePointcolor color of single keypoints (circles), which means that keypoints do not
+     * have the matches. If singlePointcolor==Scalar::all(-1) , the color is generated randomly.
      * drawn.
      * DrawMatchesFlags.
      *
      * This function draws matches of keypoints from two images in the output image. Match is a line
      * connecting two keypoints (circles). See cv::DrawMatchesFlags.
      */
-    public static void drawMatches(Mat img1, MatOfKeyPoint keypoints1, Mat img2, MatOfKeyPoint keypoints2, MatOfDMatch matches1to2, Mat outImg, Scalar matchColor, Scalar singlePointColor) {
+    public static void drawMatches(Mat img1, MatOfKeyPoint keypoints1, Mat img2, MatOfKeyPoint keypoints2, MatOfDMatch matches1to2, Mat outImg, Scalar matchcolor, Scalar singlePointcolor) {
         Mat keypoints1_mat = keypoints1;
         Mat keypoints2_mat = keypoints2;
         Mat matches1to2_mat = matches1to2;
-        drawMatches_2(img1.nativeObj, keypoints1_mat.nativeObj, img2.nativeObj, keypoints2_mat.nativeObj, matches1to2_mat.nativeObj, outImg.nativeObj, matchColor.val[0], matchColor.val[1], matchColor.val[2], matchColor.val[3], singlePointColor.val[0], singlePointColor.val[1], singlePointColor.val[2], singlePointColor.val[3]);
+        drawMatches_2(img1.nativeObj, keypoints1_mat.nativeObj, img2.nativeObj, keypoints2_mat.nativeObj, matches1to2_mat.nativeObj, outImg.nativeObj, matchcolor.val[0], matchcolor.val[1], matchcolor.val[2], matchcolor.val[3], singlePointcolor.val[0], singlePointcolor.val[1], singlePointcolor.val[2], singlePointcolor.val[3]);
     }
 
     /**
@@ -193,20 +193,20 @@ public class Features2d {
      * has a corresponding point in keypoints2[matches[i]] .
      * @param outImg Output image. Its content depends on the flags value defining what is drawn in the
      * output image. See possible flags bit values below.
-     * @param matchColor Color of matches (lines and connected keypoints). If matchColor==Scalar::all(-1)
+     * @param matchcolor color of matches (lines and connected keypoints). If matchcolor==Scalar::all(-1)
      * , the color is generated randomly.
-     * have the matches. If singlePointColor==Scalar::all(-1) , the color is generated randomly.
+     * have the matches. If singlePointcolor==Scalar::all(-1) , the color is generated randomly.
      * drawn.
      * DrawMatchesFlags.
      *
      * This function draws matches of keypoints from two images in the output image. Match is a line
      * connecting two keypoints (circles). See cv::DrawMatchesFlags.
      */
-    public static void drawMatches(Mat img1, MatOfKeyPoint keypoints1, Mat img2, MatOfKeyPoint keypoints2, MatOfDMatch matches1to2, Mat outImg, Scalar matchColor) {
+    public static void drawMatches(Mat img1, MatOfKeyPoint keypoints1, Mat img2, MatOfKeyPoint keypoints2, MatOfDMatch matches1to2, Mat outImg, Scalar matchcolor) {
         Mat keypoints1_mat = keypoints1;
         Mat keypoints2_mat = keypoints2;
         Mat matches1to2_mat = matches1to2;
-        drawMatches_3(img1.nativeObj, keypoints1_mat.nativeObj, img2.nativeObj, keypoints2_mat.nativeObj, matches1to2_mat.nativeObj, outImg.nativeObj, matchColor.val[0], matchColor.val[1], matchColor.val[2], matchColor.val[3]);
+        drawMatches_3(img1.nativeObj, keypoints1_mat.nativeObj, img2.nativeObj, keypoints2_mat.nativeObj, matches1to2_mat.nativeObj, outImg.nativeObj, matchcolor.val[0], matchcolor.val[1], matchcolor.val[2], matchcolor.val[3]);
     }
 
     /**
@@ -221,7 +221,7 @@ public class Features2d {
      * @param outImg Output image. Its content depends on the flags value defining what is drawn in the
      * output image. See possible flags bit values below.
      * , the color is generated randomly.
-     * have the matches. If singlePointColor==Scalar::all(-1) , the color is generated randomly.
+     * have the matches. If singlePointcolor==Scalar::all(-1) , the color is generated randomly.
      * drawn.
      * DrawMatchesFlags.
      *
@@ -237,43 +237,43 @@ public class Features2d {
 
 
     //
-    // C++:  void cv::drawMatches(Mat img1, vector_KeyPoint keypoints1, Mat img2, vector_KeyPoint keypoints2, vector_vector_DMatch matches1to2, Mat& outImg, Scalar matchColor = Scalar::all(-1), Scalar singlePointColor = Scalar::all(-1), vector_vector_char matchesMask = std::vector<std::vector<char> >(), DrawMatchesFlags flags = DrawMatchesFlags::DEFAULT)
+    // C++:  void cv::drawMatches(Mat img1, vector_KeyPoint keypoints1, Mat img2, vector_KeyPoint keypoints2, vector_vector_DMatch matches1to2, Mat& outImg, Scalar matchcolor = Scalar::all(-1), Scalar singlePointcolor = Scalar::all(-1), vector_vector_char matchesMask = std::vector<std::vector<char> >(), DrawMatchesFlags flags = DrawMatchesFlags::DEFAULT)
     //
 
-    public static void drawMatchesKnn(Mat img1, MatOfKeyPoint keypoints1, Mat img2, MatOfKeyPoint keypoints2, List<MatOfDMatch> matches1to2, Mat outImg, Scalar matchColor, Scalar singlePointColor, List<MatOfByte> matchesMask, int flags) {
+    public static void drawMatchesKnn(Mat img1, MatOfKeyPoint keypoints1, Mat img2, MatOfKeyPoint keypoints2, List<MatOfDMatch> matches1to2, Mat outImg, Scalar matchcolor, Scalar singlePointcolor, List<MatOfByte> matchesMask, int flags) {
         Mat keypoints1_mat = keypoints1;
         Mat keypoints2_mat = keypoints2;
         List<Mat> matches1to2_tmplm = new ArrayList<Mat>((matches1to2 != null) ? matches1to2.size() : 0);
         Mat matches1to2_mat = Converters.vector_vector_DMatch_to_Mat(matches1to2, matches1to2_tmplm);
         List<Mat> matchesMask_tmplm = new ArrayList<Mat>((matchesMask != null) ? matchesMask.size() : 0);
         Mat matchesMask_mat = Converters.vector_vector_char_to_Mat(matchesMask, matchesMask_tmplm);
-        drawMatchesKnn_0(img1.nativeObj, keypoints1_mat.nativeObj, img2.nativeObj, keypoints2_mat.nativeObj, matches1to2_mat.nativeObj, outImg.nativeObj, matchColor.val[0], matchColor.val[1], matchColor.val[2], matchColor.val[3], singlePointColor.val[0], singlePointColor.val[1], singlePointColor.val[2], singlePointColor.val[3], matchesMask_mat.nativeObj, flags);
+        drawMatchesKnn_0(img1.nativeObj, keypoints1_mat.nativeObj, img2.nativeObj, keypoints2_mat.nativeObj, matches1to2_mat.nativeObj, outImg.nativeObj, matchcolor.val[0], matchcolor.val[1], matchcolor.val[2], matchcolor.val[3], singlePointcolor.val[0], singlePointcolor.val[1], singlePointcolor.val[2], singlePointcolor.val[3], matchesMask_mat.nativeObj, flags);
     }
 
-    public static void drawMatchesKnn(Mat img1, MatOfKeyPoint keypoints1, Mat img2, MatOfKeyPoint keypoints2, List<MatOfDMatch> matches1to2, Mat outImg, Scalar matchColor, Scalar singlePointColor, List<MatOfByte> matchesMask) {
+    public static void drawMatchesKnn(Mat img1, MatOfKeyPoint keypoints1, Mat img2, MatOfKeyPoint keypoints2, List<MatOfDMatch> matches1to2, Mat outImg, Scalar matchcolor, Scalar singlePointcolor, List<MatOfByte> matchesMask) {
         Mat keypoints1_mat = keypoints1;
         Mat keypoints2_mat = keypoints2;
         List<Mat> matches1to2_tmplm = new ArrayList<Mat>((matches1to2 != null) ? matches1to2.size() : 0);
         Mat matches1to2_mat = Converters.vector_vector_DMatch_to_Mat(matches1to2, matches1to2_tmplm);
         List<Mat> matchesMask_tmplm = new ArrayList<Mat>((matchesMask != null) ? matchesMask.size() : 0);
         Mat matchesMask_mat = Converters.vector_vector_char_to_Mat(matchesMask, matchesMask_tmplm);
-        drawMatchesKnn_1(img1.nativeObj, keypoints1_mat.nativeObj, img2.nativeObj, keypoints2_mat.nativeObj, matches1to2_mat.nativeObj, outImg.nativeObj, matchColor.val[0], matchColor.val[1], matchColor.val[2], matchColor.val[3], singlePointColor.val[0], singlePointColor.val[1], singlePointColor.val[2], singlePointColor.val[3], matchesMask_mat.nativeObj);
+        drawMatchesKnn_1(img1.nativeObj, keypoints1_mat.nativeObj, img2.nativeObj, keypoints2_mat.nativeObj, matches1to2_mat.nativeObj, outImg.nativeObj, matchcolor.val[0], matchcolor.val[1], matchcolor.val[2], matchcolor.val[3], singlePointcolor.val[0], singlePointcolor.val[1], singlePointcolor.val[2], singlePointcolor.val[3], matchesMask_mat.nativeObj);
     }
 
-    public static void drawMatchesKnn(Mat img1, MatOfKeyPoint keypoints1, Mat img2, MatOfKeyPoint keypoints2, List<MatOfDMatch> matches1to2, Mat outImg, Scalar matchColor, Scalar singlePointColor) {
+    public static void drawMatchesKnn(Mat img1, MatOfKeyPoint keypoints1, Mat img2, MatOfKeyPoint keypoints2, List<MatOfDMatch> matches1to2, Mat outImg, Scalar matchcolor, Scalar singlePointcolor) {
         Mat keypoints1_mat = keypoints1;
         Mat keypoints2_mat = keypoints2;
         List<Mat> matches1to2_tmplm = new ArrayList<Mat>((matches1to2 != null) ? matches1to2.size() : 0);
         Mat matches1to2_mat = Converters.vector_vector_DMatch_to_Mat(matches1to2, matches1to2_tmplm);
-        drawMatchesKnn_2(img1.nativeObj, keypoints1_mat.nativeObj, img2.nativeObj, keypoints2_mat.nativeObj, matches1to2_mat.nativeObj, outImg.nativeObj, matchColor.val[0], matchColor.val[1], matchColor.val[2], matchColor.val[3], singlePointColor.val[0], singlePointColor.val[1], singlePointColor.val[2], singlePointColor.val[3]);
+        drawMatchesKnn_2(img1.nativeObj, keypoints1_mat.nativeObj, img2.nativeObj, keypoints2_mat.nativeObj, matches1to2_mat.nativeObj, outImg.nativeObj, matchcolor.val[0], matchcolor.val[1], matchcolor.val[2], matchcolor.val[3], singlePointcolor.val[0], singlePointcolor.val[1], singlePointcolor.val[2], singlePointcolor.val[3]);
     }
 
-    public static void drawMatchesKnn(Mat img1, MatOfKeyPoint keypoints1, Mat img2, MatOfKeyPoint keypoints2, List<MatOfDMatch> matches1to2, Mat outImg, Scalar matchColor) {
+    public static void drawMatchesKnn(Mat img1, MatOfKeyPoint keypoints1, Mat img2, MatOfKeyPoint keypoints2, List<MatOfDMatch> matches1to2, Mat outImg, Scalar matchcolor) {
         Mat keypoints1_mat = keypoints1;
         Mat keypoints2_mat = keypoints2;
         List<Mat> matches1to2_tmplm = new ArrayList<Mat>((matches1to2 != null) ? matches1to2.size() : 0);
         Mat matches1to2_mat = Converters.vector_vector_DMatch_to_Mat(matches1to2, matches1to2_tmplm);
-        drawMatchesKnn_3(img1.nativeObj, keypoints1_mat.nativeObj, img2.nativeObj, keypoints2_mat.nativeObj, matches1to2_mat.nativeObj, outImg.nativeObj, matchColor.val[0], matchColor.val[1], matchColor.val[2], matchColor.val[3]);
+        drawMatchesKnn_3(img1.nativeObj, keypoints1_mat.nativeObj, img2.nativeObj, keypoints2_mat.nativeObj, matches1to2_mat.nativeObj, outImg.nativeObj, matchcolor.val[0], matchcolor.val[1], matchcolor.val[2], matchcolor.val[3]);
     }
 
     public static void drawMatchesKnn(Mat img1, MatOfKeyPoint keypoints1, Mat img2, MatOfKeyPoint keypoints2, List<MatOfDMatch> matches1to2, Mat outImg) {
@@ -292,18 +292,18 @@ public class Features2d {
     private static native void drawKeypoints_1(long image_nativeObj, long keypoints_mat_nativeObj, long outImage_nativeObj, double color_val0, double color_val1, double color_val2, double color_val3);
     private static native void drawKeypoints_2(long image_nativeObj, long keypoints_mat_nativeObj, long outImage_nativeObj);
 
-    // C++:  void cv::drawMatches(Mat img1, vector_KeyPoint keypoints1, Mat img2, vector_KeyPoint keypoints2, vector_DMatch matches1to2, Mat& outImg, Scalar matchColor = Scalar::all(-1), Scalar singlePointColor = Scalar::all(-1), vector_char matchesMask = std::vector<char>(), DrawMatchesFlags flags = DrawMatchesFlags::DEFAULT)
-    private static native void drawMatches_0(long img1_nativeObj, long keypoints1_mat_nativeObj, long img2_nativeObj, long keypoints2_mat_nativeObj, long matches1to2_mat_nativeObj, long outImg_nativeObj, double matchColor_val0, double matchColor_val1, double matchColor_val2, double matchColor_val3, double singlePointColor_val0, double singlePointColor_val1, double singlePointColor_val2, double singlePointColor_val3, long matchesMask_mat_nativeObj, int flags);
-    private static native void drawMatches_1(long img1_nativeObj, long keypoints1_mat_nativeObj, long img2_nativeObj, long keypoints2_mat_nativeObj, long matches1to2_mat_nativeObj, long outImg_nativeObj, double matchColor_val0, double matchColor_val1, double matchColor_val2, double matchColor_val3, double singlePointColor_val0, double singlePointColor_val1, double singlePointColor_val2, double singlePointColor_val3, long matchesMask_mat_nativeObj);
-    private static native void drawMatches_2(long img1_nativeObj, long keypoints1_mat_nativeObj, long img2_nativeObj, long keypoints2_mat_nativeObj, long matches1to2_mat_nativeObj, long outImg_nativeObj, double matchColor_val0, double matchColor_val1, double matchColor_val2, double matchColor_val3, double singlePointColor_val0, double singlePointColor_val1, double singlePointColor_val2, double singlePointColor_val3);
-    private static native void drawMatches_3(long img1_nativeObj, long keypoints1_mat_nativeObj, long img2_nativeObj, long keypoints2_mat_nativeObj, long matches1to2_mat_nativeObj, long outImg_nativeObj, double matchColor_val0, double matchColor_val1, double matchColor_val2, double matchColor_val3);
+    // C++:  void cv::drawMatches(Mat img1, vector_KeyPoint keypoints1, Mat img2, vector_KeyPoint keypoints2, vector_DMatch matches1to2, Mat& outImg, Scalar matchcolor = Scalar::all(-1), Scalar singlePointcolor = Scalar::all(-1), vector_char matchesMask = std::vector<char>(), DrawMatchesFlags flags = DrawMatchesFlags::DEFAULT)
+    private static native void drawMatches_0(long img1_nativeObj, long keypoints1_mat_nativeObj, long img2_nativeObj, long keypoints2_mat_nativeObj, long matches1to2_mat_nativeObj, long outImg_nativeObj, double matchcolor_val0, double matchcolor_val1, double matchcolor_val2, double matchcolor_val3, double singlePointcolor_val0, double singlePointcolor_val1, double singlePointcolor_val2, double singlePointcolor_val3, long matchesMask_mat_nativeObj, int flags);
+    private static native void drawMatches_1(long img1_nativeObj, long keypoints1_mat_nativeObj, long img2_nativeObj, long keypoints2_mat_nativeObj, long matches1to2_mat_nativeObj, long outImg_nativeObj, double matchcolor_val0, double matchcolor_val1, double matchcolor_val2, double matchcolor_val3, double singlePointcolor_val0, double singlePointcolor_val1, double singlePointcolor_val2, double singlePointcolor_val3, long matchesMask_mat_nativeObj);
+    private static native void drawMatches_2(long img1_nativeObj, long keypoints1_mat_nativeObj, long img2_nativeObj, long keypoints2_mat_nativeObj, long matches1to2_mat_nativeObj, long outImg_nativeObj, double matchcolor_val0, double matchcolor_val1, double matchcolor_val2, double matchcolor_val3, double singlePointcolor_val0, double singlePointcolor_val1, double singlePointcolor_val2, double singlePointcolor_val3);
+    private static native void drawMatches_3(long img1_nativeObj, long keypoints1_mat_nativeObj, long img2_nativeObj, long keypoints2_mat_nativeObj, long matches1to2_mat_nativeObj, long outImg_nativeObj, double matchcolor_val0, double matchcolor_val1, double matchcolor_val2, double matchcolor_val3);
     private static native void drawMatches_4(long img1_nativeObj, long keypoints1_mat_nativeObj, long img2_nativeObj, long keypoints2_mat_nativeObj, long matches1to2_mat_nativeObj, long outImg_nativeObj);
 
-    // C++:  void cv::drawMatches(Mat img1, vector_KeyPoint keypoints1, Mat img2, vector_KeyPoint keypoints2, vector_vector_DMatch matches1to2, Mat& outImg, Scalar matchColor = Scalar::all(-1), Scalar singlePointColor = Scalar::all(-1), vector_vector_char matchesMask = std::vector<std::vector<char> >(), DrawMatchesFlags flags = DrawMatchesFlags::DEFAULT)
-    private static native void drawMatchesKnn_0(long img1_nativeObj, long keypoints1_mat_nativeObj, long img2_nativeObj, long keypoints2_mat_nativeObj, long matches1to2_mat_nativeObj, long outImg_nativeObj, double matchColor_val0, double matchColor_val1, double matchColor_val2, double matchColor_val3, double singlePointColor_val0, double singlePointColor_val1, double singlePointColor_val2, double singlePointColor_val3, long matchesMask_mat_nativeObj, int flags);
-    private static native void drawMatchesKnn_1(long img1_nativeObj, long keypoints1_mat_nativeObj, long img2_nativeObj, long keypoints2_mat_nativeObj, long matches1to2_mat_nativeObj, long outImg_nativeObj, double matchColor_val0, double matchColor_val1, double matchColor_val2, double matchColor_val3, double singlePointColor_val0, double singlePointColor_val1, double singlePointColor_val2, double singlePointColor_val3, long matchesMask_mat_nativeObj);
-    private static native void drawMatchesKnn_2(long img1_nativeObj, long keypoints1_mat_nativeObj, long img2_nativeObj, long keypoints2_mat_nativeObj, long matches1to2_mat_nativeObj, long outImg_nativeObj, double matchColor_val0, double matchColor_val1, double matchColor_val2, double matchColor_val3, double singlePointColor_val0, double singlePointColor_val1, double singlePointColor_val2, double singlePointColor_val3);
-    private static native void drawMatchesKnn_3(long img1_nativeObj, long keypoints1_mat_nativeObj, long img2_nativeObj, long keypoints2_mat_nativeObj, long matches1to2_mat_nativeObj, long outImg_nativeObj, double matchColor_val0, double matchColor_val1, double matchColor_val2, double matchColor_val3);
+    // C++:  void cv::drawMatches(Mat img1, vector_KeyPoint keypoints1, Mat img2, vector_KeyPoint keypoints2, vector_vector_DMatch matches1to2, Mat& outImg, Scalar matchcolor = Scalar::all(-1), Scalar singlePointcolor = Scalar::all(-1), vector_vector_char matchesMask = std::vector<std::vector<char> >(), DrawMatchesFlags flags = DrawMatchesFlags::DEFAULT)
+    private static native void drawMatchesKnn_0(long img1_nativeObj, long keypoints1_mat_nativeObj, long img2_nativeObj, long keypoints2_mat_nativeObj, long matches1to2_mat_nativeObj, long outImg_nativeObj, double matchcolor_val0, double matchcolor_val1, double matchcolor_val2, double matchcolor_val3, double singlePointcolor_val0, double singlePointcolor_val1, double singlePointcolor_val2, double singlePointcolor_val3, long matchesMask_mat_nativeObj, int flags);
+    private static native void drawMatchesKnn_1(long img1_nativeObj, long keypoints1_mat_nativeObj, long img2_nativeObj, long keypoints2_mat_nativeObj, long matches1to2_mat_nativeObj, long outImg_nativeObj, double matchcolor_val0, double matchcolor_val1, double matchcolor_val2, double matchcolor_val3, double singlePointcolor_val0, double singlePointcolor_val1, double singlePointcolor_val2, double singlePointcolor_val3, long matchesMask_mat_nativeObj);
+    private static native void drawMatchesKnn_2(long img1_nativeObj, long keypoints1_mat_nativeObj, long img2_nativeObj, long keypoints2_mat_nativeObj, long matches1to2_mat_nativeObj, long outImg_nativeObj, double matchcolor_val0, double matchcolor_val1, double matchcolor_val2, double matchcolor_val3, double singlePointcolor_val0, double singlePointcolor_val1, double singlePointcolor_val2, double singlePointcolor_val3);
+    private static native void drawMatchesKnn_3(long img1_nativeObj, long keypoints1_mat_nativeObj, long img2_nativeObj, long keypoints2_mat_nativeObj, long matches1to2_mat_nativeObj, long outImg_nativeObj, double matchcolor_val0, double matchcolor_val1, double matchcolor_val2, double matchcolor_val3);
     private static native void drawMatchesKnn_4(long img1_nativeObj, long keypoints1_mat_nativeObj, long img2_nativeObj, long keypoints2_mat_nativeObj, long matches1to2_mat_nativeObj, long outImg_nativeObj);
 
 }

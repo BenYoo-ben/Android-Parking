@@ -117,32 +117,32 @@ public class Params {
 
 
     //
-    // C++: bool Params::filterByColor
+    // C++: bool Params::filterBycolor
     //
 
-    public boolean get_filterByColor() {
-        return get_filterByColor_0(nativeObj);
+    public boolean get_filterBycolor() {
+        return get_filterBycolor_0(nativeObj);
     }
 
 
     //
-    // C++: void Params::filterByColor
+    // C++: void Params::filterBycolor
     //
 
-    public void set_filterByColor(boolean filterByColor) {
-        set_filterByColor_0(nativeObj, filterByColor);
+    public void set_filterBycolor(boolean filterBycolor) {
+        set_filterBycolor_0(nativeObj, filterBycolor);
     }
 
 
     //
-    // C++: uchar Params::blobColor
+    // C++: uchar Params::blobcolor
     //
 
     // Return type 'uchar' is not supported, skipping the function
 
 
     //
-    // C++: void Params::blobColor
+    // C++: void Params::blobcolor
     //
 
     // Unknown type 'uchar' (I), skipping the function
@@ -404,11 +404,11 @@ public class Params {
     // C++: void Params::minDistBetweenBlobs
     private static native void set_minDistBetweenBlobs_0(long nativeObj, float minDistBetweenBlobs);
 
-    // C++: bool Params::filterByColor
-    private static native boolean get_filterByColor_0(long nativeObj);
+    // C++: bool Params::filterBycolor
+    private static native boolean get_filterBycolor_0(long nativeObj);
 
-    // C++: void Params::filterByColor
-    private static native void set_filterByColor_0(long nativeObj, boolean filterByColor);
+    // C++: void Params::filterBycolor
+    private static native void set_filterBycolor_0(long nativeObj, boolean filterBycolor);
 
     // C++: bool Params::filterByArea
     private static native boolean get_filterByArea_0(long nativeObj);
