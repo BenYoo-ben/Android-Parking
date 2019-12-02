@@ -13,7 +13,8 @@ import androidx.appcompat.app.AppCompatActivity;
 public class Settings extends AppCompatActivity {
     static int hour_fair = 2500;
     static String contact="010-0000-0000";
-    static String imgloc = context.getFilesDir()+"/ParkingCarPictures/";
+
+    //static String imgloc =
     static String location = "Seoul Gangnam-gu P2";
 
 

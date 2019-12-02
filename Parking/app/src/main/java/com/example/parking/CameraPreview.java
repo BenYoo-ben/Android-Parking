@@ -59,8 +59,11 @@ class CameraPreview extends ViewGroup implements SurfaceHolder.Callback {
     private int scaledX=400, scaledY=400;
     private long imagecode;
 
+    private Context mContext;
+
     private ImageView IV;
 
+    public void getmContext(Context c){this.mContext=c;}
     public void getImageView(ImageView iv)
     {
         this.IV = iv;
@@ -414,10 +417,11 @@ class CameraPreview extends ViewGroup implements SurfaceHolder.Callback {
 
             try {
 
-                File path = new File (Settings.imgloc);
+                File path = new File (mContext.getFilesDir().getAbsolutePath());
                 if (!path.exists()) {
                     path.mkdirs();
                 }
+                Log.d("PATH",path.toString());
 
                 String fileName =imagecode+".jpg";
                 File outputFile = new File(path, fileName);

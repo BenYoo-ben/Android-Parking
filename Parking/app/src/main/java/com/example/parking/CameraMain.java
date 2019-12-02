@@ -1,6 +1,7 @@
 package com.example.parking;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.hardware.Camera;
@@ -176,6 +177,7 @@ public class CameraMain extends AppCompatActivity
         mCameraPreview.setBackgroundColor(Color.TRANSPARENT);
         mCameraPreview.getMLK(mlk);
         mCameraPreview.getImageView(IV);
+        mCameraPreview.getmContext(getApplicationContext());
 
     }
 

@@ -1,0 +1,64 @@
+{
+  "project_info": {
+    "project_number": "5208983064",
+    "firebase_url": "https://my-project-1533899069285.firebaseio.com",
+    "project_id": "my-project-1533899069285",
+    "storage_bucket": "my-project-1533899069285.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:5208983064:android:0aa35d1060f59d006fe56d",
+        "android_client_info": {
+          "package_name": "com.example.parking"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "5208983064-02qrdda6cegj5d9aetfb87d3lsikocig.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.parking",
+            "certificate_hash": "9d193ac8282ff76f4ce65d02c2c611235390e57e"
+          }
+        },
+        {
+          "client_id": "5208983064-t5in0ktib1to7mun084gsva81qek86oh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.parking",
+            "certificate_hash": "d99d5b5d61e06976f2af5244c696d1d702c7aa75"
+          }
+        },
+        {
+          "client_id": "5208983064-1s6h0l2dolm8gbvjkvuei1vi4olnhp8k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.parking",
+            "certificate_hash": "5a0e30f489d8149c624095440c814670ab7a00ad"
+          }
+        },
+        {
+          "client_id": "5208983064-0r1tr16hf1a7ch2pikphmssir1fr6448.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHc3RDo--AWp9fRGLFp6HkHiyqwS10YNU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "5208983064-0r1tr16hf1a7ch2pikphmssir1fr6448.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -10,6 +10,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -24,6 +26,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.lang.ref.WeakReference;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -41,6 +44,7 @@ public class ActivityB extends AppCompatActivity implements View.OnClickListener
     PopupWindow popup;
     DisplayMetrics displayMetrics;
     TextView IncomeSumTextView;
+    String IncomeSumText;
 
     public static float convertDpToPixel(float dp, Context context){
         return dp * ((float) context.getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
@@ -68,7 +72,8 @@ public class ActivityB extends AppCompatActivity implements View.OnClickListener
 
         textview1.setText(t.date.format(c.getTime())+"\n"+t.time.format(c.getTime()));
         textview2.setText(i.getVehicle_num());
-        textview3.setText("$ "+i.getMinutes()*Settings.hour_fair);
+
+        textview3.setText( new String("$ "+(i.getMinutes()/60)*i.getFair()));
 
         pixels1 = convertDpToPixel(10f,getApplicationContext());
         pixels2 = convertDpToPixel(8f,getApplicationContext());
@@ -138,10 +143,11 @@ public class ActivityB extends AppCompatActivity implements View.OnClickListener
         while (i.hasNext()) {
             Income income = (Income)i.next();
            addContent(scrollLinear,income);
-           money_sum += (income.getMinutes()/60)*Settings.hour_fair;
+           money_sum += (income.getMinutes()/60)*income.getFair();
         }
         System.out.println("END");
-        IncomeSumTextView.setText("$ "+money_sum);
+        TextRandom tr = new TextRandom(money_sum,IncomeSumTextView);
+        tr.start();
         return money_sum;
     }
 
@@ -230,15 +236,66 @@ public class ActivityB extends AppCompatActivity implements View.OnClickListener
         overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
     }
 
-     class MoneyRandomizer extends Thread
-     {
-        
-         
-         @Override
-         public void run()
-         {
-         }
-     }
+
+
+    private final TextHandler mTextHandler = new TextHandler(this);
+
+    private static class TextHandler extends Handler {
+        private final WeakReference<ActivityB> mActivity;
+        public TextHandler(ActivityB activity) {
+            mActivity = new WeakReference<ActivityB>(activity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            ActivityB activity = mActivity.get();
+            if (activity != null) {
+
+                activity.handleMessage(msg);
+            }
+        }
+    }
+
+    // Handler 에서 호출하는 함수
+    private void handleMessage(Message msg) {
+        IncomeSumTextView.setText(IncomeSumText);
+    }
+
+
+
+
+    class TextRandom extends Thread implements Runnable
+    {
+        long sum;
+        TextView tv;
+        int imax=333;
+        TextRandom(long sum, TextView tv)
+        {
+
+            this.sum = sum;
+            this.tv = tv;
+        }
+        @Override
+        public void run()
+        {
+
+
+                    for(int i= 0;i<imax;i++)
+                    {
+                        try {
+                            this.sleep(10);
+                            IncomeSumText="$ "+(int)(Math.random()*sum);
+                            mTextHandler.sendMessage(mTextHandler.obtainMessage());
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+            IncomeSumText="$ "+sum;
+            mTextHandler.sendMessage(mTextHandler.obtainMessage());
+        }
+
+    }
+
 }
-
-

@@ -13,6 +13,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
@@ -50,6 +52,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.File;
+import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -84,6 +87,8 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
     FrameLayout framelayout;
     PopupWindow popup;
 
+    String time_now;
+    String date_now;
 
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
 
@@ -112,8 +117,10 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
 
         LinearLayout.LayoutParams ilp = new LinearLayout.LayoutParams((int) (screen_width * 0.45), LinearLayout.LayoutParams.WRAP_CONTENT, 0.25f);
 
-        imageview.setImageBitmap(BitmapFactory.decodeFile(Settings.imgloc+veh.getImagecode()));
-        Log.d("HELPME!!",Settings.imgloc+veh.getImagecode());;
+        imageview.setImageBitmap(BitmapFactory.decodeFile(getApplicationContext().getFilesDir().getAbsolutePath()
+                +"/"+veh.getImagecode()+".jpg"));
+        Log.d("HELPME!!",getApplicationContext().getFilesDir().getAbsolutePath()
+                +veh.getImagecode()+".jpg");;
         imageview.setPadding(2, 2, 2, 2);
 
 
@@ -262,6 +269,7 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
         SearchEditText = (EditText) findViewById(R.id.search_edit_text7);
 
         SearchEditText.addTextChangedListener(this);
+
 
         TimeManager tm = new TimeManager(timeView, dateView);
         tm.start();
@@ -518,18 +526,38 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
     public void afterTextChanged(Editable s) {
 
     }
-}
+    private final TimeHandler mTimeHandler = new TimeHandler(this);
+
+    private static class TimeHandler extends Handler {
+        private final WeakReference<ActivityA> mActivity;
+        public TimeHandler(ActivityA activity) {
+            mActivity = new WeakReference<ActivityA>(activity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            ActivityA activity = mActivity.get();
+            if (activity != null) {
+
+                activity.handleMessage(msg);
+            }
+        }
+    }
+
+    // Handler 에서 호출하는 함수
+    private void handleMessage(Message msg) {
+        timeView.setText(time_now);
+        dateView.setText(date_now);
+    }
 
 
-
-
-class TimeManager extends Thread implements Runnable
-{
-    TextView timeView,dateView;
-    SimpleDateFormat format1;
-    SimpleDateFormat format2;
-    TimeManager(TextView time, TextView date)
+    class TimeManager extends Thread implements Runnable
     {
+        TextView timeView,dateView;
+        SimpleDateFormat format1;
+        SimpleDateFormat format2;
+        TimeManager(TextView time, TextView date)
+        {
 
             timeView = time;
             dateView = date;
@@ -537,38 +565,45 @@ class TimeManager extends Thread implements Runnable
             format2 = new SimpleDateFormat("HH : mm");
             System.out.println("time update");
 
-    }
-    @Override
-    public void run()
-    {
-        while(true) {
-            try {
-                gettimedata();
-                this.sleep(10000);
+        }
+        @Override
+        public void run()
+        {
+            while(true) {
+                try {
+                    this.sleep(10000);
+                    gettimedata();
+                    mTimeHandler.sendMessage(mTimeHandler.obtainMessage());
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+
+
             }
+        }
 
+        void gettimedata()
+        {
+
+
+
+            Calendar time = Calendar.getInstance();
+
+            String format_time1 = format1.format(time.getTime());
+            String format_time2 = format2.format(time.getTime());
+
+            System.out.println("@@@@@@@@@@@@@@@@@@@@@"+format_time1);
+            System.out.println("@@@@@@@@@@@@@@@@@@@@@"+format_time2);
+            time_now = format_time2;
+            date_now = format_time1;
 
         }
+
     }
 
-   void gettimedata()
-   {
-
-
-
-       Calendar time = Calendar.getInstance();
-
-       String format_time1 = format1.format(time.getTime());
-       String format_time2 = format2.format(time.getTime());
-
-       System.out.println("@@@@@@@@@@@@@@@@@@@@@"+format_time1);
-       System.out.println("@@@@@@@@@@@@@@@@@@@@@"+format_time2);
-       timeView.setText(format_time2);
-       dateView.setText(format_time1);
-
-   }
-
 }
+
+
+
+
