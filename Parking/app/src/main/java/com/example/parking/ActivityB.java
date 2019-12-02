@@ -229,4 +229,16 @@ public class ActivityB extends AppCompatActivity implements View.OnClickListener
         startActivity(new Intent(this,ActivityD.class));
         overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
     }
+
+     class MoneyRandomizer extends Thread
+     {
+        
+         
+         @Override
+         public void run()
+         {
+         }
+     }
 }
+
+
