@@ -1,3 +1,2 @@
-include ':app', ':myapplication', ':testmodule', ':cardslider'
+include ':app', ':myapplication', ':testmodule'
 rootProject.name='Parking'
-include ':openCV'

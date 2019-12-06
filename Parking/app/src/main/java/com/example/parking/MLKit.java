@@ -77,9 +77,16 @@ this.A = A;
 
                                 Log.d("RECOGNITION","Successful");
 
-                                rString = parseString(resultText(result,A));
-                                Log.d("RECOGNITION",rString);
-                                changeOnString(rString);
+                                if((rString = parseString(resultText(result,A)))!=null)
+                                {
+                                    Toast.makeText(A,"인식성공,"+rString,Toast.LENGTH_LONG);
+                                    Log.d("RECOGNITION", rString);
+                                    changeOnString(rString);
+                                }
+                                else{
+                                    Toast.makeText(A,"인식실패, 다시시도해주세요.",Toast.LENGTH_LONG);
+                                    Log.d("RECOGNITION","String=null, screwed");
+                                }
                             }
                         })
                 .addOnFailureListener(
@@ -140,6 +147,7 @@ return null;
         {
             results[i] = results[i].replaceAll(" ","");
             results[i] = results[i].replaceAll("-","");
+            results[i] = results[i].replaceAll(".","");
 
             if(results[i].contains("010"))
             {

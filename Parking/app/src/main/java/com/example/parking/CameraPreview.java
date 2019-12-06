@@ -7,17 +7,14 @@ import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.hardware.Camera;
 import android.hardware.Camera.Size;
-import android.media.Image;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Environment;
 import android.util.Log;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -338,8 +335,8 @@ class CameraPreview extends ViewGroup implements SurfaceHolder.Callback {
 
                 if(success){
 
-                    mCamera.takePicture(null, null, jpegCallback);
 
+                   new TakePic().start();
                 }
 
             }
@@ -472,5 +469,15 @@ class CameraPreview extends ViewGroup implements SurfaceHolder.Callback {
             return null;
         }
 
+    }
+
+    class TakePic extends Thread implements Runnable
+    {
+        @Override
+        public void run()
+        {
+            mCamera.takePicture(null, null, jpegCallback);
+
+        }
     }
 }

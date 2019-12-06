@@ -1,23 +1,16 @@
 package com.example.parking;
 
-import android.widget.LinearLayout;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseApp;
 import com.firebase.client.FirebaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.Vector;
 
 
@@ -157,10 +150,11 @@ public class FirebaseController extends AppCompatActivity {
 
                        }
 
-                       System.out.println(":::Data Snapped::: Vehicle size =" + Vehicles.size() + " Income size = " + Incomes.size());
                        Vehicles = vehicle_vector;
                        Incomes = income_vector;
-                       initial_load++;
+                        System.out.println(":::Data Snapped::: Vehicle size =" + Vehicles.size() + " Income size = " + Incomes.size());
+
+                        initial_load++;
                    }
                 }
 

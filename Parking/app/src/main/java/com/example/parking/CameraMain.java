@@ -1,7 +1,6 @@
 package com.example.parking;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.hardware.Camera;
@@ -171,7 +170,7 @@ public class CameraMain extends AppCompatActivity
     void startCamera(){
 
         // Create the Preview view and set it as the content of this Activity.
-        mlk = new MLKit(getApplicationContext());
+        mlk = new MLKit(this);
         mlk.getVPC(VPC);
         mCameraPreview = new CameraPreview(this, this, CAMERA_FACING, surfaceView);
         mCameraPreview.setBackgroundColor(Color.TRANSPARENT);

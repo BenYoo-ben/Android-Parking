@@ -5,14 +5,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
@@ -20,7 +17,6 @@ import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -35,30 +31,20 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 
-import com.firebase.client.Firebase;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import java.io.File;
 import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Iterator;
 
+import ss.com.bannerslider.Slider;
+import ss.com.bannerslider.event.OnSlideChangeListener;
 
 public class ActivityA extends AppCompatActivity implements View.OnClickListener, TextWatcher {
 
@@ -93,8 +79,18 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
 
     Vehicle LastSelectedVehicle = new Vehicle();
+    private int LastSelectedPos;
+
+    private Slider slider;
+    private BannerImageLoadingService imgloadingservice;
+    private BannerSliderAdapter sliderAdapter;
 
 
+    void UpdateSlider()
+    {
+        slider.setAdapter(new BannerSliderAdapter(this));
+        slider.setSlideChangeListener(OSCL);
+    }
 
     Vehicle addContent(LinearLayout ImageLayout, LinearLayout TextLayout, Vehicle veh) {
         LinearLayout imageLayout;
@@ -197,16 +193,27 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
 
     }
 
+    void removeView(Vehicle v, int pos) {
+        slider.removeViewAt(pos);
+        sliderAdapter.notify();
+
+
+    }
+
     void setCarView(LinearLayout imageLayout, LinearLayout textLayout) {
 
         Iterator i = FirebaseController.Vehicles.iterator();
         clearCarView(imageLayout,textLayout);
         System.out.println("CARVIEW START");
         while (i.hasNext()) {
-
-            addContent(ImageLayout, TextLayout, (Vehicle) i.next());
-        }
+            Vehicle veh = (Vehicle)i.next();
+            addContent(ImageLayout, TextLayout, veh);
+           }
         System.out.println("END");
+        slider.init(imgloadingservice);
+        UpdateSlider();
+
+
         return;
     }
     void clearCarView(LinearLayout imageLayout, LinearLayout textLayout)
@@ -235,6 +242,15 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_a);
+
+
+
+        slider = (Slider)findViewById(R.id.bannerslider);
+
+        imgloadingservice = new BannerImageLoadingService(this);
+
+        slider.setSlideChangeListener(OSCL);
+
 
         Resources resources = getApplicationContext().getResources();
         displayMetrics = new DisplayMetrics();
@@ -275,8 +291,23 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
         tm.start();
     }
 
+    OnSlideChangeListener OSCL = new OnSlideChangeListener()
+    {
+        @Override
+        public void onSlideChange(int position){
+            LastSelectedVehicle = FirebaseController.Vehicles.get(position);
+            LastSelectedPos = position;
+            VehicleSelect(LastSelectedVehicle);
+        }
+    };
+
+
+
     @Override
     public boolean onTouchEvent(MotionEvent m) {
+
+        Log.d("ImageSlider", ""+slider.selectedSlidePosition);
+
         if (m.getAction() == MotionEvent.ACTION_DOWN) {
             initX = m.getRawX();
             initY = m.getRawY();
@@ -341,6 +372,11 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
 
     void VehicleSelect(Vehicle veh)
     {
+        if(veh==null)
+        {
+            Toast.makeText(this,"Such Vehicle doesn't exist",Toast.LENGTH_LONG);
+            return ;
+        }
         veh.iv.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.image_click));
         hidden_location.setText(veh.getLocation());
         hidden_name.setText(veh.getName());
@@ -348,7 +384,6 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
         hidden_time.setText(Integer.toString(veh.getMinutes()));
         MiddleLayout.setVisibility(View.VISIBLE);
     }
-
 
 
 
@@ -388,6 +423,7 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
 
                 switch (which) {
                     case DialogInterface.BUTTON_NEUTRAL: //Manual Input
+                        ManualCarIn();
                         break;
                     case DialogInterface.BUTTON_POSITIVE:
                         startCamera();
@@ -453,7 +489,14 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
 
         alert.show();
 
-    */}
+    */
+        Vehicle newV = LastSelectedVehicle.randomcarGen();
+        newV.setFair(Settings.hour_fair);
+
+        FirebaseController.addVehicle(newV);
+        addContent(ImageLayout,TextLayout,newV);
+
+    }
     public void intentB(View view) {
 
         startActivity(new Intent(this,ActivityB.class));
@@ -461,11 +504,13 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
 
     }
     public void CarOut(View view)  {
-        removeView(LastSelectedVehicle);
         FirebaseController.removeVehicleCurrent(LastSelectedVehicle);
-        Income income = new Income(LastSelectedVehicle);
 
-       FirebaseController.addIncome(income);
+        Income income = new Income(LastSelectedVehicle);
+        UpdateSlider();
+        //removeView(LastSelectedVehicle,LastSelectedPos);
+
+        FirebaseController.addIncome(income);
 
 
     }
