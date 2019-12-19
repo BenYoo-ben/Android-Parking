@@ -1,5 +1,7 @@
 package com.example.parking;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -25,6 +27,7 @@ public class FirebaseController extends AppCompatActivity {
     static Vector<Vehicle> Vehicles = new Vector<Vehicle>();
     static Vector<Income> Incomes = new Vector<Income>();
     static double loading_state_value = 0.0;
+    static int very_first_run = 0;
 
     static private DataSnapshot datasnap;
     static private FirebaseDatabase firebaseDatabase;
@@ -53,6 +56,14 @@ public class FirebaseController extends AppCompatActivity {
         return index;
     }
 
+    static void updateSettings()
+    {
+        ref.child(userID).child("Settings").child(userID).child("hourlyfair").setValue(SettingsScreen.hourlyfair);
+        ref.child(userID).child("Settings").child(userID).child("contact").setValue(SettingsScreen.contact);
+        ref.child(userID).child("Settings").child(userID).child("location").setValue(SettingsScreen.location);
+        ref.child(userID).child("Settings").child(userID).child("autosmson").setValue(SettingsScreen.autosmson);
+    }
+
     static void addIncome(Income i) {
         ref.child(userID).child("Income").child(i.getID());
         ref.child(userID).child("Income").child(i.getID()).child("departure_time").setValue(i.getDeparture_time());
@@ -78,13 +89,12 @@ public class FirebaseController extends AppCompatActivity {
 
         TestNewFirebase.addListenerForSingleValueEvent(new com.firebase.client.ValueEventListener(){
 
-
             @Override
             public void onDataChange(com.firebase.client.DataSnapshot dataSnapshot) {
                 if(!dataSnapshot.exists())
                 {
                     System.out.println("DATA DOESN'T EXIST!!!");
-                    loading_state_value = 1;
+                    loading_state_value = 0;
                     return;
                 }
                 else
@@ -110,6 +120,8 @@ public class FirebaseController extends AppCompatActivity {
 
                    long top1 = dataSnapshot.child(userID).child("Current").getChildrenCount();
                     long top2 = dataSnapshot.child(userID).child("Income").getChildrenCount();
+                    long top3 = dataSnapshot.child(userID).child("Settings").getChildrenCount();
+
                    System.out.println("TOP1 IS >"+top1);
                     System.out.println("TOP2 IS >"+top2);
                    long count=0;
@@ -128,7 +140,7 @@ public class FirebaseController extends AppCompatActivity {
                                vehicle_vector.add(newVehicle);
 
                                ++count;
-                               loading_state_value = (double) (count / (top1 + top2));
+                               loading_state_value = (double) (count / (top1 + top2+top3));
                                System.out.println("value ::" + loading_state_value);
 
 
@@ -141,7 +153,26 @@ public class FirebaseController extends AppCompatActivity {
                                Income newIncome = dss.getValue(Income.class);
                                income_vector.add(newIncome);
                                ++count;
-                              loading_state_value = (double) (count / (top1 + top2));
+                              loading_state_value = (double) (count / (top1 + top2+top3));
+                               System.out.println("value ::" + loading_state_value);
+
+
+                           }
+
+
+                       }
+                       if(top3!=0)
+                       {
+                           for (DataSnapshot dss : dataSnapshot.child(userID).child("Settings").getChildren()) {
+
+
+                             Settings S = dss.getValue(Settings.class);
+                               Log.d("SettingsIn","Settings:"+S.getHourlyfair());
+                               SettingsScreen.obtainSettings(S);
+                                Log.d("SettingsIn","Screen:"+SettingsScreen.hourlyfair);
+
+                               ++count;
+                               loading_state_value = (double) (count / (top1 + top2+top3));
                                System.out.println("value ::" + loading_state_value);
 
 
@@ -155,6 +186,14 @@ public class FirebaseController extends AppCompatActivity {
                         System.out.println(":::Data Snapped::: Vehicle size =" + Vehicles.size() + " Income size = " + Incomes.size());
 
                         initial_load++;
+
+                        if(loading_state_value<1)
+                        {
+                            Log.d("FFB","very_first_run set to 1");
+                            Log.d("FFB","userID = "+userID);
+                            very_first_run=1;
+
+                        }
                    }
                 }
 

@@ -10,7 +10,7 @@
     android:gravity="center"
     android:background="#002255"
 
-    tools:context="com.example.parking.ManualInput">
+    tools:context="com.example.parking.ActivityA">
 
 
 
@@ -94,12 +94,12 @@
 
         <EditText
             android:id="@+id/mled3"
-            android:fontFamily="font/blackhan"
-
+            android:fontFamily="@font/blackhan"
             android:hint="홍길동"
             android:textColorHint="#AAAAAA"
             android:textColorHighlight="#FF00FF"
-            android:textSize="40dp"
+            android:textSize="30dp"
+
             android:textColor="#FFBB00"
             android:layout_gravity="center"
             android:textAlignment="center"
@@ -114,6 +114,17 @@
         android:orientation="horizontal"
         >
 
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:src="@mipmap/okay"
+            android:layout_weight="1"
+            android:scaleType="centerInside"
+            android:background="#002255"
+            android:scaleY="0.8"
+            android:id="@+id/manual_confirm_button"
+            android:onClick="Manual_Confirm_Event"
+            />
 
 
     </LinearLayout>

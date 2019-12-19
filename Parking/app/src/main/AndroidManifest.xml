@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.SEND_SMS"/>
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
@@ -23,8 +24,8 @@
 
         <activity
             android:launchMode="singleTask"
-            android:name=".Settings"
-            android:label="@string/title_activity_settings">
+            android:name=".SettingsScreen"
+            android:label="SettingsScreen">
         </activity>
 
         <activity
@@ -48,14 +49,6 @@
             android:name=".ActivityA"
             android:label="Activity A" />
 
-        <activity
-            android:launchMode="singleTask"
-            android:name=".ActivityC"
-            android:label="Activity C" />
-        <activity
-            android:launchMode="singleTask"
-            android:name=".ActivityD"
-            android:label="Activity D" />
 
         <activity
             android:launchMode="singleTask"

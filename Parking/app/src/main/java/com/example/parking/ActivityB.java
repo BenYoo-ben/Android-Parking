@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.DatePicker;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -83,7 +84,7 @@ public class ActivityB extends AppCompatActivity implements View.OnClickListener
         }
 
         textview1.setText(t.date.format(c.getTime())+"\n"+t.time.format(c.getTime()));
-        textview2.setText(i.getVehicle_num()+i.getMinutes());
+        textview2.setText(i.getVehicle_num());
 
         textview3.setText( new String("$ "+(i.getMinutes()/60)*i.getFair()));
 
@@ -172,6 +173,7 @@ public class ActivityB extends AppCompatActivity implements View.OnClickListener
             && IncomeTime.getTimeInMillis() < DateEnd.getTimeInMillis())
             {
                 Log.d("IncomeList","Sure in List : "+income.getDeparture_time());
+
                 addContent(scrollLinear,income);
                 money_sum += (income.getMinutes()/60)*income.getFair();
 
@@ -243,7 +245,7 @@ public class ActivityB extends AppCompatActivity implements View.OnClickListener
            if(diffX > pushSensitivity)
             {
                 //NEXT
-                startActivity(new Intent(this,ActivityC.class));
+                startActivity(new Intent(this,SettingsScreen.class));
                 overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);
                 return super.onTouchEvent(m);
             }
@@ -274,6 +276,7 @@ public class ActivityB extends AppCompatActivity implements View.OnClickListener
 
         if(view==CalendarIV)
         {
+            CalendarIV.startAnimation(AnimationUtils.loadAnimation(this,R.anim.image_click));
             DatePickerDialog dialog = new DatePickerDialog(this, this, DateEnd.getTime().getYear()+1900,DateEnd.getTime().getMonth()
             , DateEnd.getTime().getDay());
             dialog.show();
@@ -285,6 +288,7 @@ public class ActivityB extends AppCompatActivity implements View.OnClickListener
 
         if(view==MonthLeft)
         {
+            MonthLeft.startAnimation(AnimationUtils.loadAnimation(this,R.anim.image_click));
             IncomeTitleView.setTextSize(10 * Resources.getSystem().getDisplayMetrics().density);
             IncomeTitleView.setText("Monthly Income");
            int month = Integer.parseInt(MonthView.getText().toString().substring(8,10));
@@ -315,6 +319,7 @@ public class ActivityB extends AppCompatActivity implements View.OnClickListener
         }
         else if(view == MonthRight)
         {
+            MonthRight.startAnimation(AnimationUtils.loadAnimation(this,R.anim.image_click));
             IncomeTitleView.setTextSize(10 * Resources.getSystem().getDisplayMetrics().density);
             IncomeTitleView.setText("Monthly Income");
             int month = Integer.parseInt(MonthView.getText().toString().substring(8,10));
@@ -366,16 +371,7 @@ public class ActivityB extends AppCompatActivity implements View.OnClickListener
     {
         showToast("current Screen");
     }
-    public void intentC(View view)
-    {
-        startActivity(new Intent(this,ActivityC.class));
-        overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
-    }
-    public void intentD(View view)
-    {
-        startActivity(new Intent(this,ActivityD.class));
-        overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
-    }
+
 
 
 
@@ -416,6 +412,8 @@ public class ActivityB extends AppCompatActivity implements View.OnClickListener
                  MonthView.setText(" "+year+" - "+month+" ");
 
                  setIncomeView(scrollLinear);
+
+
         }
         } catch (ParseException e) {
             e.printStackTrace();
@@ -454,7 +452,7 @@ public class ActivityB extends AppCompatActivity implements View.OnClickListener
 
     public void toThird(View view)
     {
-        startActivity(new Intent(this,ActivityC.class));
+        startActivity(new Intent(this,SettingsScreen.class));
         Animatoo.animateZoom(this);
     }
 

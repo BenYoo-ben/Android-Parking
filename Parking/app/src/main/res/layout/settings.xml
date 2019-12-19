@@ -3,11 +3,13 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#001833"
+
     >
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         >
 
         <LinearLayout
@@ -22,21 +24,33 @@
          android:orientation="horizontal"
          >
         <TextView
-            android:layout_width="300dp"
+            android:layout_width="150dp"
             android:layout_height="match_parent"
             android:text="Hour Fee "
             android:layout_gravity="center"
             android:gravity="center"
-            android:textSize="30dp"
+            android:textSize="25dp"
             android:textColor="#FFFFFF"
             android:background="@drawable/text_border"
+            android:fontFamily="@font/blackhan"
+
 
 
             />
          <EditText
+             android:id="@+id/FeeED"
              android:layout_width="fill_parent"
              android:layout_height="match_parent"
              android:background="@drawable/text_border"
+             android:fontFamily="@font/blackhan"
+             android:textColor="#FFFFFF"
+             android:hint="3000"
+             android:layout_gravity="center"
+             android:gravity="center"
+             android:textAlignment="center"
+             android:textSize="25dp"
+             android:textColorHint="#AAAAAA"
+             android:textColorHighlight="#FF00FF"
 
              />
 
@@ -49,22 +63,105 @@
                 android:orientation="horizontal"
                 >
                 <TextView
-                    android:layout_width="300dp"
+                    android:layout_width="150dp"
                     android:layout_height="match_parent"
-                    android:text="Hour Fee "
+                    android:text="MyContact: "
                     android:layout_gravity="center"
                     android:gravity="center"
-                    android:textSize="30dp"
+                    android:textSize="20dp"
                     android:textColor="#FFFFFF"
                     android:background="@drawable/text_border"
-
+                    android:fontFamily="@font/blackhan"
 
                     />
                 <EditText
+                    android:id="@+id/ContactED"
                     android:layout_width="fill_parent"
                     android:layout_height="match_parent"
                     android:background="@drawable/text_border"
+                    android:fontFamily="@font/blackhan"
+                    android:textColor="#FFFFFF"
+                    android:hint="010-0000-0000"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textAlignment="center"
+                    android:textSize="20dp"
+                    android:textColorHint="#AAAAAA"
+                    android:textColorHighlight="#FF00FF"
+                    />
 
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+
+                android:orientation="horizontal"
+                >
+                <TextView
+                    android:layout_width="120dp"
+                    android:layout_height="match_parent"
+                    android:text="Location: "
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textSize="20dp"
+                    android:textColor="#FFFFFF"
+                    android:background="@drawable/text_border"
+                    android:fontFamily="@font/blackhan"
+
+                    />
+                <EditText
+
+                    android:id="@+id/LocationED"
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/text_border"
+                    android:fontFamily="@font/blackhan"
+                    android:textColor="#FFFFFF"
+                    android:hint="대한시 민국구 만세동 123-456"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textAlignment="center"
+                    android:textSize="16dp"
+                    android:textColorHint="#AAAAAA"
+                    android:textColorHighlight="#FF00FF"
+                    />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+
+                android:orientation="horizontal"
+                >
+                <TextView
+                    android:layout_width="325dp"
+                    android:layout_height="match_parent"
+                    android:text="Auto SMS Send: "
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textSize="20dp"
+                    android:textColor="#FFFFFF"
+                    android:background="@drawable/text_border"
+                    android:fontFamily="@font/blackhan"
+
+                    />
+                <Switch
+
+                    android:id="@+id/Switch"
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/text_border"
+                    android:fontFamily="@font/blackhan"
+                    android:textColor="#FFFFFF"
+                    android:switchMinWidth="40dp"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textAlignment="center"
+                    android:textSize="16dp"
+                    android:textColorHint="#AAAAAA"
+                    android:textColorHighlight="#FF00FF"
                     />
 
             </LinearLayout>
@@ -78,6 +175,9 @@
            <Button
              android:layout_width="match_parent"
                android:layout_height="50dp"
+               android:fontFamily="@font/blackhan"
+               android:textSize="20dp"
+               android:onClick="Settings_Confirm"
                android:text="Confirm"
                />
 
@@ -87,5 +187,52 @@
 
         </LinearLayout>
     </ScrollView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="85dp"
+        android:background="@drawable/text_border"
+        android:orientation="horizontal"
+        >
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:onClick="toFirst"
+            android:src="@mipmap/parkinglot"
+            android:scaleType="centerInside"
+            android:scaleX="0.7"
+            android:scaleY="0.7"
+            android:background="#001833"
+            android:tint="@color/white"
+            />
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:onClick="toSecond"
+            android:src="@mipmap/money"
+            android:scaleType="centerInside"
 
+            android:scaleX="0.7"
+            android:scaleY="0.7"
+            android:background="#001833"
+            android:tint="@color/white"
+
+            />
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+
+            android:src="@mipmap/settings"
+            android:scaleType="centerInside"
+            android:scaleX="0.7"
+            android:scaleY="0.7"
+            android:background="#001833"
+
+            android:tint="#D0417E"
+            />
+
+
+    </LinearLayout>
 </LinearLayout>

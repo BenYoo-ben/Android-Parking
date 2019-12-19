@@ -40,7 +40,7 @@
         android:scaleX="0.75"
         android:scaleY="0.75"
         android:tint="#87ceeb"
-        tools:context="com.example.parking.ActivityD"
+
         />
 
 

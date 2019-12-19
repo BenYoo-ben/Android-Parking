@@ -1,9 +1,7 @@
 package com.example.parking;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,7 +21,15 @@ public class Loading extends AppCompatActivity {
 
             @Override
             public void run() {
-                StartA();
+                if(FirebaseController.very_first_run==0)
+                {
+                    StartA();
+                }
+                else
+                {
+                    StartSettingsScreen();
+                }
+
             }
         };
 
@@ -33,6 +39,12 @@ public class Loading extends AppCompatActivity {
 
     void StartA() {
         startActivity(new Intent(this, ActivityA.class));
+        this.finish();
+    }
+    void StartSettingsScreen()
+    {
+        startActivity(new Intent(this,SettingsScreen.class));
+        this.finish();
     }
 
 
@@ -70,8 +82,10 @@ public class Loading extends AppCompatActivity {
                         runOnUiThread(runnable);
 
                         break;
-
-
+                    }
+                    if(FirebaseController.very_first_run==1)
+                    {
+                        runOnUiThread(runnable);
                     }
 
                 } catch (InterruptedException e) {

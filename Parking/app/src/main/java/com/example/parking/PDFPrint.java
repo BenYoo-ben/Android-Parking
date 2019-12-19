@@ -1,22 +1,19 @@
 package com.example.parking;
 
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.Environment;
 import android.print.PrintAttributes;
 import android.print.PrintDocumentAdapter;
 import android.print.PrintJob;
 import android.print.PrintManager;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
+
+import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
@@ -131,11 +128,11 @@ Vehicle V;
 
             //Item 1
             addNewItemWithLeftAndRight(document,"Fee :","(-WON)",titleFont,orderNumberValueFont);
-            addNewItemWithLeftAndRight(document,"Hour * "+Integer.toString(Settings.hour_fair),"---",titleFont,orderNumberValueFont);
+            addNewItemWithLeftAndRight(document,"Hour * "+Integer.toString(SettingsScreen.hourlyfair),"---",titleFont,orderNumberValueFont);
             addLineSeperator(document);
             //Item 2
             addNewItemWithLeftAndRight(document,"Contact","+82",titleFont,orderNumberValueFont);
-            addNewItemWithLeftAndRight(document,Settings.contact,"---",titleFont,orderNumberValueFont);
+            addNewItemWithLeftAndRight(document,SettingsScreen.contact,"---",titleFont,orderNumberValueFont);
 
             //Item3
             addNewItemWithLeftAndRight(document,"Location","--",titleFont,orderNumberValueFont);

@@ -1,6 +1,7 @@
 package com.example.parking;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.hardware.Camera;
@@ -88,9 +89,21 @@ public class CameraMain extends AppCompatActivity
                     {
                         Calendar c = Calendar.getInstance();
 
-                        Vehicle newV = new Vehicle(Settings.location,VPC[2].getText().toString(),VPC[1].getText().toString(),VPC[0].getText().toString(),
+                        Vehicle newV = new Vehicle(SettingsScreen.location,VPC[2].getText().toString(),VPC[1].getText().toString(),VPC[0].getText().toString(),
                             new Timer().SDF.format(c.getTime()),mlk.getImageCode());
                         FirebaseController.addVehicle(newV);
+                        Intent intent = new Intent();
+                        intent.putExtra("location",newV.getLocation());
+                        intent.putExtra("name",newV.getName());
+                        intent.putExtra("contact",newV.getContact());
+                        intent.putExtra("vehicle_num",newV.getVehicle_num());
+                        intent.putExtra("imagecode",newV.getImagecode());
+                        intent.putExtra("arrival_time",newV.getArrival_time());
+                        setResult(RESULT_OK,intent);
+                        finish();
+
+
+
                         finish();
                     }
             }

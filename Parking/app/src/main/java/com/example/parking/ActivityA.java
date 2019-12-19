@@ -1,16 +1,17 @@
 package com.example.parking;
 
+import android.Manifest;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.telephony.SmsManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.DisplayMetrics;
@@ -19,20 +20,21 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.res.ResourcesCompat;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.google.firebase.database.FirebaseDatabase;
@@ -46,22 +48,17 @@ import ss.com.bannerslider.Slider;
 import ss.com.bannerslider.event.OnSlideChangeListener;
 
 public class ActivityA extends AppCompatActivity implements View.OnClickListener, TextWatcher {
-
+    private static final int PERMISSION_SEND_SMS = 0;
 
     DisplayMetrics displayMetrics;
 
 
     Vehicle[] veh;
     LinearLayout MiddleLayout;
-    TextView hidden_name, hidden_phone, hidden_time, timeView, dateView;
+    TextView hidden_VN, hidden_phone, hidden_time, timeView, dateView;
     ImageView iv1, iv2, iv3, iv4;
     ImageButton SearchButton;
     EditText SearchEditText;
-
-    LinearLayout ImageLayout1, TextLayout1;
-    LinearLayout ImageLayout2, TextLayout2;
-    LinearLayout ImageLayout;
-    LinearLayout TextLayout;
 
 
 
@@ -77,13 +74,21 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
 
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
 
-    Vehicle LastSelectedVehicle = new Vehicle();
+    Vehicle LastSelectedVehicle = null;
     private int LastSelectedPos;
 
     private Slider slider;
     private BannerImageLoadingService imgloadingservice;
     private BannerSliderAdapter sliderAdapter;
 
+    ManualInput MI;
+
+    EditText Med1,Med2,Med3;
+    ImageView ManualConfirmButton;
+    PopupWindow popupWindow;
+
+    private int BackButtonCheck=0;
+    private int reqCode=7121;
 
     void UpdateSlider()
     {
@@ -91,70 +96,6 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
         slider.setSlideChangeListener(OSCL);
     }
 
-    Vehicle addContent(LinearLayout ImageLayout, LinearLayout TextLayout, Vehicle veh) {
-        LinearLayout imageLayout;
-        LinearLayout textLayout;
-        imageLayout = ImageLayout;
-        textLayout = TextLayout;
-
-
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        int screen_width = displayMetrics.widthPixels;
-
-        ImageView imageview = new ImageView(this);
-        imageview = new ImageView(getApplicationContext());
-
-
-
-
-        imageview.setScaleType(ImageView.ScaleType.FIT_XY);
-
-        LinearLayout.LayoutParams ilp = new LinearLayout.LayoutParams((int) (screen_width * 0.45), LinearLayout.LayoutParams.WRAP_CONTENT, 0.25f);
-
-        imageview.setImageBitmap(BitmapFactory.decodeFile(getApplicationContext().getFilesDir().getAbsolutePath()
-                +"/"+veh.getImagecode()+".jpg"));
-        Log.d("HELPME!!",getApplicationContext().getFilesDir().getAbsolutePath()
-                +veh.getImagecode()+".jpg");;
-        imageview.setPadding(2, 2, 2, 2);
-
-
-        // ilp.width = ViewGroup.LayoutParams.WRAP_CONTENT;
-        // ilp.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-
-        imageview.setLayoutParams(ilp);
-        imageview.setOnClickListener(this);
-
-
-        //Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.clockdroid2_dial);
-        imageview.setBackgroundResource(R.drawable.image_border);
-        //iv.setImageBitmap(bitmap);
-
-
-        imageview.requestLayout();
-        imageLayout.addView(imageview);
-
-
-        TextView textview = new TextView(getApplicationContext());
-        textview.setText(veh.getVehicle_num());
-        textview.setTextSize(18);
-        Typeface tf = ResourcesCompat.getFont(this, R.font.kenteken);
-        textview.setTypeface(tf);
-        textview.setTextColor(Color.WHITE);
-        textview.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
-        LinearLayout.LayoutParams tlp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT, 1f);
-        tlp.setMargins(0, 30, 0, 0);
-        textview.setLayoutParams(tlp);
-
-        textview.requestLayout();
-        textLayout.addView(textview);
-
-        textview.setBackgroundResource(R.drawable.image_border2);
-        textview.setGravity(View.TEXT_ALIGNMENT_CENTER);
-        veh.iv = imageview;
-        veh.tv = textview;
-        return veh;
-    }
 
 
     void removeView(LinearLayout[] IVs, LinearLayout[] TVs, int index) {/*
@@ -199,14 +140,14 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
 
     }
 
-    void setCarView(LinearLayout imageLayout, LinearLayout textLayout) {
+    void setCarView() {
 
         Iterator i = FirebaseController.Vehicles.iterator();
-        clearCarView(imageLayout,textLayout);
+
         System.out.println("CARVIEW START");
         while (i.hasNext()) {
             Vehicle veh = (Vehicle)i.next();
-            addContent(ImageLayout, TextLayout, veh);
+
            }
         System.out.println("END");
         slider.init(imgloadingservice);
@@ -233,13 +174,31 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
     @Override
     public void onResume() {
         super.onResume();
-        setCarView(ImageLayout, TextLayout);
+        setCarView();
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        LayoutInflater LI = (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+        View Layout = LI.inflate(R.layout.manual_layout, null);
+        //setContentView(R.layout.manual_layout);
+
+        popupWindow = new PopupWindow(Layout, LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT);
+        popupWindow.setFocusable(true);
+
+        LinearLayout.LayoutParams parms = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+
+
+        setContentView(Layout);
+
+
+        Med1 = (EditText)findViewById(R.id.mled1);
+        Med2 = (EditText)findViewById(R.id.mled2);
+        Med3 = (EditText)findViewById(R.id.mled3);
+        ManualConfirmButton = (ImageView)findViewById(R.id.manual_confirm_button);
+
         setContentView(R.layout.activity_a);
 
 
@@ -264,8 +223,6 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
         timeView = (TextView) findViewById(R.id.timeview);
         dateView = (TextView) findViewById(R.id.dateview);
         MiddleLayout = (LinearLayout) findViewById(R.id.linear_middle);
-        ImageLayout = (LinearLayout) findViewById(R.id.linear_image1);
-        TextLayout = (LinearLayout) findViewById(R.id.linear_text1);
 
 
         iv1 = (ImageView) findViewById(R.id.iv1);
@@ -274,7 +231,10 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
         iv4 = (ImageView) findViewById(R.id.iv4);
 
 
-        hidden_name = (TextView) findViewById(R.id.name_textview);
+
+
+
+        hidden_VN = (TextView) findViewById(R.id.name_textview);
         hidden_phone = (TextView) findViewById(R.id.phone_textview);
         hidden_time = (TextView) findViewById(R.id.time_textview);
 
@@ -287,6 +247,12 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
         TimeManager tm = new TimeManager(timeView, dateView);
         tm.start();
 
+
+
+
+
+
+
     }
 
     OnSlideChangeListener OSCL = new OnSlideChangeListener()
@@ -298,6 +264,7 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
                 LastSelectedVehicle = FirebaseController.Vehicles.get(position);
                 LastSelectedPos = position;
                 VehicleSelect(LastSelectedVehicle);
+
             }
 
         }
@@ -310,7 +277,12 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
 
         Log.d("ImageSlider", ""+slider.selectedSlidePosition);
 
+
         if (m.getAction() == MotionEvent.ACTION_DOWN) {
+
+
+                BackButtonCheck=0;
+
 
 
 
@@ -321,7 +293,7 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
             if (initY < MiddleLayout.getY() || initY > MiddleLayout.getY() + (0.1) * displayMetrics.heightPixels) {
                 MiddleLayout.setVisibility(View.GONE);
             }
-
+        return super.onTouchEvent(m);
         }
         if (m.getAction() == MotionEvent.ACTION_UP) {
             diffY = initY - m.getRawY();
@@ -335,7 +307,7 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
                 return super.onTouchEvent(m);
             } else if (diffX < -(pushSensitivity * 2)) {
                 //Previous
-                startActivity(new Intent(this, ActivityD.class));
+                startActivity(new Intent(this, SettingsScreen.class));
                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
                 return super.onTouchEvent(m);
             }
@@ -349,7 +321,7 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
         setTheme(R.style.Launcher);
         super.onStart();
 
-        setCarView(ImageLayout, TextLayout);
+        setCarView();
 
     }
 
@@ -377,11 +349,11 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
     {
         if(veh==null)
         {
-            Toast.makeText(this,"Such Vehicle doesn't exist",Toast.LENGTH_LONG);
+            Toast.makeText(this,"Such Vehicle doesn't exist",Toast.LENGTH_LONG).show();
             return ;
         }
-        veh.iv.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.image_click));
-        hidden_name.setText(veh.getName());
+
+        hidden_VN.setText(veh.getVehicle_num());
         hidden_phone.setText(veh.getContact());
         hidden_time.setText(Integer.toString(veh.getMinutes()));
         MiddleLayout.setVisibility(View.VISIBLE);
@@ -393,8 +365,8 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
 
     public void ShowCarInfo(View v)
     {
-        iv2.startAnimation(AnimationUtils.loadAnimation(this,R.anim.image_click));
-        new Vehicle().ShowCarInfo(LastSelectedVehicle,this);
+        iv3.startAnimation(AnimationUtils.loadAnimation(this,R.anim.image_click));
+        new Vehicle().ShowCarInfo(LastSelectedVehicle,this,this);
     }
 
     public void intentA(View view) {
@@ -426,7 +398,11 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
             void startCamera()
             {
                 Intent a = new Intent(getApplicationContext(),CameraMain.class);
-                startActivity(a);
+
+                if( SettingsScreen.autosmson==1)
+                startActivityForResult(a,reqCode);
+                else
+                    startActivity(a);
             }
         };
         builder.setMessage("Manually / Camera");
@@ -440,7 +416,7 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
 
 /*
         Vehicle newV = LastSelectedVehicle.randomcarGen();
-                newV.setFair(Settings.hour_fair);
+                newV.setFair(SettingsScreen.hourlyfair);
 
             FirebaseController.addVehicle(newV);
             addContent(ImageLayouts,TextLayouts,newV);
@@ -449,39 +425,97 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
     }
     protected void ManualCarIn()
     {
-
+        popupWindow.showAtLocation(slider,Gravity.CENTER,0,0);
 
 
         /*Vehicle newV = LastSelectedVehicle.randomcarGen();
-        newV.setFair(Settings.hour_fair);
+        newV.setFair(SettingsScreen.hourlyfair);
 
         FirebaseController.addVehicle(newV);
         addContent(ImageLayout,TextLayout,newV);
 */
     }
-    public void intentB(View view) {
 
-        startActivity(new Intent(this,ActivityB.class));
-        overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
-
-    }
     public void CarOut(View view)  {
-        iv4.startAnimation(AnimationUtils.loadAnimation(this,R.anim.image_click));
-        iv4.setColorFilter(Color.YELLOW);
-        FirebaseController.removeVehicleCurrent(LastSelectedVehicle);
-
-        Income income = new Income(LastSelectedVehicle);
-        UpdateSlider();
-        //removeView(LastSelectedVehicle,LastSelectedPos);
-
-        FirebaseController.addIncome(income);
 
 
-        iv4.setColorFilter(Color.WHITE);
+        if(LastSelectedVehicle!=null)
+        {
+            final AlertDialog.Builder builder=new AlertDialog.Builder(this);
+            builder.setTitle("Kick this Car out?");
+            builder.setIcon(R.mipmap.alert);
+
+            final Context tmpContext = this;
+            builder.setPositiveButton("Yes",
+                    new DialogInterface.OnClickListener(){
+                        @Override
+                        public void onClick(DialogInterface dialogInterface,int i){
+
+
+                            iv4.startAnimation(AnimationUtils.loadAnimation(tmpContext,R.anim.image_click));
+
+                            FirebaseController.removeVehicleCurrent(LastSelectedVehicle);
+
+                            Income income = new Income(LastSelectedVehicle);
+                            UpdateSlider();
+                            //removeView(LastSelectedVehicle,LastSelectedPos);
+
+                            FirebaseController.addIncome(income);
+                        }
+                    });
+            AlertDialog dialog=builder.create();
+            dialog.show();
+        }
+
+
+
+
+
     }
+
+    public void sendSMS(Vehicle V)
+    {
+        Intent intent = new Intent(getApplicationContext(),ActivityA.class);
+        PendingIntent pi=PendingIntent.getActivity(getApplicationContext(), 0, intent,PERMISSION_SEND_SMS);
+
+//Get the SmsManager instance and call the sendTextMessage method to send message
+
+
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.SEND_SMS)
+                != PackageManager.PERMISSION_GRANTED) {
+
+
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.SEND_SMS},
+                    0);
+        }
+        else
+        {
+            SmsManager sms=SmsManager.getDefault();
+
+            String content = makeSMSText(V);
+            String num = V.getContact().replaceAll("-","");
+            Log.d("test",content);
+            sms.sendTextMessage(num, null, content, pi,null);
+            Toast.makeText(this,"문자 발송 완료.",Toast.LENGTH_LONG).show();
+        }
+    }
+
     public void sendSMS(View view)
     {
+        iv2.startAnimation(AnimationUtils.loadAnimation(this,R.anim.image_click));
+       sendSMS(LastSelectedVehicle);
 
+
+    }
+    private String makeSMSText(Vehicle v)
+    {
+        String SMS="";
+        SMS = SMS.concat("차량번호 : "+v.getVehicle_num());
+        SMS =SMS.concat("\n주차시작 : "+v.getArrival_time());
+        SMS =SMS.concat("\n금액(시간) : "+v.getFair());
+        return SMS;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -495,17 +529,23 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
     public Vehicle SearchVehicleWithNum(String query)
     {
         Iterator<Vehicle> i = FirebaseController.Vehicles.iterator();
-
+        int loc=0;
        while(i.hasNext())
        {
+
            Vehicle veh =  (Vehicle)i.next();
 
            if(veh.getVehicle_num().equals(query))
            {
                VehicleSelect(veh);
+               slider.setSelectedSlide(loc);
                return veh;
            }
+           loc++;
        }
+
+       Toast.makeText(getApplicationContext(),"해당 번호의 차량이 없습니다.",Toast.LENGTH_SHORT).show();
+       SearchEditText.setText("");
        return null;
 
     }
@@ -514,6 +554,18 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
     {
         SearchVehicleWithNum(SearchEditText.getText().toString());
     }
+
+    @Override
+    public void onBackPressed() {
+        ++BackButtonCheck;
+        Toast.makeText(this,"종료를 원하시면 한번 더 눌러주세요.",Toast.LENGTH_SHORT).show();
+        if (BackButtonCheck == 2){
+            android.os.Process.killProcess(android.os.Process.myPid());
+            System.exit(1);
+        }
+        }
+
+
 
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -569,14 +621,55 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
 
     public void toSecond(View view)
     {
+
         startActivity(new Intent(this,ActivityB.class));
         Animatoo.animateZoom(this);
     }
 
     public void toThird(View view)
     {
-        startActivity(new Intent(this,ActivityC.class));
+        startActivity(new Intent(this,SettingsScreen.class));
         Animatoo.animateZoom(this);
+    }
+
+    public void Manual_Confirm_Event(View view) {
+        if (ManualConfirmButton == null) Log.d("FUCK","Fuck");
+        ManualConfirmButton.startAnimation(AnimationUtils.loadAnimation(this,R.anim.image_click));
+        if(Med1.getText().toString().length()!=0&& Med2.getText().toString().length()!=0&&Med3.getText().toString().length()!=0)
+        {
+            Vehicle newV = new Vehicle(SettingsScreen.location,Med3.getText().toString(),Med1.getText().toString(),Med2.getText().toString(), new Timer().SDF.format(Calendar.getInstance().getTime()),-1);
+            FirebaseController.addVehicle(newV);
+            Med1.setText("");
+            Med2.setText("");
+           Med3.setText("");
+           popupWindow.dismiss();
+            setCarView();
+
+        }
+        else
+        {
+            Toast.makeText(this,"모든 부분에 값을 입력해주세요.",Toast.LENGTH_LONG).show();
+
+        }
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == reqCode) {
+            if (resultCode == RESULT_OK) {
+                Toast.makeText(this, "Result: " + data.getStringExtra("result"), Toast.LENGTH_SHORT).show();
+                sendSMS(new Vehicle(data.getStringExtra("location"),data.getStringExtra("name"),data.getStringExtra("contact"),data.getStringExtra("vehicle_num")
+                ,data.getStringExtra("arrival_time"),data.getLongExtra("imagecode",0)));
+
+            } else {   // RESULT_CANCEL
+                Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show();
+            }
+//        } else if (requestCode == REQUEST_ANOTHER) {
+//            ...
+        }
     }
 
 

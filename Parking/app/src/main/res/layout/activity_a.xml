@@ -88,6 +88,9 @@
                 android:background="@drawable/text_border"
                 android:id="@+id/search_button7"
                 android:onClick="Search"
+                android:src="@mipmap/loupe"
+                android:tint="@color/white"
+                android:scaleType="fitXY"
                 />
 
 
@@ -166,7 +169,7 @@
         <TextView
             android:layout_height="match_parent"
             android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_weight="3"
             android:id="@+id/name_textview"
             android:fontFamily="@font/kenteken"
             android:textColor="#FFFFFF"
@@ -178,7 +181,7 @@
         <TextView
             android:layout_height="match_parent"
             android:layout_width="0dp"
-            android:layout_weight="3"
+            android:layout_weight="6"
             android:id="@+id/phone_textview"
             android:fontFamily="@font/kenteken"
             android:textColor="#FFFFFF"
@@ -303,7 +306,7 @@
             android:scaleX="0.7"
             android:scaleY="0.7"
             android:background="#001833"
-            android:tint="@color/white"
+            android:tint="#D0417E"
             />
         <ImageButton
             android:layout_width="0dp"

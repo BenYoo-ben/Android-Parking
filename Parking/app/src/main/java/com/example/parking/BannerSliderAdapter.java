@@ -35,7 +35,7 @@ public class BannerSliderAdapter extends SliderAdapter {
         }else
         {
             Log.d("Exception@#@", "Exception occured");
-            imageSlideViewHolder.bindImageSlide(R.mipmap.cartopview);
+            imageSlideViewHolder.bindImageSlide(R.mipmap.lost_item);
         }
 
 

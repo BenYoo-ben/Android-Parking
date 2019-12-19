@@ -1,11 +1,7 @@
 package com.example.parking;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -14,12 +10,10 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.firebase.client.Firebase;
-import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
@@ -31,8 +25,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-
-import java.io.File;
 
 
 public class Login extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener{
@@ -50,6 +42,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
 
         super.onCreate(savedInstanceState);
 
+
   //ML Kit test working fine.
 //dezeen_South-Korean-road-signs-by-Studio-Dumbar.jpg
         /*Bitmap bMap = BitmapFactory.decodeFile(
@@ -65,6 +58,8 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
 
 
         setContentView(R.layout.login);
+
+
         mAuth = FirebaseAuth.getInstance();
 
         Firebase.setAndroidContext(this);
@@ -132,8 +127,9 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
     }
     void startLoading(String userID)
     {
-       FirebaseController.userID =userID;
+        FirebaseController.userID =userID;
         startActivity(new Intent(this,Loading.class));
+        this.finish();
 
     }
 

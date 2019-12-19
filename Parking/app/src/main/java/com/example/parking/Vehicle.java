@@ -2,9 +2,11 @@ package com.example.parking;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 
 import java.util.Calendar;
@@ -91,7 +93,7 @@ public class Vehicle
            setArrival_time(arrival_time);
            setMinutes(0);
            setImagecode(imagecode);
-           setFair(Settings.hour_fair);
+           setFair(SettingsScreen.hourlyfair);
        }
 
         Vehicle(int num)
@@ -137,8 +139,11 @@ public class Vehicle
                 System.out.println();
             }
         }
-        public void ShowCarInfo(Vehicle LastSelectedVehicle, Context context)
+        public void ShowCarInfo(Vehicle LastSelectedVehicle, Context context, android.app.Activity A)
         {
+
+            final android.app.Activity act = A;
+            final Vehicle v = LastSelectedVehicle;
             AlertDialog.Builder builder=new AlertDialog.Builder(context);
             builder.setTitle(LastSelectedVehicle.getVehicle_num()+" - 정보");
             builder.setMessage("Name : "+LastSelectedVehicle.getName()+"\nPhone : "+LastSelectedVehicle.getContact()+"\nArrival : "+LastSelectedVehicle.getArrival_time()+"\nLocation : "+LastSelectedVehicle.getLocation()+"\nimaegcode : "+LastSelectedVehicle.getImagecode());
@@ -150,6 +155,13 @@ public class Vehicle
 
                         }
                     });
+            builder.setNegativeButton("Print", new DialogInterface.OnClickListener() {
+                @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    PDFPrint pdfp = new PDFPrint(v.getVehicle_num()+v.getArrival_time()+".pdf",act,v);
+                }
+            });
             AlertDialog dialog=builder.create();
             dialog.show();
         }
@@ -166,7 +178,7 @@ public class Vehicle
             newV.vehicle_num = Integer.toString(test_int);
             newV.imagecode = (int)(Math.random()*16777215) + 0xFF000000;
             newV.Arrivaltimenow();
-            newV.fair = Settings.hour_fair;
+            newV.fair = SettingsScreen.hourlyfair;
 
 
             return newV;

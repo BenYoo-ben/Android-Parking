@@ -1,71 +1,25 @@
 package com.example.parking;
 
-import android.app.Fragment;
-import android.app.FragmentTransaction;
-import android.content.Intent;
-import android.os.Bundle;
-import android.preference.PreferenceFragment;
-import android.view.View;
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
-import com.blogspot.atifsoftwares.animatoolib.Animatoo;
+public class Settings  {
 
 
-public class Settings extends AppCompatActivity {
-    static int hour_fair = 2500;
-    static String contact="010-0000-0000";
+
+     int hourlyfair ;
+    String contact;
 
     //static String imgloc =
-    static String location = "Seoul Gangnam-gu P2";
+    String location;
+    int autosmson;
 
 
+    public int getHourlyfair(){return hourlyfair;}
+    public String getContact(){return contact;}
+    public String getLocation(){return location;}
+    public int getAutosmson(){return autosmson;}
 
+    public void setHourlyfair(int hourlyfair){this.hourlyfair = hourlyfair;}
+    public void setContact(String contact){this.contact = contact;}
+    public void setLocation(String location){ this.location =location; }
+    public void setAutosmson(int autosmson){this.autosmson = autosmson;}
 
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.settings_layout);
-// our settings activity must come here
-        Fragment fragment = new SettingsHolder();
-// this fragment must be from android.app.Fragment,
-// if you use support fragment, it will not work
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        if (savedInstanceState == null) {
-// when saved instance state is null, that means
-// activity is created for the first time, so basically
-// add the fragment to activity if and only if activity is new
-// when activity rotates, do nothing
-            transaction.add(R.id.settings_holder, fragment, "settings_screen");
-        }
-        transaction.commit();
-    }
-
-    // below inner class is a fragment, which must be called in the main activity
-    public static class SettingsHolder extends PreferenceFragment {
-        @Override
-        public void onCreate(@Nullable Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-// here we should call settings ui
-            addPreferencesFromResource(R.xml.preferences);
-        }
-    }
-    public void toFirst(View view)
-    {
-        //startActivity(new Intent(this,ActivityA.class));
-        Animatoo.animateZoom(this);
-    }
-
-    public void toSecond(View view)
-    {
-        startActivity(new Intent(this,ActivityB.class));
-        Animatoo.animateZoom(this);
-    }
-
-    public void toThird(View view)
-    {
-        startActivity(new Intent(this,ActivityC.class));
-        Animatoo.animateZoom(this);
-    }
 }
