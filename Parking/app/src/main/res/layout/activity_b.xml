@@ -18,13 +18,14 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:layout_gravity="center"
-        android:fontFamily="@font/digitalheavy"
-        android:text="Monthly Income"
+        android:fontFamily="@font/blackhan"
+        android:text="Money Book"
         android:textAlignment="center"
         android:textColor="#FFFFFF"
         android:gravity="center"
-        android:textSize="60dp"
+        android:textSize="45dp"
         android:background="@drawable/image_border"
+        android:id="@+id/income_title"
 
         />
 
@@ -41,6 +42,7 @@
             android:background="@drawable/image_border2"
             android:src="@mipmap/back"
             android:tint="#FFFFFF"
+            android:id="@+id/month_left"
 
             />
     <TextView
@@ -56,6 +58,7 @@
         android:fontFamily="@font/digital7"
         android:layout_gravity="center"
         android:background="@drawable/image_border2"
+        android:id="@+id/month_text_view"
         />
 
         <ImageView
@@ -65,6 +68,7 @@
             android:background="@drawable/image_border2"
             android:src="@mipmap/next"
             android:tint="#FFFFFF"
+            android:id="@+id/month_right"
             />
     </LinearLayout>
 
@@ -95,6 +99,7 @@
             android:scaleType="fitXY"
             android:tint="#FFAF00"
             android:background="@drawable/text_border"
+            android:id="@+id/calendar_iv"
             />
     </LinearLayout>
 
@@ -102,7 +107,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="5"
-
+        android:background="@drawable/text_border"
         >
 
         <LinearLayout
@@ -119,4 +124,51 @@
         </LinearLayout>
     </ScrollView>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="85dp"
+        android:background="@drawable/text_border"
+        android:orientation="horizontal"
+        >
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:onClick="toFirst"
+            android:src="@mipmap/parkinglot"
+            android:scaleType="centerInside"
+            android:scaleX="0.7"
+            android:scaleY="0.7"
+            android:background="#001833"
+            android:tint="@color/white"
+            />
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+
+            android:src="@mipmap/money"
+            android:scaleType="centerInside"
+
+            android:scaleX="0.7"
+            android:scaleY="0.7"
+            android:background="#001833"
+            android:tint="@color/white"
+            />
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:onClick="toThird"
+            android:src="@mipmap/settings"
+            android:scaleType="centerInside"
+            android:scaleX="0.7"
+            android:scaleY="0.7"
+            android:background="#001833"
+
+            android:tint="@color/white"
+            />
+
+
+    </LinearLayout>
 </LinearLayout>

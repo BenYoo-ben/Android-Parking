@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.hardware.Camera;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
@@ -14,10 +15,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.util.Calendar;
@@ -39,8 +42,9 @@ public class CameraMain extends AppCompatActivity
     private MLKit mlk;
     private EditText[] VPC = new EditText[3];
     private ImageView IV;
+    private ImageView CI;
 
-
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +61,10 @@ public class CameraMain extends AppCompatActivity
 
         mLayout = findViewById(R.id.layout_main);
         surfaceView = findViewById(R.id.surfaceView);
+        CI = (ImageView)findViewById(R.id.Loading_View);
 
+        CI.setBackgroundColor(0xFF001833);
+        Glide.with(this).load(R.mipmap.loading_gif).into(CI);
 
         //Until permission is not granted, surfaceview is not visible.
         surfaceView.setVisibility(View.GONE);
@@ -170,13 +177,16 @@ public class CameraMain extends AppCompatActivity
     void startCamera(){
 
         // Create the Preview view and set it as the content of this Activity.
+
         mlk = new MLKit(this);
         mlk.getVPC(VPC);
-        mCameraPreview = new CameraPreview(this, this, CAMERA_FACING, surfaceView);
+        mCameraPreview = new CameraPreview(this, this, CAMERA_FACING, surfaceView,CI);
         mCameraPreview.setBackgroundColor(Color.TRANSPARENT);
         mCameraPreview.getMLK(mlk);
         mCameraPreview.getImageView(IV);
         mCameraPreview.getmContext(getApplicationContext());
+
+
 
     }
 

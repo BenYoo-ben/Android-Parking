@@ -1,6 +1,5 @@
 package com.example.parking;
 
-import android.app.ActionBar;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -27,7 +26,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +34,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 
+import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.lang.ref.WeakReference;
@@ -54,7 +53,7 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
 
     Vehicle[] veh;
     LinearLayout MiddleLayout;
-    TextView hidden_name, hidden_phone, hidden_location, hidden_time, timeView, dateView;
+    TextView hidden_name, hidden_phone, hidden_time, timeView, dateView;
     ImageView iv1, iv2, iv3, iv4;
     ImageButton SearchButton;
     EditText SearchEditText;
@@ -71,7 +70,7 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
 
     LayoutInflater LI;
     FrameLayout framelayout;
-    PopupWindow popup;
+
 
     String time_now;
     String date_now;
@@ -260,8 +259,6 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
 
         LI = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        popup = new PopupWindow(LI.inflate(R.layout.top_popup, null, false), ActionBar.LayoutParams.MATCH_PARENT, 150, true);
-        popup.setAnimationStyle(R.anim.blink);
         framelayout = new FrameLayout(this);
 
         timeView = (TextView) findViewById(R.id.timeview);
@@ -276,7 +273,7 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
         iv3 = (ImageView) findViewById(R.id.iv3);
         iv4 = (ImageView) findViewById(R.id.iv4);
 
-        hidden_location = (TextView) findViewById(R.id.location_textview);
+
         hidden_name = (TextView) findViewById(R.id.name_textview);
         hidden_phone = (TextView) findViewById(R.id.phone_textview);
         hidden_time = (TextView) findViewById(R.id.time_textview);
@@ -289,15 +286,20 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
 
         TimeManager tm = new TimeManager(timeView, dateView);
         tm.start();
+
     }
 
     OnSlideChangeListener OSCL = new OnSlideChangeListener()
     {
         @Override
         public void onSlideChange(int position){
-            LastSelectedVehicle = FirebaseController.Vehicles.get(position);
-            LastSelectedPos = position;
-            VehicleSelect(LastSelectedVehicle);
+            if(FirebaseController.Vehicles.size()!=0)
+            {
+                LastSelectedVehicle = FirebaseController.Vehicles.get(position);
+                LastSelectedPos = position;
+                VehicleSelect(LastSelectedVehicle);
+            }
+
         }
     };
 
@@ -309,6 +311,11 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
         Log.d("ImageSlider", ""+slider.selectedSlidePosition);
 
         if (m.getAction() == MotionEvent.ACTION_DOWN) {
+
+
+
+
+
             initX = m.getRawX();
             initY = m.getRawY();
             if (initY < MiddleLayout.getY() || initY > MiddleLayout.getY() + (0.1) * displayMetrics.heightPixels) {
@@ -319,15 +326,11 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
         if (m.getAction() == MotionEvent.ACTION_UP) {
             diffY = initY - m.getRawY();
             diffX = initX - m.getRawX();
-            if (diffY < -pushSensitivity) {
-                showToast("WORKED?");
-                popup.showAtLocation(framelayout, Gravity.TOP, 0, 0);
-
-                return super.onTouchEvent(m);
-            } else if (diffX > pushSensitivity) {
+          if (diffX > pushSensitivity) {
                 //NEXT
 
                 startActivity(new Intent(this, ActivityB.class));
+                Animatoo.animateSplit(this);
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 return super.onTouchEvent(m);
             } else if (diffX < -(pushSensitivity * 2)) {
@@ -378,7 +381,6 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
             return ;
         }
         veh.iv.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.image_click));
-        hidden_location.setText(veh.getLocation());
         hidden_name.setText(veh.getName());
         hidden_phone.setText(veh.getContact());
         hidden_time.setText(Integer.toString(veh.getMinutes()));
@@ -389,21 +391,10 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
 
 
 
-    public void ShowCarInfo(View view)
+    public void ShowCarInfo(View v)
     {
-        AlertDialog.Builder builder=new AlertDialog.Builder(this);
-        builder.setTitle(LastSelectedVehicle.getVehicle_num()+" - 정보");
-        builder.setMessage("Name : "+LastSelectedVehicle.getName()+"\nPhone : "+LastSelectedVehicle.getContact()+"\nArrival : "+LastSelectedVehicle.getArrival_time()+"\nLocation : "+LastSelectedVehicle.getLocation()+"\nimaegcode : "+LastSelectedVehicle.getImagecode());
-
-        builder.setPositiveButton("OK",
-                new DialogInterface.OnClickListener(){
-                    @Override
-                    public void onClick(DialogInterface dialogInterface,int i){
-
-                    }
-                });
-        AlertDialog dialog=builder.create();
-        dialog.show();
+        iv2.startAnimation(AnimationUtils.loadAnimation(this,R.anim.image_click));
+        new Vehicle().ShowCarInfo(LastSelectedVehicle,this);
     }
 
     public void intentA(View view) {
@@ -414,6 +405,7 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
 
     public void addNewCar(View view)
     {
+        iv1.startAnimation(AnimationUtils.loadAnimation(this,R.anim.image_click));
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         builder.setTitle("Choose Option");
@@ -452,50 +444,20 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
 
             FirebaseController.addVehicle(newV);
             addContent(ImageLayouts,TextLayouts,newV);
+
   */
     }
     protected void ManualCarIn()
-    {/*
-        final EditText et = new EditText(getApplicationContext());
-        FrameLayout container = new FrameLayout(getApplicationContext());
+    {
 
-        FrameLayout.LayoutParams params = new  FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
-        params.leftMargin = getResources().getDimensionPixelSize(R.dimen.dialog_margin);
 
-        params.rightMargin = getResources().getDimensionPixelSize(R.dimen.dialog_margin);
-
-        et.setLayoutParams(params);
-
-        container.addView(et);
-
-        final AlertDialog.Builder alt_bld = new AlertDialog.Builder(getApplicationContext(),R.style.MyAlertDialogStyle);
-
-        alt_bld.setTitle("닉네임 변경").setMessage("변경할 닉네임을 입력하세요")
-                .setIcon(R.drawable.check_dialog_64).setCancelable(false).setView(container)
-                .setPositiveButton("확인", new DialogInterface.OnClickListener() {
-
-                    public void onClick(DialogInterface dialog, int id) {
-
-                        String value = et.getText().toString();
-
-                        user_name.setText(value);
-
-                    }
-
-                });
-
-        AlertDialog alert = alt_bld.create();
-
-        alert.show();
-
-    */
-        Vehicle newV = LastSelectedVehicle.randomcarGen();
+        /*Vehicle newV = LastSelectedVehicle.randomcarGen();
         newV.setFair(Settings.hour_fair);
 
         FirebaseController.addVehicle(newV);
         addContent(ImageLayout,TextLayout,newV);
-
+*/
     }
     public void intentB(View view) {
 
@@ -504,6 +466,8 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
 
     }
     public void CarOut(View view)  {
+        iv4.startAnimation(AnimationUtils.loadAnimation(this,R.anim.image_click));
+        iv4.setColorFilter(Color.YELLOW);
         FirebaseController.removeVehicleCurrent(LastSelectedVehicle);
 
         Income income = new Income(LastSelectedVehicle);
@@ -513,9 +477,15 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
         FirebaseController.addIncome(income);
 
 
+        iv4.setColorFilter(Color.WHITE);
     }
+    public void sendSMS(View view)
+    {
+
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public void intentD(View view)  {
+    public void PrinterStart(View view)  {
 
         //need Change
       PDFPrint pdfp = new PDFPrint("test_pdf.pdf",this,LastSelectedVehicle);
@@ -596,14 +566,31 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
     }
 
 
+
+    public void toSecond(View view)
+    {
+        startActivity(new Intent(this,ActivityB.class));
+        Animatoo.animateZoom(this);
+    }
+
+    public void toThird(View view)
+    {
+        startActivity(new Intent(this,ActivityC.class));
+        Animatoo.animateZoom(this);
+    }
+
+
+
     class TimeManager extends Thread implements Runnable
     {
+
+
         TextView timeView,dateView;
         SimpleDateFormat format1;
         SimpleDateFormat format2;
         TimeManager(TextView time, TextView date)
         {
-
+            Log.d("Thread","Time Begin");
             timeView = time;
             dateView = date;
             format1 = new SimpleDateFormat("yyyy.MM.dd E");
@@ -644,6 +631,7 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
             date_now = format_time1;
 
         }
+
 
     }
 

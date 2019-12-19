@@ -64,7 +64,7 @@
 
         <activity
             android:launchMode="singleTask"
-            android:windowSoftInputMode="adjustPan"
+            android:windowSoftInputMode="adjustUnspecified"
             android:name=".CameraMain"
             />
     </application>

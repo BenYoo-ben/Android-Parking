@@ -4,13 +4,15 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:id="@+id/layout_main"
+    android:background="#001833"
+
     >
 
     <SurfaceView
         android:id="@+id/surfaceView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="10"
+        android:layout_weight="9"
         />
 
     <LinearLayout
@@ -23,10 +25,14 @@
         android:id="@+id/openCV_linear"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="4"
+        android:layout_weight="5"
         android:orientation="vertical"
         android:layout_gravity="center_horizontal|bottom"
         android:src="@android:drawable/ic_menu_camera"
+        android:textColorHighlight = "#ff7eff15"
+        android:textColorHint = "#AAAAAA"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/image_border_gray"
         >
 
 
@@ -36,30 +42,35 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:textColor="#FFBB00"
             android:text="Vehicle Number"
             />
         <EditText
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="2"
+            android:textColor="#FFFFFF"
             android:id="@+id/edit_v"
             />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:textColor="#FFBB00"
             android:text="Phone Number"
             />
         <EditText
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="2"
+            android:textColor="#FFFFFF"
             android:id="@+id/edit_p"
             />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:textColor="#FFBB00"
             android:text="Name"
 
             />
@@ -67,7 +78,10 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="2"
+            android:textColor="#FFFFFF"
             android:id="@+id/edit_c"
+
+
 
             />
 
@@ -77,21 +91,33 @@
         <ImageView
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="3"
+            android:layout_weight="4"
             android:scaleType="fitXY"
             android:id="@+id/ImagePreview"
+
             />
 
-       <Button
+
+        <ImageView
+
+            android:id="@+id/Loading_View"
+            android:scaleType="centerInside"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+
+            android:visibility="gone"
+           />
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/Confirm_Button"
             android:layout_width="0dp"
-           android:layout_height="match_parent"
-           android:layout_weight="2"
-           android:text="OK"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+
+            android:text="Go"
 
 
-           />
-
+            />
 
 
     </LinearLayout>

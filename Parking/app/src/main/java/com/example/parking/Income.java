@@ -1,6 +1,9 @@
 package com.example.parking;
 
-import android.widget.TextView;
+import android.content.Context;
+import android.content.DialogInterface;
+
+import androidx.appcompat.app.AlertDialog;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -78,12 +81,29 @@ public class Income {
 
             Date date = new Timer().SDF.parse(arrival_time);
             time_t.setTime(date);
+            //time_now.add(time_now.YEA);
             time_now.getTimeInMillis();
-            minutes = (int)((time_now.getTimeInMillis() - time_t.getTimeInMillis()) / 1000 / 60);
+            minutes = (int)((time_now.getTimeInMillis() - time_t.getTimeInMillis()) / (1000 * 60));
         } catch (ParseException e) {
             e.printStackTrace();
         }
     }
 
+    public void ShowIncomeInfo(Income i, Context context)
+    {
+        AlertDialog.Builder builder=new AlertDialog.Builder(context);
+        builder.setTitle(i.getID()+" - 정보");
+        builder.setMessage("CarNo : "+i.getVehicle_num()+"\nArrival : "+i.getArrival_time()+"\nDeparture : "
+                +i.getDeparture_time()+"\nHourFee : "+i.getFair()+"\nMinutes : "+i.getMinutes());
 
+        builder.setPositiveButton("OK",
+                new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialogInterface,int i){
+
+                    }
+                });
+        AlertDialog dialog=builder.create();
+        dialog.show();
+    }
 }

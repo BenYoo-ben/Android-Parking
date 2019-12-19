@@ -1,19 +1,15 @@
 package com.example.parking;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseReference;
+import androidx.appcompat.app.AlertDialog;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.Vector;
-import java.util.logging.SimpleFormatter;
 
 public class Vehicle
     {
@@ -141,7 +137,22 @@ public class Vehicle
                 System.out.println();
             }
         }
+        public void ShowCarInfo(Vehicle LastSelectedVehicle, Context context)
+        {
+            AlertDialog.Builder builder=new AlertDialog.Builder(context);
+            builder.setTitle(LastSelectedVehicle.getVehicle_num()+" - 정보");
+            builder.setMessage("Name : "+LastSelectedVehicle.getName()+"\nPhone : "+LastSelectedVehicle.getContact()+"\nArrival : "+LastSelectedVehicle.getArrival_time()+"\nLocation : "+LastSelectedVehicle.getLocation()+"\nimaegcode : "+LastSelectedVehicle.getImagecode());
 
+            builder.setPositiveButton("OK",
+                    new DialogInterface.OnClickListener(){
+                        @Override
+                        public void onClick(DialogInterface dialogInterface,int i){
+
+                        }
+                    });
+            AlertDialog dialog=builder.create();
+            dialog.show();
+        }
 
 
         Vehicle randomcarGen()

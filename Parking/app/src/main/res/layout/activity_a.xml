@@ -76,6 +76,8 @@
                 android:focusable = "true"
                 android:textColorHighlight = "#ff7eff15"
                 android:textColorHint = "#AAAAAA"
+
+
                 android:id="@+id/search_edit_text7"
 
                 />
@@ -170,7 +172,7 @@
             android:textColor="#FFFFFF"
             android:textSize="12dp"
             android:background="@drawable/text_border"
-            android:text="AAA"
+
             android:gravity="center"
             />
         <TextView
@@ -182,21 +184,10 @@
             android:textColor="#FFFFFF"
             android:textSize="12dp"
             android:background="@drawable/text_border"
-            android:text="000-0000-0000"
+
             android:gravity="center"
             />
-        <TextView
-            android:layout_height="match_parent"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:id="@+id/location_textview"
-            android:fontFamily="@font/kenteken"
-            android:textColor="#FFFFFF"
-            android:textSize="12dp"
-            android:background="@drawable/text_border"
-            android:text="B92"
-            android:gravity="center"
-            />
+
         <TextView
             android:layout_height="match_parent"
             android:layout_width="0dp"
@@ -206,7 +197,7 @@
             android:textColor="#FFFFFF"
             android:textSize="12dp"
             android:background="@drawable/text_border"
-            android:text="555 min"
+
             android:gravity="center"
             />
 
@@ -218,10 +209,10 @@
         android:id="@+id/linear_under"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="8"
+        android:layout_weight="5"
         android:orientation="vertical"
-        android:rowCount="2"
-        android:columnCount="2"
+        android:rowCount="1"
+        android:columnCount="4"
         android:background="@drawable/text_border"
 
         >
@@ -236,8 +227,8 @@
             android:src="@mipmap/parking"
             android:tint="#FFFFFF"
             android:scaleType="centerInside"
-            android:scaleX="0.6"
-            android:scaleY="0.6"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
             android:id="@+id/iv1"
 
 
@@ -253,8 +244,8 @@
         android:src="@mipmap/map"
         android:tint="#FFFFFF"
         android:scaleType="centerInside"
-        android:scaleX="0.5"
-        android:scaleY="0.5"
+        android:scaleX="0.7"
+        android:scaleY="0.7"
         android:id="@+id/iv3"
 
         />
@@ -266,12 +257,12 @@
         android:layout_rowWeight="1"
 
         android:text="Activity D"
-        android:onClick="intentD"
+        android:onClick="sendSMS"
         android:src="@mipmap/mail"
         android:tint="#FFFFFF"
         android:scaleType="centerInside"
-        android:scaleX="0.6"
-        android:scaleY="0.6"
+        android:scaleX="0.8"
+        android:scaleY="0.8"
         android:id="@+id/iv2"
         />
 
@@ -286,8 +277,8 @@
             android:src="@mipmap/logout"
             android:tint="#FFFFFF"
             android:scaleType="centerInside"
-            android:scaleX="0.5"
-            android:scaleY="0.5"
+            android:scaleX="0.7"
+            android:scaleY="0.7"
             android:id="@+id/iv4"
             />
 
@@ -295,4 +286,52 @@
 
 
     </GridLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="85dp"
+        android:background="@drawable/text_border"
+        android:orientation="horizontal"
+        >
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+
+            android:src="@mipmap/parkinglot"
+            android:scaleType="centerInside"
+            android:scaleX="0.7"
+            android:scaleY="0.7"
+            android:background="#001833"
+            android:tint="@color/white"
+            />
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:onClick="toSecond"
+            android:src="@mipmap/money"
+            android:scaleType="centerInside"
+
+            android:scaleX="0.7"
+            android:scaleY="0.7"
+            android:background="#001833"
+            android:tint="@color/white"
+            />
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:onClick="toThird"
+            android:src="@mipmap/settings"
+            android:scaleType="centerInside"
+            android:scaleX="0.7"
+            android:scaleY="0.7"
+            android:background="#001833"
+
+            android:tint="@color/white"
+            />
+
+
+    </LinearLayout>
 </LinearLayout>

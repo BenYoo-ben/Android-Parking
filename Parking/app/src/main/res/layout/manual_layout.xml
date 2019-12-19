@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_main"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="#002255"
+
+    tools:context="com.example.parking.ManualInput">
+
+
+
+
+
+    <GridLayout
+        android:id="@+id/linear_under"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5"
+        android:orientation="vertical"
+        android:rowCount="3"
+        android:columnCount="2"
+        android:background="@drawable/text_border"
+
+
+        >
+        <TextView
+
+
+            android:fontFamily="@font/blackhan"
+            android:textSize="35dp"
+            android:text="전화번호"
+            android:textColor="@color/white"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:gravity="center"
+
+            />
+
+        <TextView
+
+            android:fontFamily="@font/blackhan"
+            android:textSize="35dp"
+            android:text="차량번호"
+            android:textColor="@color/white"
+
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:gravity="center"
+            />
+        <TextView
+
+            android:fontFamily="@font/blackhan"
+            android:textSize="35dp"
+            android:text="이   름"
+            android:textColor="@color/white"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:gravity="center"
+            />
+        <EditText
+            android:id="@+id/mled1"
+            android:fontFamily="@font/blackhan"
+            android:hint="010-0000-0000"
+            android:textColorHint="#AAAAAA"
+            android:textColorHighlight="#FF00FF"
+            android:textSize="35dp"
+
+            android:textColor="#FFBB00"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:gravity="center"
+            />
+
+
+        <EditText
+            android:id="@+id/mled2"
+            android:fontFamily="@font/blackhan"
+            android:hint="11가1111"
+            android:textColorHint="#AAAAAA"
+            android:textColorHighlight="#FF00FF"
+            android:textSize="30dp"
+
+            android:textColor="#FFBB00"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:gravity="center"
+            />
+
+
+        <EditText
+            android:id="@+id/mled3"
+            android:fontFamily="font/blackhan"
+
+            android:hint="홍길동"
+            android:textColorHint="#AAAAAA"
+            android:textColorHighlight="#FF00FF"
+            android:textSize="40dp"
+            android:textColor="#FFBB00"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:gravity="center"
+            />
+    </GridLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="85dp"
+        android:background="@drawable/text_border"
+        android:orientation="horizontal"
+        >
+
+
+
+    </LinearLayout>
+</LinearLayout>

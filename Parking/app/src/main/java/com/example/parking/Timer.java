@@ -8,6 +8,7 @@ public class Timer extends Calendar {
     SimpleDateFormat date = new SimpleDateFormat("MM/dd");
     SimpleDateFormat time = new SimpleDateFormat("HH : mm");
 
+
     @Override
     protected void computeTime() {
 

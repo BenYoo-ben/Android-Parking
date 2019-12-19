@@ -27,6 +27,7 @@ public class MLKit {
 
     private static final String CLOUD_VISION_API_KEY = "AIzaSyChepJug-3t_kNjXPmEU4ku9Evon1dWy9o";
     String rString;
+    MLKit mlk_copy;
     private EditText[] VPC = new EditText[3];
     private long imagecode;
 
@@ -62,6 +63,12 @@ public class MLKit {
     {
 this.A = A;
     }
+    public MLKit(MLKit mlk,Context A)
+    {
+        this.VPC = mlk.VPC;
+        this.mlk_copy =mlk;
+        this.A = A;
+    }
     Task<FirebaseVisionText> result;
 
     void runTextRecognition(Bitmap image_bitmap)
@@ -82,6 +89,7 @@ this.A = A;
                                     Toast.makeText(A,"인식성공,"+rString,Toast.LENGTH_LONG);
                                     Log.d("RECOGNITION", rString);
                                     changeOnString(rString);
+                                    mlk_copy.setImageCode(getImageCode());
                                 }
                                 else{
                                     Toast.makeText(A,"인식실패, 다시시도해주세요.",Toast.LENGTH_LONG);
@@ -141,14 +149,21 @@ return null;
     String parseString(String s)
     {
         // 0 for vehicle num, 1 for phone
-
+        if(s==null){
+            Log.d("RECOGNITION","Parsing Fail");
+            return null;
+        }
         String[] results = s.split("\n");
         for(int i=0;i<results.length;i++)
         {
+            Log.d("RECOGNITION","["+i+"] --> "+results[i]);
             results[i] = results[i].replaceAll(" ","");
-            results[i] = results[i].replaceAll("-","");
-            results[i] = results[i].replaceAll(".","");
 
+            results[i] = results[i].replaceAll("-","");
+
+            results[i] = results[i].replaceAll("•","");
+            results[i] = results[i].replaceAll("\\.","");
+            Log.d("RECOGNITION","["+i+"] --> "+results[i]);
             if(results[i].contains("010"))
             {
                 Log.d("RECOGNITION",results[i]+"Phone no.\n");

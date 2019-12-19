@@ -2,12 +2,15 @@ package com.example.parking;
 
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
 import android.preference.PreferenceFragment;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 
 
 public class Settings extends AppCompatActivity {
@@ -16,6 +19,7 @@ public class Settings extends AppCompatActivity {
 
     //static String imgloc =
     static String location = "Seoul Gangnam-gu P2";
+
 
 
 
@@ -46,5 +50,22 @@ public class Settings extends AppCompatActivity {
 // here we should call settings ui
             addPreferencesFromResource(R.xml.preferences);
         }
+    }
+    public void toFirst(View view)
+    {
+        //startActivity(new Intent(this,ActivityA.class));
+        Animatoo.animateZoom(this);
+    }
+
+    public void toSecond(View view)
+    {
+        startActivity(new Intent(this,ActivityB.class));
+        Animatoo.animateZoom(this);
+    }
+
+    public void toThird(View view)
+    {
+        startActivity(new Intent(this,ActivityC.class));
+        Animatoo.animateZoom(this);
     }
 }

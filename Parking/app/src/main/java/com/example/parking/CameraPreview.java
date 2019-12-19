@@ -1,5 +1,6 @@
 package com.example.parking;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -59,19 +60,22 @@ class CameraPreview extends ViewGroup implements SurfaceHolder.Callback {
     private Context mContext;
 
     private ImageView IV;
+    private ImageView CI;
 
     public void getmContext(Context c){this.mContext=c;}
     public void getImageView(ImageView iv)
     {
         this.IV = iv;
     }
-    public CameraPreview(Context context, AppCompatActivity activity, int cameraID, SurfaceView surfaceView) {
+    int ThreadCount =0;
+
+    public CameraPreview(Context context, AppCompatActivity activity, int cameraID, SurfaceView surfaceView, ImageView CI) {
         super(context);
 
 
         Log.d("@@@", "Preview");
 
-
+        this.CI = CI;
 
         mActivity = activity;
         mCameraID = cameraID;
@@ -262,7 +266,10 @@ class CameraPreview extends ViewGroup implements SurfaceHolder.Callback {
 
         // stop preview before making changes
         try {
-            mCamera.stopPreview();
+           // mCamera.stopPreview();
+            /******************************
+             * Solution to Camera Pause ? ?  ? ? ?
+             */
             Log.d(TAG, "Preview stopped.");
         } catch (Exception e) {
             // ignore: tried to stop a non-existent preview
@@ -274,7 +281,10 @@ class CameraPreview extends ViewGroup implements SurfaceHolder.Callback {
 
         try {
             mCamera.setPreviewDisplay(mHolder);
-            mCamera.startPreview();
+            /******************************
+             * Solution to Camera Pause ? ?  ? ? ?
+             */
+         //   mCamera.startPreview();
             Log.d(TAG, "Camera preview started.");
         } catch (Exception e) {
             Log.d(TAG, "Error starting camera preview: " + e.getMessage());
@@ -333,10 +343,17 @@ class CameraPreview extends ViewGroup implements SurfaceHolder.Callback {
 
             public void onAutoFocus(boolean success, Camera camera) {
 
+                Log.d("TakePic","Focusing...");
                 if(success){
 
+                    Log.d("TakePic","Success!");
+                TakePic tp = new TakePic(mCamera);
+                tp.start();
 
-                   new TakePic().start();
+                }
+                else
+                {
+                    Log.d("TakePic","Failure");
                 }
 
             }
@@ -357,127 +374,231 @@ class CameraPreview extends ViewGroup implements SurfaceHolder.Callback {
         }
     };
 
-    Camera.PictureCallback jpegCallback = new Camera.PictureCallback() {
-        public void onPictureTaken(byte[] data, Camera camera) {
-
-
-            //이미지의 너비와 높이 결정
-            int w = camera.getParameters().getPictureSize().width;
-            int h = camera.getParameters().getPictureSize().height;
-            int orientation = calculatePreviewOrientation(mCameraInfo, mDisplayOrientation);
-
-
-            //byte array를 bitmap으로 변환
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inPreferredConfig = Bitmap.Config.ARGB_8888;
-            Bitmap bitmap = BitmapFactory.decodeByteArray( data, 0, data.length, options);
-
-
-            //이미지를 디바이스 방향으로 회전
-            Matrix matrix = new Matrix();
-            matrix.postRotate(orientation);
-            bitmap =  Bitmap.createBitmap(bitmap, 0, 0, w, h, matrix, true);
-            Calendar c = Calendar.getInstance();
-          imagecode = c.getTimeInMillis();
-
-            mlk.runTextRecognition(bitmap);
 
 
 
 
-            Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap,scaledX, scaledY, true);
-            //bitmap을 byte array로 변환
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
 
-             scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-
-            byte[] currentData = stream.toByteArray();
-
-            //파일로 저장
-
-
-
-            new SaveImageTask().execute(currentData);
-
-            IV.setImageBitmap(scaledBitmap);
-        }
-    };
-
-
-
-    private class SaveImageTask extends AsyncTask<byte[], Void, Void> {
-
-        @Override
-        protected Void doInBackground(byte[]... data) {
-            FileOutputStream outStream = null;
-
-
-            try {
-
-                File path = new File (mContext.getFilesDir().getAbsolutePath());
-                if (!path.exists()) {
-                    path.mkdirs();
-                }
-                Log.d("PATH",path.toString());
-
-                String fileName =imagecode+".jpg";
-                File outputFile = new File(path, fileName);
-                File outputText = new File(path,"ResultText.txt");
-
-
-                outStream = new FileOutputStream(outputFile);
-                outStream.write(data[0]);
-                outStream.flush();
-
-                outStream = new FileOutputStream(outputText);
-                if(resultString!=null) {
-                    byte[] tmpdata = resultString.getBytes();
-                    outStream.write(tmpdata);
-                }
-                outStream.close();
-
-                Log.d(TAG, "onPictureTaken - wrote bytes: " + data.length + " to "
-                        + outputFile.getAbsolutePath());
-
-
-                mCamera.startPreview();
-
-
-                // Add to gallery
-                Intent mediaScanIntent = new Intent( Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-                mediaScanIntent.setData(Uri.fromFile(outputFile));
-                getContext().sendBroadcast(mediaScanIntent);
-
-
-
-                try {
-                    mCamera.setPreviewDisplay(mHolder);
-                     mCamera.startPreview();
-                    Log.d(TAG, "Camera preview started.");
-                } catch (Exception e) {
-                    Log.d(TAG, "Error starting camera preview: " + e.getMessage());
-                }
-
-                    //imagecoe to mlkit
-                    mlk.setImageCode(imagecode);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            return null;
-        }
-
-    }
 
     class TakePic extends Thread implements Runnable
     {
+
+        private Camera mCamera;
+        private Activity CM;
+
+        TakePic(Camera mCamera)
+        {
+            this.mCamera = mCamera;
+            Log.d("TakePic","ThreadBorn"+ThreadCount);
+            ThreadCount++;
+        }
+
+
+        @Override
+        public void destroy() {
+            super.destroy();
+            Log.d("TakePic","ThreadDying"+ThreadCount);
+            ThreadCount--;
+        }
+
+        Camera.PictureCallback jpegCallback = new Camera.PictureCallback() {
+            public void onPictureTaken(final byte[] data, final Camera camera) {
+
+                new ProcessImageTask(data).execute();
+
+
+            }
+        };
         @Override
         public void run()
         {
-            mCamera.takePicture(null, null, jpegCallback);
+
+
+            mActivity.runOnUiThread(new Runnable()
+            {
+
+                @Override
+                public void run() {
+                    Log.d("TakePic","Setting Loading IV..");
+                    IV.setVisibility(View.GONE);
+                    CI.setVisibility(View.VISIBLE);
+                }
+            }
+            );
+
+
+            this.mCamera.takePicture(null, null, this.jpegCallback);
+
+
+            Log.d("TakePic","After TakePhoto");
+
+            try {
+                this.sleep(1000);
+                mCamera.stopPreview();
+                mCamera.startPreview();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+
+        };
+
+        private class SaveImageTask extends AsyncTask<byte[], Void, Void> {
+
+
+
+            @Override
+            protected Void doInBackground(byte[]... data) {
+                FileOutputStream outStream = null;
+
+
+                try {
+
+                    File path = new File (mContext.getFilesDir().getAbsolutePath());
+                    if (!path.exists()) {
+                        path.mkdirs();
+                    }
+                    Log.d("PATH",path.toString());
+
+                    String fileName =imagecode+".jpg";
+                    File outputFile = new File(path, fileName);
+                    File outputText = new File(path,"ResultText.txt");
+
+
+
+                    outStream = new FileOutputStream(outputFile);
+                    outStream.write(data[0]);
+                    outStream.flush();
+
+                    outStream = new FileOutputStream(outputText);
+                    if(resultString!=null) {
+                        byte[] tmpdata = resultString.getBytes();
+                        outStream.write(tmpdata);
+                    }
+                    outStream.close();
+
+                    Log.d(TAG, "onPictureTaken - wrote bytes: " + data.length + " to "
+                            + outputFile.getAbsolutePath());
+
+
+
+
+
+                    // Add to gallery
+                    Intent mediaScanIntent = new Intent( Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                    mediaScanIntent.setData(Uri.fromFile(outputFile));
+                    getContext().sendBroadcast(mediaScanIntent);
+
+
+
+                    try {
+                        mCamera.setPreviewDisplay(mHolder);
+                        mCamera.startPreview();
+                        Log.d(TAG, "Camera preview started.");
+                    } catch (Exception e) {
+                        Log.d(TAG, "Error starting camera preview: " + e.getMessage());
+                    }
+
+                    //imagecoe to mlkit
+                    mlk.setImageCode(imagecode);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                return null;
+            }
+
+        }
+
+        private class ProcessImageTask extends AsyncTask<byte[], Void, Void> {
+
+            byte[] data;
+            byte[] currentData;
+
+            ProcessImageTask(final byte[] data){
+                this.data = data;
+            }
+            @Override
+            protected Void doInBackground(byte[]... datab) {
+                Log.d("TakePic","HERE?");
+                //이미지의 너비와 높이 결정
+
+                int w = mCamera.getParameters().getPictureSize().width;
+                int h = mCamera.getParameters().getPictureSize().height;
+                int orientation = calculatePreviewOrientation(mCameraInfo, mDisplayOrientation);
+
+
+                //byte array를 bitmap으로 변환
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+                Bitmap bitmap = BitmapFactory.decodeByteArray( data, 0, data.length, options);
+
+
+                //이미지를 디바이스 방향으로 회전
+                Matrix matrix = new Matrix();
+                matrix.postRotate(orientation);
+                bitmap =  Bitmap.createBitmap(bitmap, 0, 0, w, h, matrix, true);
+                Calendar c = Calendar.getInstance();
+
+                imagecode = c.getTimeInMillis();
+
+                MLKit mlkOnThread = new MLKit(mlk,mContext);
+                mlkOnThread.runTextRecognition(bitmap);
+                mlkOnThread.setImageCode(c.getTimeInMillis());
+
+                // mlk.runTextRecognition(bitmap);
+
+
+
+
+                final Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap,scaledX, scaledY, true);
+                //bitmap을 byte array로 변환
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+
+                scaledBitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+
+                currentData = stream.toByteArray();
+
+                //파일로 저장
+
+
+
+
+
+                mActivity.runOnUiThread(new Runnable()
+                {
+
+                    @Override
+                    public void run() {
+                        IV.setVisibility(View.VISIBLE);
+                        IV.setImageBitmap(scaledBitmap);
+                        CI.setVisibility(View.GONE);
+                    }
+                });
+
+
+                Log.d("TakePic","ThreadInterrupt"+ThreadCount);
+                interrupt();
+
+                return null;
+            }
+
+
+            @Override
+            protected void onPostExecute(Void result) {
+                super.onPostExecute(result);
+
+
+                new SaveImageTask().execute(currentData);
+                Log.d("TakePic","ImageSaveStart");
+            }
+
+
+
 
         }
     }
+
 }

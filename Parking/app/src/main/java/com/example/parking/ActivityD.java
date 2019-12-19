@@ -16,6 +16,7 @@ public class ActivityD extends AppCompatActivity {
         setContentView(R.layout.settings_layout);
 // our settings activity must come here
         Fragment fragment = new SettingsHolder();
+
 // this fragment must be from android.app.Fragment,
 // if you use support fragment, it will not work
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
