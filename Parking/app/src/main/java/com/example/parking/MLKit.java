@@ -1,7 +1,6 @@
 package com.example.parking;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -16,18 +15,20 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.ml.vision.FirebaseVision;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
+import com.google.firebase.ml.vision.text.FirebaseVisionCloudTextRecognizerOptions;
 import com.google.firebase.ml.vision.text.FirebaseVisionText;
 import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer;
 import com.google.firebase.ml.vision.text.RecognizedLanguage;
 
+import java.util.Arrays;
 import java.util.List;
-import java.util.Vector;
 
 public class MLKit {
 
-    private static final String CLOUD_VISION_API_KEY = "AIzaSyChepJug-3t_kNjXPmEU4ku9Evon1dWy9o";
-    String rString;
-    MLKit mlk_copy;
+    //계정의 고유키값
+    private final static String CLOUD_VISION_API_KEY = "AIzaSyChepJug-3t_kNjXPmEU4ku9Evon1dWy9o";
+    private String rString;
+    private MLKit mlk_copy;
     private EditText[] VPC = new EditText[3];
     private long imagecode;
 
@@ -47,6 +48,7 @@ public class MLKit {
     }
     protected void changeOnString(String rs)
     {
+        //결과값 스트링을 파싱하여 어느항목에 추가해야되는지 확인
         if(rs==null) return;
         else {
             if (rs.charAt(0) == 'V') {
@@ -73,9 +75,17 @@ this.A = A;
 
     void runTextRecognition(Bitmap image_bitmap)
     {
+        //문자인식 함수 시작.
         String returningString;
         FirebaseVisionImage FVI = FirebaseVisionImage.fromBitmap(image_bitmap);
-        FirebaseVisionTextRecognizer recognizer = FirebaseVision.getInstance().getCloudTextRecognizer();
+        FirebaseVisionCloudTextRecognizerOptions options = new FirebaseVisionCloudTextRecognizerOptions.Builder()
+                .setLanguageHints(Arrays.asList("ko"))
+                .build();
+        FirebaseVisionTextRecognizer recognizer = FirebaseVision.getInstance().getCloudTextRecognizer(options);
+
+
+
+
       result =  recognizer.processImage(FVI)
                 .addOnSuccessListener(
                         new OnSuccessListener<FirebaseVisionText>() {
@@ -111,6 +121,7 @@ this.A = A;
 
 
     }
+    //문자인식후 인식된 모든문자를 String 값ㄷ에 정렬
     String resultText(Task<FirebaseVisionText> result, Context A)
     {
         String resultText="";
@@ -146,6 +157,7 @@ this.A = A;
 return null;
 
     }
+    //정렬된 String을 통해서 어느 항목에 속하거나 필요없는 문자열인지 구분하는 함수
     String parseString(String s)
     {
         // 0 for vehicle num, 1 for phone
@@ -164,7 +176,6 @@ return null;
             results[i] = results[i].replaceAll("•","");
             results[i] = results[i].replaceAll("\\.","");
             Log.d("RECOGNITION","["+i+"] --> "+results[i]);
-            if(results[i].contains("010"))
             {
                 Log.d("RECOGNITION",results[i]+"Phone no.\n");
                 return "P:"+results[i];
@@ -177,6 +188,7 @@ return null;
         }
             return null;
     }
+    //차량번호에 해당하는 문자열인지 확인해주는 함수
     private boolean isVehicle(String s)
     {
         char c;
@@ -195,13 +207,6 @@ return null;
       }
     if(charcount==0) return false;
         return true;
-    }
-
-    public void sendDatatoIntent(Intent intent,Vector<String>[] vectors)
-    {
-        intent.putExtra("VehicleNums",vectors[0]);
-        intent.putExtra("PhoneNums",vectors[1]);
-        A.startActivity(intent);
     }
 
 

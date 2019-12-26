@@ -48,12 +48,11 @@ import ss.com.bannerslider.Slider;
 import ss.com.bannerslider.event.OnSlideChangeListener;
 
 public class ActivityA extends AppCompatActivity implements View.OnClickListener, TextWatcher {
+
     private static final int PERMISSION_SEND_SMS = 0;
 
     DisplayMetrics displayMetrics;
 
-
-    Vehicle[] veh;
     LinearLayout MiddleLayout;
     TextView hidden_VN, hidden_phone, hidden_time, timeView, dateView;
     ImageView iv1, iv2, iv3, iv4;
@@ -65,7 +64,6 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
     float initX, diffX, pushSensitivity = 150;
     float initY, diffY;
 
-    LayoutInflater LI;
     FrameLayout framelayout;
 
 
@@ -75,13 +73,10 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
 
     Vehicle LastSelectedVehicle = null;
-    private int LastSelectedPos;
 
     private Slider slider;
     private BannerImageLoadingService imgloadingservice;
     private BannerSliderAdapter sliderAdapter;
-
-    ManualInput MI;
 
     EditText Med1,Med2,Med3;
     ImageView ManualConfirmButton;
@@ -90,56 +85,14 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
     private int BackButtonCheck=0;
     private int reqCode=7121;
 
+    //Slider:RecyclerView 업데이트
     void UpdateSlider()
     {
         slider.setAdapter(new BannerSliderAdapter(this));
         slider.setSlideChangeListener(OSCL);
     }
 
-
-
-    void removeView(LinearLayout[] IVs, LinearLayout[] TVs, int index) {/*
-        System.out.println("Requested Delete is "+index);
-
-        if(removeOrder==0){
-            IVs[index%2].removeViewAt(index/2);
-            TVs[index%2].removeViewAt(index/2);
-        removeOrder=1;
-        }else
-        {
-            IVs[~(index%2)].removeViewAt(index/2);
-            TVs[~(index%2)].removeViewAt(index/2);
-            removeOrder=0;
-
-        }*/
-
-
-        /*ImageLayout1.removeAllViews();
-        ImageLayout2.removeAllViews();
-        TextLayout1.removeAllViews();;
-        TextLayout2.removeAllViews();
-        setCarView(IVs,TVs);
-*/
-
-
-    }
-
-
-    void removeView(Vehicle v) {
-        LinearLayout parentImageLayout = (LinearLayout) (v.iv.getParent());
-        LinearLayout parentTextLayout = (LinearLayout) (v.tv.getParent());
-        parentImageLayout.removeView(v.iv);
-        parentTextLayout.removeView(v.tv);
-
-    }
-
-    void removeView(Vehicle v, int pos) {
-        slider.removeViewAt(pos);
-        sliderAdapter.notify();
-
-
-    }
-
+    //현재상태 초기화 및 재배치.
     void setCarView() {
 
         Iterator i = FirebaseController.Vehicles.iterator();
@@ -156,21 +109,15 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
 
         return;
     }
-    void clearCarView(LinearLayout imageLayout, LinearLayout textLayout)
-    {
-        imageLayout.removeAllViews();
 
-        textLayout.removeAllViews();
-
-    }
-
-
+        //토스트 발생
     private void showToast(String message) {
         Toast toast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
         toast.show();
 
     }
 
+    //resume시 재배치
     @Override
     public void onResume() {
         super.onResume();
@@ -192,7 +139,7 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
 
 
         setContentView(Layout);
-
+        //manual_layout의 항목들을 등록하기위해 임시로 setContentView 호출.
 
         Med1 = (EditText)findViewById(R.id.mled1);
         Med2 = (EditText)findViewById(R.id.mled2);
@@ -200,25 +147,21 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
         ManualConfirmButton = (ImageView)findViewById(R.id.manual_confirm_button);
 
         setContentView(R.layout.activity_a);
+        //진짜 setContentView.
 
-
-
+        //recyclerView
         slider = (Slider)findViewById(R.id.bannerslider);
-
         imgloadingservice = new BannerImageLoadingService(this);
-
         slider.setSlideChangeListener(OSCL);
 
-
+        //화면 크기 가져오기
         Resources resources = getApplicationContext().getResources();
         displayMetrics = new DisplayMetrics();
         displayMetrics = resources.getDisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
-
-        LI = (LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
         framelayout = new FrameLayout(this);
+
 
         timeView = (TextView) findViewById(R.id.timeview);
         dateView = (TextView) findViewById(R.id.dateview);
@@ -230,10 +173,6 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
         iv3 = (ImageView) findViewById(R.id.iv3);
         iv4 = (ImageView) findViewById(R.id.iv4);
 
-
-
-
-
         hidden_VN = (TextView) findViewById(R.id.name_textview);
         hidden_phone = (TextView) findViewById(R.id.phone_textview);
         hidden_time = (TextView) findViewById(R.id.time_textview);
@@ -244,6 +183,7 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
         SearchEditText.addTextChangedListener(this);
 
 
+        //시간표시해주는 쓰레드 시작.
         TimeManager tm = new TimeManager(timeView, dateView);
         tm.start();
 
@@ -255,6 +195,7 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
 
     }
 
+    //슬라이드 넘길때 발생하는 이벤트
     OnSlideChangeListener OSCL = new OnSlideChangeListener()
     {
         @Override
@@ -262,7 +203,6 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
             if(FirebaseController.Vehicles.size()!=0)
             {
                 LastSelectedVehicle = FirebaseController.Vehicles.get(position);
-                LastSelectedPos = position;
                 VehicleSelect(LastSelectedVehicle);
 
             }
@@ -283,11 +223,6 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
 
                 BackButtonCheck=0;
 
-
-
-
-
-
             initX = m.getRawX();
             initY = m.getRawY();
             if (initY < MiddleLayout.getY() || initY > MiddleLayout.getY() + (0.1) * displayMetrics.heightPixels) {
@@ -295,6 +230,7 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
             }
         return super.onTouchEvent(m);
         }
+        //화면 좌우로 이동할때
         if (m.getAction() == MotionEvent.ACTION_UP) {
             diffY = initY - m.getRawY();
             diffX = initX - m.getRawX();
@@ -318,7 +254,6 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
 
     @Override
     protected void onStart() {
-        setTheme(R.style.Launcher);
         super.onStart();
 
         setCarView();
@@ -328,7 +263,7 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
 
     @Override
     public void onClick(View view) {
-
+/*
         Iterator<Vehicle> i = FirebaseController.Vehicles.iterator();
         int count = 0;
         while (i.hasNext()) {
@@ -341,10 +276,11 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
             }
             count++;
         }
-
+*/
 
     }
 
+    //차가 선택되었을때
     void VehicleSelect(Vehicle veh)
     {
         if(veh==null)
@@ -353,28 +289,25 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
             return ;
         }
 
+        veh.CalcMinutes();
         hidden_VN.setText(veh.getVehicle_num());
         hidden_phone.setText(veh.getContact());
-        hidden_time.setText(Integer.toString(veh.getMinutes()));
+        hidden_time.setText(String.valueOf(veh.getMinutes()));
         MiddleLayout.setVisibility(View.VISIBLE);
     }
 
 
 
 
-
+    //차량에 대한 정보표시.
     public void ShowCarInfo(View v)
     {
         iv3.startAnimation(AnimationUtils.loadAnimation(this,R.anim.image_click));
         new Vehicle().ShowCarInfo(LastSelectedVehicle,this,this);
     }
 
-    public void intentA(View view) {
 
-        showToast("Current Screen");
-
-    }
-
+    //차량 추가
     public void addNewCar(View view)
     {
         iv1.startAnimation(AnimationUtils.loadAnimation(this,R.anim.image_click));
@@ -399,6 +332,7 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
             {
                 Intent a = new Intent(getApplicationContext(),CameraMain.class);
 
+                //자동 문자 전송이 켜져있으면 startActivityForResult로 아니면 그냥 startActivity
                 if( SettingsScreen.autosmson==1)
                 startActivityForResult(a,reqCode);
                 else
@@ -422,6 +356,8 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
             addContent(ImageLayouts,TextLayouts,newV);
 
   */
+
+    //수동으로 차량 추가
     }
     protected void ManualCarIn()
     {
@@ -436,6 +372,7 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
 */
     }
 
+    //차량 내보내기
     public void CarOut(View view)  {
 
 
@@ -470,7 +407,7 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
 
 
 
-
+    //문자보내기 차량
     }
 
     public void sendSMS(Vehicle V)
@@ -502,6 +439,7 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
         }
     }
 
+    //온클릭 메소드 문자보내기
     public void sendSMS(View view)
     {
         iv2.startAnimation(AnimationUtils.loadAnimation(this,R.anim.image_click));
@@ -509,6 +447,7 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
 
 
     }
+    //문자내용 만들기
     private String makeSMSText(Vehicle v)
     {
         String SMS="";
@@ -526,6 +465,7 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
 
     }
 
+    //차량번호로 차량을 검색
     public Vehicle SearchVehicleWithNum(String query)
     {
         Iterator<Vehicle> i = FirebaseController.Vehicles.iterator();
@@ -550,12 +490,13 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
 
     }
 
+    //온클릭 메소드
     public void Search(View view)
     {
         SearchVehicleWithNum(SearchEditText.getText().toString());
     }
 
-    @Override
+    //백버튼 오버라이드 / 두번연속 클릭시 프로그램 종료료    @Override
     public void onBackPressed() {
         ++BackButtonCheck;
         Toast.makeText(this,"종료를 원하시면 한번 더 눌러주세요.",Toast.LENGTH_SHORT).show();
@@ -572,6 +513,7 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
 
     }
 
+    //엔터버튼으로도 검색할 수 있도록 적용
     @Override
     public void onTextChanged(CharSequence s, int start, int before, int count) {
 
@@ -593,8 +535,11 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
     public void afterTextChanged(Editable s) {
 
     }
-    private final TimeHandler mTimeHandler = new TimeHandler(this);
 
+    //시간 표시해주는 쓰레드 핸들러.
+   private final TimeHandler mTimeHandler = new TimeHandler(this);
+
+    //약한 참조를 사용하여 쓰레드를 통한 메모리 누수가 적도록 설계함.
     private static class TimeHandler extends Handler {
         private final WeakReference<ActivityA> mActivity;
         public TimeHandler(ActivityA activity) {
@@ -632,6 +577,7 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
         Animatoo.animateZoom(this);
     }
 
+    //수동으로 차량정보를 입력할때 alertdialog의 버튼 이벤트
     public void Manual_Confirm_Event(View view) {
         if (ManualConfirmButton == null) Log.d("FUCK","Fuck");
         ManualConfirmButton.startAnimation(AnimationUtils.loadAnimation(this,R.anim.image_click));
@@ -654,6 +600,7 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
 
     }
 
+    //카메라를 실행시킬 때 startActivityForResult를 통해 실행시킨 결과를 받음.
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -674,6 +621,7 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
 
 
 
+    //시간 표시 쓰레드
     class TimeManager extends Thread implements Runnable
     {
 
@@ -696,7 +644,7 @@ public class ActivityA extends AppCompatActivity implements View.OnClickListener
         {
             while(true) {
                 try {
-                    this.sleep(10000);
+                    this.sleep(2500);
                     gettimedata();
                     mTimeHandler.sendMessage(mTimeHandler.obtainMessage());
                 } catch (InterruptedException e) {

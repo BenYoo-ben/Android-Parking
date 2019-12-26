@@ -28,6 +28,7 @@ public class BannerSliderAdapter extends SliderAdapter {
     @Override
     public void onBindImageSlide(int position, ImageSlideViewHolder imageSlideViewHolder) {
         int i = 0;
+        //로컬에 필요한 이미지가 없으면 대체할 이미지로 대신 표시
         Log.d("Exception@#@", "Checking for excemption with POS :"+position);
         if(new File(A.getFilesDir().getAbsolutePath()
                 + "/" + FirebaseController.Vehicles.get(position).getImagecode() + ".jpg").isFile()) {
@@ -41,6 +42,7 @@ public class BannerSliderAdapter extends SliderAdapter {
 
         while(i<FirebaseController.Vehicles.size())
         {
+            //이미지 가져오기
             if(position==i)
             {
                 if( (new File(A.getFilesDir().getAbsolutePath()

@@ -62,6 +62,7 @@ public class ActivityB extends AppCompatActivity implements View.OnClickListener
     public static float convertDpToPixel(float dp, Context context){
         return dp * ((float) context.getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
     }
+    //스크롤 뷰에 항목추가(수익목록)
     int addContent(LinearLayout textLayout,Income i)
     {
 
@@ -148,11 +149,13 @@ public class ActivityB extends AppCompatActivity implements View.OnClickListener
         return 1;
     }
 
+    //토스트 표시
     private void showToast(String message)
     {
         Toast toast = Toast.makeText(this,message,Toast.LENGTH_SHORT);
         toast.show();
     }
+    //수익목록 초기화 및 재배치
     private long setIncomeView(LinearLayout textLayout)
     {
 
@@ -231,6 +234,7 @@ public class ActivityB extends AppCompatActivity implements View.OnClickListener
 
     }
 
+    //화면 좌우 이동.
     @Override
     public boolean onTouchEvent(MotionEvent m)
     {
@@ -261,19 +265,26 @@ public class ActivityB extends AppCompatActivity implements View.OnClickListener
         return super.onTouchEvent(m);
     }
 
+    //시작시와 resume시 스크롤뷰 재배치.
     @Override
     public void onStart()
     {
         super.onStart();
-
         setIncomeView(scrollLinear);
 
     }
 
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        setIncomeView(scrollLinear);
+    }
 
     @Override
     public void onClick(View view) {
 
+        //달력버튼이 선택되면 DatePickerDialog로 두개의 날짜를 고르도록 함.
         if(view==CalendarIV)
         {
             CalendarIV.startAnimation(AnimationUtils.loadAnimation(this,R.anim.image_click));
@@ -286,37 +297,33 @@ public class ActivityB extends AppCompatActivity implements View.OnClickListener
             return;
         }
 
-        if(view==MonthLeft)
-        {
-            MonthLeft.startAnimation(AnimationUtils.loadAnimation(this,R.anim.image_click));
+        //월변경 이전달로
+        if(view==MonthLeft) {
+            MonthLeft.startAnimation(AnimationUtils.loadAnimation(this, R.anim.image_click));
             IncomeTitleView.setTextSize(10 * Resources.getSystem().getDisplayMetrics().density);
             IncomeTitleView.setText("Monthly Income");
-           int month = Integer.parseInt(MonthView.getText().toString().substring(8,10));
-           int year = Integer.parseInt(MonthView.getText().toString().substring(1,5));
+            int month = Integer.parseInt(MonthView.getText().toString().substring(8, 10));
+            int year = Integer.parseInt(MonthView.getText().toString().substring(1, 5));
 
-           month=month-1;
+            month = month - 1;
 
 
-           if(month==0)
-           {
-               month=12;
-               year=year-1;
-           }
-           if(month>=10)
-           {
-               MonthView.setText(" "+year+" - "+month+" ");
-           }
-           else
-           {
-               MonthView.setText(" "+year+" - 0"+month+" ");
-           }
+            if (month == 0) {
+                month = 12;
+                year = year - 1;
+            }
+            if (month >= 10) {
+                MonthView.setText(" " + year + " - " + month + " ");
+            } else {
+                MonthView.setText(" " + year + " - 0" + month + " ");
+            }
 
-            DateBegin.add(DateBegin.MONTH,-1);
-            DateEnd.add(DateEnd.MONTH,-1);
+            DateBegin.add(DateBegin.MONTH, -1);
+            DateEnd.add(DateEnd.MONTH, -1);
             setIncomeView(scrollLinear);
 
-            return ;
-        }
+            return;
+        }//월변경 다음달로
         else if(view == MonthRight)
         {
             MonthRight.startAnimation(AnimationUtils.loadAnimation(this,R.anim.image_click));
@@ -346,7 +353,7 @@ public class ActivityB extends AppCompatActivity implements View.OnClickListener
 
             return ;
         }
-
+        //수익목록의 아이템이 선택되면 자세한 정보를 표시
         if(view!=null) {
 
             Iterator<Income> i = FirebaseController.Incomes.iterator();
@@ -362,20 +369,12 @@ public class ActivityB extends AppCompatActivity implements View.OnClickListener
             return ;
         }
     }
-    public void intentA(View view)
-    {
-        startActivity(new Intent(this,ActivityA.class));
-        overridePendingTransition(R.anim.fade_in,R.anim.fade_out);
-    }
-    public void intentB(View view)
-    {
-        showToast("current Screen");
-    }
 
 
 
 
-    private final TextHandler mTextHandler = new TextHandler(this);
+
+
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -419,7 +418,8 @@ public class ActivityB extends AppCompatActivity implements View.OnClickListener
             e.printStackTrace();
         }
     }
-
+    //약한참조를 통해 돈이 토글되는 애니메이션 구현(메모리 누수 방지)
+    private final TextHandler mTextHandler = new TextHandler(this);
     private static class TextHandler extends Handler {
         private final WeakReference<ActivityB> mActivity;
         public TextHandler(ActivityB activity) {
@@ -456,7 +456,7 @@ public class ActivityB extends AppCompatActivity implements View.OnClickListener
         Animatoo.animateZoom(this);
     }
 
-
+    //수익 총 합계 토글시킨 뒤 표시.
     class TextRandom extends Thread implements Runnable
     {
         long sum;

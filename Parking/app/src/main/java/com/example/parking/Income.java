@@ -11,6 +11,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class Income {
+    //수익항목 클래스
     private int income;
 
     private String departure_time;
@@ -60,11 +61,13 @@ public class Income {
     }
     public Income(){}
 
+    //각 항목을 구별할 ID 생성
     void IDgen()
     {
         this.ID = departure_time+vehicle_num;
     }
 
+    //출차시간 저장
     public void Departuretimenow()
     {
         SimpleDateFormat SF = new SimpleDateFormat("yy-MM-dd HH:mm");
@@ -72,6 +75,7 @@ public class Income {
         this.departure_time = SF.format(c.getTime());
     }
 
+    //시간 계산
     public void CalcMinutes()
     {
         try {
@@ -89,6 +93,7 @@ public class Income {
         }
     }
 
+    //항목 클릭시 세부정보보여주기
     public void ShowIncomeInfo(Income i, Context context)
     {
         AlertDialog.Builder builder=new AlertDialog.Builder(context);

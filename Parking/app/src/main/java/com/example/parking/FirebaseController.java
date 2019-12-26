@@ -33,6 +33,7 @@ public class FirebaseController extends AppCompatActivity {
     static private FirebaseDatabase firebaseDatabase;
     static private DatabaseReference ref;
 
+    //Firebase에 차량추가
     static void addVehicle(Vehicle veh) {
 
 
@@ -48,6 +49,7 @@ public class FirebaseController extends AppCompatActivity {
         Vehicles.add(veh);
     }
 
+    //Firebase에 차량삭제
     static int removeVehicleCurrent(Vehicle veh) {
         ref.child(userID).child("Current").child(veh.getVehicle_num()).removeValue();
 
@@ -56,6 +58,7 @@ public class FirebaseController extends AppCompatActivity {
         return index;
     }
 
+    //설정 변경
     static void updateSettings()
     {
         ref.child(userID).child("Settings").child(userID).child("hourlyfair").setValue(SettingsScreen.hourlyfair);
@@ -64,6 +67,7 @@ public class FirebaseController extends AppCompatActivity {
         ref.child(userID).child("Settings").child(userID).child("autosmson").setValue(SettingsScreen.autosmson);
     }
 
+    //수익항목 추가
     static void addIncome(Income i) {
         ref.child(userID).child("Income").child(i.getID());
         ref.child(userID).child("Income").child(i.getID()).child("departure_time").setValue(i.getDeparture_time());
@@ -79,12 +83,12 @@ public class FirebaseController extends AppCompatActivity {
 
 
 
-
+    //Firebase 로드/시작할시
     static void onStarter() {
         firebaseDatabase = FirebaseDatabase.getInstance();
 
         System.out.println("=================="+userID+"===================");
-
+        //사용중인 Firebase 주소
         Firebase TestNewFirebase =   new Firebase("https://my-project-1533899069285.firebaseio.com/"+userID);
 
         TestNewFirebase.addListenerForSingleValueEvent(new com.firebase.client.ValueEventListener(){
@@ -93,8 +97,10 @@ public class FirebaseController extends AppCompatActivity {
             public void onDataChange(com.firebase.client.DataSnapshot dataSnapshot) {
                 if(!dataSnapshot.exists())
                 {
+                    //데이터가 존재하지 않을경우
                     System.out.println("DATA DOESN'T EXIST!!!");
                     loading_state_value = 0;
+                    very_first_run=1;
                     return;
                 }
                 else
@@ -118,12 +124,14 @@ public class FirebaseController extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
+                    //로딩률을 확인하기 위한 각자 Child 개수
                    long top1 = dataSnapshot.child(userID).child("Current").getChildrenCount();
                     long top2 = dataSnapshot.child(userID).child("Income").getChildrenCount();
                     long top3 = dataSnapshot.child(userID).child("Settings").getChildrenCount();
 
                    System.out.println("TOP1 IS >"+top1);
                     System.out.println("TOP2 IS >"+top2);
+                    System.out.println("TOP32 IS >"+top3);
                    long count=0;
                     //read the state of databsae and get vehicle data and have it saved on Vehicles instance.
                     Vector<Vehicle> vehicle_vector = new Vector<Vehicle>();

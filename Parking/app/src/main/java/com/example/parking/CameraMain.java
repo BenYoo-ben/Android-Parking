@@ -65,6 +65,8 @@ public class CameraMain extends AppCompatActivity
         CI = (ImageView)findViewById(R.id.Loading_View);
 
         CI.setBackgroundColor(0xFF001833);
+
+        //구글에서 사용을 권장하는 Glide : .GIF 표시를 위해 사용했다.
         Glide.with(this).load(R.mipmap.loading_gif).into(CI);
 
         //Until permission is not granted, surfaceview is not visible.
@@ -74,6 +76,7 @@ public class CameraMain extends AppCompatActivity
         VPC[2] = (EditText)findViewById(R.id.edit_c);
         IV = (ImageView)findViewById(R.id.ImagePreview);
 
+        //모든 항목을 기입하였을때 주차장에 확인버튼을 통해 차량을 추가할 수 있다.
         Confirm_Button = (Button)findViewById(R.id.Confirm_Button);
         Confirm_Button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,6 +90,7 @@ public class CameraMain extends AppCompatActivity
                     }
                     if(b==true)
                     {
+                        //자동문자 전송 기능을 위해 인텐트에 정보를 담아 ActivityA로 다시 보낸다.
                         Calendar c = Calendar.getInstance();
 
                         Vehicle newV = new Vehicle(SettingsScreen.location,VPC[2].getText().toString(),VPC[1].getText().toString(),VPC[0].getText().toString(),
@@ -124,6 +128,7 @@ public class CameraMain extends AppCompatActivity
             public boolean onTouch(View v, MotionEvent event) {
                 if(event.getAction() == MotionEvent.ACTION_DOWN)
                 {
+                    //화면을 누르면 포커스 한뒤 자동으로 촬영한다.
                     mCameraPreview.Focused();
                 }
                 return false;
@@ -133,6 +138,7 @@ public class CameraMain extends AppCompatActivity
 
 
 
+        //카메라 및 내부 저장소 권한 확인
         if (getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
 
             int cameraPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
@@ -186,7 +192,7 @@ public class CameraMain extends AppCompatActivity
     }
 
 
-
+    //CameraPreview 시작.
     void startCamera(){
 
         // Create the Preview view and set it as the content of this Activity.
@@ -204,7 +210,7 @@ public class CameraMain extends AppCompatActivity
     }
 
 
-
+    //권한 확인하는 부분
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grandResults) {
 

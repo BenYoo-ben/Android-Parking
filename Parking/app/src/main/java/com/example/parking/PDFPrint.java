@@ -81,6 +81,7 @@ Vehicle V;
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
    protected Document createPDFFILE(String path) {
+       //PDF 항목을 직접 생성하는 부분.
         if (new File(path).exists())
             new  File(path).delete();
         try {

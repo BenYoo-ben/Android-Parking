@@ -9,7 +9,9 @@ import android.widget.TextView;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 
+import java.text.ParseException;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.Vector;
 
@@ -73,7 +75,8 @@ public class Vehicle
         public void setFair(int fair){this.fair=fair;}
 
 
-        public void Arrivaltimenow()
+        //현재 입차시간 저장
+        protected void Arrivaltimenow()
         {
 
 
@@ -84,6 +87,7 @@ public class Vehicle
 
        public Vehicle(){}
 
+       //차량 추가
        public Vehicle(String location,String name,String contact,String vehicle_num,String arrival_time,long imagecode)
        {
            setLocation(location);
@@ -96,15 +100,25 @@ public class Vehicle
            setFair(SettingsScreen.hourlyfair);
        }
 
-        Vehicle(int num)
+       //현재시점으로부터 지난 시간 계산
+        public void CalcMinutes()
         {
-            this.vehicle_num=Integer.toString(num);
+            try {
+                Calendar time_now = Calendar.getInstance();
+                Calendar time_t = Calendar.getInstance();
+
+
+                Date date = new Timer().SDF.parse(arrival_time);
+                time_t.setTime(date);
+                //time_now.add(time_now.YEA);
+                time_now.getTimeInMillis();
+                minutes = (int)((time_now.getTimeInMillis() - time_t.getTimeInMillis()) / (1000 * 60));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         }
 
-        public void ManualInput(){}
-
-
-
+        //차량 정보 콘솔출력
         void VehiclePrint()
         {
 
@@ -117,6 +131,7 @@ public class Vehicle
             System.out.println("imagecode :"+imagecode);
 
         }
+        //차량 정보 콘솔출력2
         void VehiclePrint(Vehicle v)
         {
 
@@ -129,6 +144,7 @@ public class Vehicle
             System.out.println("imagecode :"+v.imagecode);
 
         }
+        //벡터형식으로 되있는 차량 출력
         void VehicleVectorPrint(Vector<Vehicle> V)
         {
             Iterator i = V.iterator();
@@ -139,6 +155,8 @@ public class Vehicle
                 System.out.println();
             }
         }
+
+        //AlertDialog를 통한 차량 정보 표시.
         public void ShowCarInfo(Vehicle LastSelectedVehicle, Context context, android.app.Activity A)
         {
 
@@ -146,7 +164,8 @@ public class Vehicle
             final Vehicle v = LastSelectedVehicle;
             AlertDialog.Builder builder=new AlertDialog.Builder(context);
             builder.setTitle(LastSelectedVehicle.getVehicle_num()+" - 정보");
-            builder.setMessage("Name : "+LastSelectedVehicle.getName()+"\nPhone : "+LastSelectedVehicle.getContact()+"\nArrival : "+LastSelectedVehicle.getArrival_time()+"\nLocation : "+LastSelectedVehicle.getLocation()+"\nimaegcode : "+LastSelectedVehicle.getImagecode());
+            builder.setMessage("Name : "+LastSelectedVehicle.getName()+"\nPhone : "+LastSelectedVehicle.getContact()+"\nArrival : "+LastSelectedVehicle.getArrival_time()+"\nLocation : "+LastSelectedVehicle.getLocation()+
+                    "\nimagecode : "+LastSelectedVehicle.getImagecode());
 
             builder.setPositiveButton("OK",
                     new DialogInterface.OnClickListener(){

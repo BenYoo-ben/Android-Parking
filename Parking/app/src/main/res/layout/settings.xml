@@ -136,7 +136,7 @@
                 android:orientation="horizontal"
                 >
                 <TextView
-                    android:layout_width="325dp"
+                    android:layout_width="300dp"
                     android:layout_height="match_parent"
                     android:text="Auto SMS Send: "
                     android:layout_gravity="center"

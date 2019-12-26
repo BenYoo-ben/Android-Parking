@@ -15,6 +15,7 @@
         android:layout_alignParentTop = "true"
         android:layout_centerHorizontal = "true"
         android:textColor="#ffffff"
+        android:fontFamily="@font/blackhan"
         />
 
     <TextView
@@ -25,7 +26,8 @@
         android:layout_below = "@+id/textview"
         android:layout_centerHorizontal = "true"
         android:textColor = "#ffffff"
-        android:textSize = "35dp" />
+        android:fontFamily="@font/blackhan"
+        android:textSize = "32dp" />
 
 
 
@@ -35,11 +37,9 @@
         android:layout_height="300dp"
         android:layout_below="@+id/textView"
         android:layout_marginTop="23dp"
-        android:scaleType="centerInside"
-        android:src="@mipmap/templogo"
-        android:scaleX="0.75"
-        android:scaleY="0.75"
-        android:tint="#87ceeb"
+        android:scaleType="fitXY"
+        android:src="@mipmap/ill2"
+
 
         />
 

@@ -1,7 +1,7 @@
 package com.example.parking;
 
 public class Settings  {
-
+//설정 항목을 저장하는 클래스
 
 
      int hourlyfair ;

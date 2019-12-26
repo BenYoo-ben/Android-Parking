@@ -14,7 +14,7 @@ import com.blogspot.atifsoftwares.animatoolib.Animatoo;
 
 
 public class SettingsScreen extends AppCompatActivity {
-
+//설정항목을 읽어서 표시해주는 클래스
 
 
     static int hourlyfair ;
@@ -48,7 +48,7 @@ public class SettingsScreen extends AppCompatActivity {
         ed[2] = (EditText)findViewById(R.id.LocationED);
         AutoSwitch = (Switch)findViewById(R.id.Switch);
 
-
+            //첫 실행이 아니라면 기존 값들을 화면에 표시해준다.
         if(FirebaseController.very_first_run!=1)
         {
             ed[0].setText(String.valueOf(getHourlyfair()));
@@ -67,6 +67,7 @@ public class SettingsScreen extends AppCompatActivity {
 
     public static void obtainSettings(Settings s)
     {
+        //기존 설정들을 불러온다.
        hourlyfair = s.getHourlyfair();
        contact = s.getContact();
        location = s.getLocation();
@@ -76,6 +77,7 @@ public class SettingsScreen extends AppCompatActivity {
 
     public void Settings_Confirm(View view)
     {
+        //설정을 변경하고 다시 저장하고 업데이트.
         EditText[] ed = new EditText[3];
         ed[0] = (EditText)findViewById(R.id.FeeED);
         ed[1] = (EditText)findViewById(R.id.ContactED);

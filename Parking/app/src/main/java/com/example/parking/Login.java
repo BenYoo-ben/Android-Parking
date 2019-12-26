@@ -42,21 +42,6 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
 
         super.onCreate(savedInstanceState);
 
-
-  //ML Kit test working fine.
-//dezeen_South-Korean-road-signs-by-Studio-Dumbar.jpg
-        /*Bitmap bMap = BitmapFactory.decodeFile(
-                Environment.getExternalStorageDirectory()
-                        .getAbsolutePath()+"/Download/plate.jpg" );
-        MLKit mlk = new MLKit(getApplicationContext());
-        mlk.runTextRecognition(bMap);
-
-
-
-        startActivity(new Intent(this,CameraMain.class));
-*/
-
-
         setContentView(R.layout.login);
 
 
@@ -64,8 +49,10 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
 
         Firebase.setAndroidContext(this);
 
+        //구글로그인을 한적이 있다면 자동로그인
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser!=null) {
+            Log.d("nonNull","StartingLogin");
             startLoading(currentUser.getUid());
         }
        Google_Login = findViewById(R.id.Google_Login);
@@ -104,6 +91,7 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
             }
         }
     }
+    //firebase 인증 성공/실패
     void firebaseAuthWithGoogle(GoogleSignInAccount acct){
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(),null);
         mAuth.signInWithCredential(credential)
@@ -120,13 +108,9 @@ public class Login extends AppCompatActivity implements GoogleApiClient.OnConnec
                     }
                 });
     }
-    void startA(String userID)
-    {
-        FirebaseController.userID =userID;
-        startActivity(new Intent(this,ActivityA.class));
-    }
     void startLoading(String userID)
     {
+        //유저 아이디 저장
         FirebaseController.userID =userID;
         startActivity(new Intent(this,Loading.class));
         this.finish();

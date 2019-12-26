@@ -14,6 +14,7 @@ public class Loading extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.loading);
 
+        //이미지 서서히 밝아지는 효과를 위한 쓰레드
         ThemeModifier tm = new ThemeModifier((ImageView) findViewById(R.id.loading_imageview));
         tm.start();
 
@@ -21,6 +22,7 @@ public class Loading extends AppCompatActivity {
 
             @Override
             public void run() {
+                //초기 실행인지 확인.
                 if(FirebaseController.very_first_run==0)
                 {
                     StartA();
@@ -50,6 +52,7 @@ public class Loading extends AppCompatActivity {
 
 
 
+    //이미지 서서히 밝아지는 효과를 위한 쓰레드
     class ThemeModifier extends Thread implements Runnable
     {
         ImageView iv;
@@ -76,16 +79,19 @@ public class Loading extends AppCompatActivity {
 
                     this.sleep(10);
 
-
-                    if(FirebaseController.loading_state_value >=0.999)
+                //loading_state_value : 현재주차장상황 + 과거수익기록 + 개인설정 모두 로드되었을때 1이다.
+                    if(FirebaseController.loading_state_value >=0.99999)
                     {
                         runOnUiThread(runnable);
 
+                        interrupt();
                         break;
                     }
                     if(FirebaseController.very_first_run==1)
                     {
                         runOnUiThread(runnable);
+                        interrupt();
+                        break;
                     }
 
                 } catch (InterruptedException e) {
